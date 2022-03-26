@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AuthenticationResolver } from './authentication/authentication.resolver';
-import { AuthenticationService } from './authentication/authentication.service';
-import { Authentication.ProxyService } from './authentication.proxy/authentication.proxy.service';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
-  providers: [AuthenticationResolver, AuthenticationService, Authentication.ProxyService]
+  imports: [AuthenticationModule],
 })
 export class ProxyModule {}
