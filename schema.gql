@@ -1,0 +1,23 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+""""""
+type SayHello {
+  """sayHello"""
+  sayHello: String!
+}
+
+type Query {
+  """sayHello"""
+  sayHello(
+    """sayHello input"""
+    input: SayHelloInput!
+  ): String!
+}
+
+"""카파 로그인"""
+input SayHelloInput {
+  """sayHello"""
+  sayHello: String!
+}

@@ -1,12 +1,21 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Logger } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
-
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { SayHelloInput } from '../../../dto';
+import { SayHelloOutput, LOEYBException } from '../../../models';
 @Controller()
 export class AuthenticationController {
-  constructor(private readonly authenticationService: AuthenticationService) {}
+  private logger: Logger;
+  constructor(private readonly authenticationService: AuthenticationService) {
+    this.logger = new Logger('AuthenticationController');
+  }
 
-  @Get()
-  getHello(): string {
-    return this.authenticationService.getHello();
+  @MessagePattern({ cmd: 'sayHello' })
+  async sayHello(@Payload() input: SayHelloInput): Promise<string> {
+    try {
+      return await this.authenticationService.sayHello(input);
+    } catch (error) {
+      return 'LOEYBException.processException(error)';
+    }
   }
 }
