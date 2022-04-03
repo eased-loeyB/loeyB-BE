@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  gateway:
+    image: 442595548368.dkr.ecr.ap-northeast-2.amazonaws.com/capa_base:latest
+    container_name: gateway
+    hostname: gateway
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.80'
+          memory: '10g'
+    ports:
+      - 3000:3000
+    depends_on:
+      - authentication
+      - rabbitmq
+    volumes:
+      - ./apps:/capa/apps
+      - ./configs:/capa/
+      - ./nest-cli.json:/capa/nest-cli.json
+      - ./package.json:/capa/package.json
+      - ./tsconfig.json:/capa/tsconfig.json
+      - ./tsconfig.build.json:/capa/tsconfig.build.json
+      - ./schema.gql:/capa/schema.gql
+      - /tmp:/tmp
+    working_dir: /capa
+    entrypoint: ['nest', 'start', 'gateway', '--watch']
