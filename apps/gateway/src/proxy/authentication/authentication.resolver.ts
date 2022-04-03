@@ -28,9 +28,7 @@ export class AuthenticationResolver {
   ): Promise<string> {
     try {
       this.logger.debug(input);
-      return await this.authenticationService.sayHello({
-        ...input,
-      });
+      return 'Hello Ibrohim';
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);

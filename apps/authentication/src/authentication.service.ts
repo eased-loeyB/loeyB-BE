@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { LOEYBErrorCode } from '../../../constants';
-import { SayHelloInput } from 'dto';
-import { SayHelloOutput } from 'models';
+import { LOEYBErrorCode } from '../../../libs/common/src/constant';
+import { SayHelloInput } from '../../../libs/common/src/dto';
+import { SayHelloOutput } from '../../../libs/common/src/model';
 
 @Injectable()
 export class AuthenticationService {

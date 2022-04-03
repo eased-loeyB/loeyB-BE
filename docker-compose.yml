@@ -1,9 +1,9 @@
 version: '3.7'
 services:
-  gateway:
-    image: 442595548368.dkr.ecr.ap-northeast-2.amazonaws.com/capa_base:latest
-    container_name: gateway
-    hostname: gateway
+  loeyb-gateway:
+    image: 568080291959.dkr.ecr.ap-northeast-2.amazonaws.com/loeyb:latest
+    container_name: loeyb-gateway
+    hostname: loeyb-gateway
     restart: always
     deploy:
       resources:
@@ -13,16 +13,53 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - authentication
-      - rabbitmq
+      - loeyb-authentication
+      - loeyb-rabbitmq
     volumes:
-      - ./apps:/capa/apps
-      - ./configs:/capa/
-      - ./nest-cli.json:/capa/nest-cli.json
-      - ./package.json:/capa/package.json
-      - ./tsconfig.json:/capa/tsconfig.json
-      - ./tsconfig.build.json:/capa/tsconfig.build.json
-      - ./schema.gql:/capa/schema.gql
+      - ./apps:/loeyb/apps
+      - ./libs:/loeyb/libs
+      - ./nest-cli.json:/loeyb/nest-cli.json
+      - ./package.json:/loeyb/package.json
+      - ./tsconfig.json:/loeyb/tsconfig.json
+      - ./tsconfig.build.json:/loeyb/tsconfig.build.json
+      - ./schema.gql:/loeyb/schema.gql
       - /tmp:/tmp
-    working_dir: /capa
-    entrypoint: ['nest', 'start', 'gateway', '--watch']
+    working_dir: /loeyb
+    command: npm run start:gateway
+  loeyb-authentication:
+    image: 568080291959.dkr.ecr.ap-northeast-2.amazonaws.com/loeyb:latest
+    container_name: loeyb-authentication
+    hostname: loeyb-authentication
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.80'
+          memory: '10g'
+    depends_on:
+      - loeyb-rabbitmq
+    volumes:
+      - ./apps:/loeyb/apps
+      - ./libs:/loeyb/libs
+      - ./nest-cli.json:/loeyb/nest-cli.json
+      - ./package.json:/loeyb/package.json
+      - ./tsconfig.json:/loeyb/tsconfig.json
+      - ./tsconfig.build.json:/loeyb/tsconfig.build.json
+    working_dir: /loeyb
+    command: npm run start:authentication
+  loeyb-rabbitmq:
+    image: rabbitmq:3.8.17-management-alpine
+    container_name: loeyb-rabbitmq
+    hostname: loeyb-rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.80'
+          memory: '10g'

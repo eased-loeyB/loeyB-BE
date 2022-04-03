@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AuthenticationModule } from './authentication.module';
-import { LOEYBConfigService } from '../../../configs/loeyb-config.service';
-import { AUTHENTICATION } from '../../../constants';
+import { LOEYBConfigService } from '../../../libs/common/src/config/loeyb-config.service';
+import { AUTHENTICATION } from '../../../libs/common/src/constant';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
