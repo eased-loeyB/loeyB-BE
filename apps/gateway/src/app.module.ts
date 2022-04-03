@@ -3,10 +3,10 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { GraphQLError } from 'graphql';
 import { ProxyModule } from './proxy/proxy.module';
-import { ErrorFormatter } from '../../../utils/error-formatter';
-import { ResponseFormatter } from '../../../utils/response-formatter';
-import { LOEYBConfigService } from '../../../configs/loeyb-config.service';
-import { LOEYBConfigModule } from '../../../configs/loeyb-config.module';
+import { ErrorFormatter } from '../../../libs/common/src/util/error-formatter';
+import { ResponseFormatter } from '../../../libs/common/src/util/response-formatter';
+import { LOEYBConfigService } from '../../../libs/common/src/config/loeyb-config.service';
+import { LOEYBConfigModule } from '../../../libs/common/src/config/loeyb-config.module';
 
 @Module({
   imports: [
