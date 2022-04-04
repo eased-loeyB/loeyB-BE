@@ -12,8 +12,7 @@ RUN nest build common \
  && nest build gateway \
  && nest build authentication \
  && rm -fr apps libs
-
 FROM node:12.19.0-alpine3.9
 WORKDIR /loeyb
 COPY --from=builder /loeyb ./
-CMD ["npm", "run", "start"]
+CMD [“npm”, “run”, “start”]

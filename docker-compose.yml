@@ -1,9 +1,9 @@
 version: '3.7'
 services:
-  loeyb-gateway:
+  gateway:
     image: 568080291959.dkr.ecr.ap-northeast-2.amazonaws.com/loeyb:latest
-    container_name: loeyb-gateway
-    hostname: loeyb-gateway
+    container_name: gateway
+    hostname: gateway
     restart: always
     deploy:
       resources:
@@ -13,8 +13,8 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - loeyb-authentication
-      - loeyb-rabbitmq
+      - authentication
+      - rabbitmq
     volumes:
       - ./apps:/loeyb/apps
       - ./libs:/loeyb/libs
@@ -26,10 +26,10 @@ services:
       - /tmp:/tmp
     working_dir: /loeyb
     command: npm run start:gateway
-  loeyb-authentication:
+  authentication:
     image: 568080291959.dkr.ecr.ap-northeast-2.amazonaws.com/loeyb:latest
-    container_name: loeyb-authentication
-    hostname: loeyb-authentication
+    container_name: authentication
+    hostname: authentication
     restart: always
     deploy:
       resources:
@@ -37,7 +37,7 @@ services:
           cpus: '0.80'
           memory: '10g'
     depends_on:
-      - loeyb-rabbitmq
+      - rabbitmq
     volumes:
       - ./apps:/loeyb/apps
       - ./libs:/loeyb/libs
@@ -47,10 +47,10 @@ services:
       - ./tsconfig.build.json:/loeyb/tsconfig.build.json
     working_dir: /loeyb
     command: npm run start:authentication
-  loeyb-rabbitmq:
+  rabbitmq:
     image: rabbitmq:3.8.17-management-alpine
-    container_name: loeyb-rabbitmq
-    hostname: loeyb-rabbitmq
+    container_name: rabbitmq
+    hostname: rabbitmq
     ports:
       - 15672:15672
       - 5672:5672

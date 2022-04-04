@@ -4,9 +4,9 @@ import { IsEnum } from 'class-validator';
 
 export enum Environment {
   DEFAULT = '',
+  DOCKER = 'docker',
   DEVELOPMENT = 'development',
   LOCAL = 'local',
-  DOCKER = 'docker',
   STAGING = 'staging',
   PRODUCTION = 'production',
   TEST = 'test',
