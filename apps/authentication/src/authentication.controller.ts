@@ -1,8 +1,10 @@
 import { Controller, Logger } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { SayHelloInput } from '../../../libs/common/src/dto';
-import { SayHelloOutput, LOEYBException } from '../../../libs/common/src/model';
+import { RegisterUserInput } from '../../../libs/common/src/dto';
+import { LOEYBException } from '../../../libs/common/src/model';
+import { RegisterUserOutput } from '@app/common/model';
+import { EntityManager, getConnection, QueryRunner } from 'typeorm';
 @Controller()
 export class AuthenticationController {
   private logger: Logger;
@@ -10,12 +12,25 @@ export class AuthenticationController {
     this.logger = new Logger('AuthenticationController');
   }
 
-  @MessagePattern({ cmd: 'sayHello' })
-  async sayHello(@Payload() input: SayHelloInput): Promise<string> {
+  @MessagePattern({ cmd: 'registerUser' })
+  async registerUser(
+    @Payload() input: RegisterUserInput,
+  ): Promise<RegisterUserOutput> {
+    const queryRunner: QueryRunner = getConnection().createQueryRunner();
     try {
-      return await this.authenticationService.sayHello(input);
+      await queryRunner.startTransaction();
+      const entityManager: EntityManager = queryRunner.manager;
+      const result = await this.authenticationService.registerUser(
+        input,
+        entityManager,
+      );
+      await queryRunner.commitTransaction();
+      return result;
     } catch (error) {
-      return 'LOEYBException.processException(error)';
+      await queryRunner.rollbackTransaction();
+      return LOEYBException.processException(error);
+    } finally {
+      await queryRunner.release();
     }
   }
 }

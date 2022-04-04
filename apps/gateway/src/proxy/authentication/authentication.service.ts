@@ -1,11 +1,11 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { LOEYBErrorCode } from '../../../../../libs/common/src/constant';
-import { SayHelloInput } from '../../../../../libs/common/src/dto';
 import {
   LOEYBException,
-  SayHelloOutput,
+  RegisterUserOutput,
 } from '../../../../../libs/common/src/model';
+import { RegisterUserInput } from '../../../../../libs/common/src/dto';
 
 @Injectable()
 export class AuthenticationService {
@@ -15,14 +15,17 @@ export class AuthenticationService {
     this.logger = new Logger('AuthenticationService');
   }
 
-  async sayHello(input: SayHelloInput): Promise<string> {
+  async registerUser(input: RegisterUserInput): Promise<RegisterUserOutput> {
     try {
       return await this.client
-        .send<string, SayHelloInput>({ cmd: 'sayHello' }, input)
+        .send<RegisterUserOutput, RegisterUserInput>(
+          { cmd: 'registerUser' },
+          input,
+        )
         .toPromise();
     } catch (error) {
       this.logger.error(error.message);
-      throw new LOEYBException(LOEYBErrorCode.ERROR, 7829, error.message);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
     }
   }
 }

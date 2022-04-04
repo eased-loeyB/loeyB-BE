@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IsEnum } from 'class-validator';
+import { LoggerOptions } from 'typeorm';
 
 export enum Environment {
   DEFAULT = '',
-  DOCKER = 'docker',
   DEVELOPMENT = 'development',
   LOCAL = 'local',
+  DOCKER = 'docker',
   STAGING = 'staging',
   PRODUCTION = 'production',
   TEST = 'test',
@@ -34,6 +35,34 @@ export class LOEYBConfigService {
     return this.configService.get<number>('GATEWAY_PORT', 3000);
   }
 
+  get dbHost(): string {
+    return this.configService.get<string>('DB_HOST', 'localhost');
+  }
+  get dbPort(): number {
+    return this.configService.get<number>('DB_PORT', 5432);
+  }
+  get dbUsername(): string {
+    return this.configService.get<string>('DB_USERNAME', 'postgres');
+  }
+  get dbPassword(): string {
+    return this.configService.get<string>('DB_PASSWORD', 'postgres');
+  }
+  get dbDatabase(): string {
+    return this.configService.get<string>('DB_DATABASE', 'postgres');
+  }
+  get dbSchema(): string {
+    return this.configService.get<string>('DB_SCHEMA', 'public');
+  }
+  get dbSync(): boolean {
+    return this.configService.get<boolean>('DB_SYNC', false);
+  }
+  get dbDebug(): LoggerOptions {
+    return this.configService.get<LoggerOptions>(
+      'DB_DEBUG',
+      <LoggerOptions>'error',
+    );
+  }
+
   get rabbitmqProto(): string {
     return this.configService.get<string>('RABBITMQ_PROTO', 'amqp');
   }
@@ -52,13 +81,5 @@ export class LOEYBConfigService {
 
   get rabbitmqPass(): string | undefined {
     return this.configService.get<string | undefined>('RABBITMQ_PASS');
-  }
-
-  get redisHost(): string {
-    return this.configService.get<string>('REDIS_HOST', 'localhost');
-  }
-
-  get redisPort(): number {
-    return this.configService.get<number>('REDIS_PORT', 6379);
   }
 }
