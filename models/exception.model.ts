@@ -1,4 +1,4 @@
-import { LOEYBErrorCode } from '../libs/common/src/constants';
+import { LOEYBErrorCode } from '../constants';
 import { Output } from '../models';
 import { HttpException, Logger } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';

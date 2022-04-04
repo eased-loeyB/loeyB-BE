@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AuthenticationModule } from './authentication.module';
-import { LOEYBConfigService } from '../../../libs/common/src/configs/loeyb-config.service';
-import { AUTHENTICATION } from '../../../libs/common/src/constants';
+import { LOEYBConfigService } from '../../../configs/loeyb-config.service';
+import { AUTHENTICATION } from '../../../constants';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
@@ -29,7 +29,7 @@ async function bootstrap(): Promise<void> {
 
   Logger.log(`${AUTHENTICATION} is running on [${configService.nodeEnv}]`);
 
-  await app.startAllMicroservices();
+  await app.startAllMicroservicesAsync();
 }
 
 void bootstrap();

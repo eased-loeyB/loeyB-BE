@@ -1,15 +1,10 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import { Resolver, Query, Args } from '@nestjs/graphql';
 import { Logger } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { SayHelloOutput } from '../../../../../models';
-import {
-  RegisterUserInput,
-  SayHelloInput,
-} from '../../../../../libs/common/src/dto';
+import { SayHelloInput } from '../../../../../dto';
 import { LOEYBException } from '../../../../../models';
-import { LOEYBErrorCode } from '../../../../../libs/common/src/constants';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { RegisterUserOutput } from '@app/common/model';
+import { LOEYBErrorCode } from '../../../../../constants';
 
 @Resolver('authentication')
 export class AuthenticationResolver {
@@ -37,27 +32,6 @@ export class AuthenticationResolver {
       return await this.authenticationService.sayHello({
         ...input,
       });
-    } catch (error) {
-      this.logger.error(error);
-      throw new LOEYBException(LOEYBErrorCode.ERROR);
-    }
-  }
-
-  @Mutation(() => RegisterUserOutput, {
-    name: 'registerUser',
-    description: '회원가입',
-  })
-  async registerUser(
-    @Args({
-      name: 'input',
-      description: 'loeyb 회원가입',
-      type: () => RegisterUserInput,
-    })
-    input: RegisterUserInput,
-  ): Promise<RegisterUserOutput> {
-    try {
-      this.logger.debug(input);
-      return await this.authenticationService.registerUser(input);
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);

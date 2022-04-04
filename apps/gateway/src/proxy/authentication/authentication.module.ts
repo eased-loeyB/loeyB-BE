@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthenticationResolver } from './authentication.resolver';
 import { AuthenticationService } from './authentication.service';
-import { AUTHENTICATION_FACTORY } from '../../../../../libs/factory';
+import { AUTHENTICATION_FACTORY } from '../../factory';
 
 @Module({
   imports: [],

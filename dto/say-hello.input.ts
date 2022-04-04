@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 
-import { StringTransform } from '../transformer';
+import { StringTransform } from './transformer';
 
 @InputType({ description: '카파 로그인' })
 export class SayHelloInput {

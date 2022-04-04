@@ -1,4 +1,4 @@
-import { LOEYBErrorCode } from '../libs/common/src/constants';
+import { LOEYBErrorCode } from '../constants';
 import { Type } from '@nestjs/common';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';

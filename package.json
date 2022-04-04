@@ -30,20 +30,16 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/swagger": "^5.2.1",
     "@nestjs/throttler": "^2.0.1",
-    "@nestjs/typeorm": "^8.0.3",
     "amqp-connection-manager": "^4.1.1",
     "amqplib": "^0.8.0",
     "apollo-server-core": "^3.6.6",
-    "apollo-server-express": "^3.6.7",
+    "apollo-server-express": "^3.6.6",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
-    "graphql": "^16.3.0",
-    "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "swagger-ui-express": "^4.3.0",
-    "typeorm": "^0.2.45"
+    "typeorm": "^0.3.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
@@ -85,12 +81,7 @@
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
     "roots": [
-      "<rootDir>/apps/",
-      "<rootDir>/libs/"
-    ],
-    "moduleNameMapper": {
-      "^@app/database(|/.*)$": "<rootDir>/libs/database/src/$1",
-      "^@app/common(|/.*)$": "<rootDir>/libs/common/src/$1"
-    }
+      "<rootDir>/apps/"
+    ]
   }
 }

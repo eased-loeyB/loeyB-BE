@@ -1,19 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
-import { LOEYBConfigModule } from '@app/common/configs/loeyb-config.module';
-import { LOEYBConfigService } from '@app/common/configs/loeyb-config.service';
-import { AUTHENTICATION_FACTORY } from 'libs/factory';
-import { DatabaseModule } from '@app/database';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { LOEYBUserRepository } from '@app/database/respositories/loeyb-user.repository';
+import { LOEYBConfigModule } from 'configs/loeyb-config.module';
+import { LOEYBConfigService } from 'configs/loeyb-config.service';
+import { AUTHENTICATION_FACTORY } from 'apps/gateway/src/factory';
 
 @Module({
-  imports: [
-    LOEYBConfigModule,
-    DatabaseModule,
-    TypeOrmModule.forFeature([LOEYBUserRepository]),
-  ],
+  imports: [LOEYBConfigModule],
   controllers: [AuthenticationController],
   providers: [
     AuthenticationService,
