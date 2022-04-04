@@ -5,8 +5,11 @@ import { GraphQLError } from 'graphql';
 import { ProxyModule } from './proxy/proxy.module';
 import { ErrorFormatter } from '../../../utils/error-formatter';
 import { ResponseFormatter } from '../../../utils/response-formatter';
-import { LOEYBConfigService } from '../../../configs/loeyb-config.service';
-import { LOEYBConfigModule } from '../../../configs/loeyb-config.module';
+import {
+  Environment,
+  LOEYBConfigService,
+} from '../../../libs/common/src/configs/loeyb-config.service';
+import { LOEYBConfigModule } from '../../../libs/common/src/configs/loeyb-config.module';
 
 @Module({
   imports: [
@@ -18,7 +21,7 @@ import { LOEYBConfigModule } from '../../../configs/loeyb-config.module';
         path: '/v1/graphql',
         installSubscriptionHandlers: true,
         autoSchemaFile: 'schema.gql',
-        playground: true,
+        playground: config.nodeEnv === Environment.PRODUCTION ? false : true,
         context: async ({ req, connection }) => {
           if (connection) {
             return {

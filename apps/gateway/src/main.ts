@@ -6,9 +6,9 @@ import { AppModule } from './app.module';
 import {
   LOEYBConfigService,
   Environment,
-} from '../../../configs/loeyb-config.service';
+} from '../../../libs/common/src/configs/loeyb-config.service';
 import { LOEYBException } from '../../../models';
-import { LOEYBErrorCode } from '../../../constants';
+import { LOEYBErrorCode } from '../../../libs/common/src/constants';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {

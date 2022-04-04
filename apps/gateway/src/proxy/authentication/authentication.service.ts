@@ -1,8 +1,12 @@
+import { RegisterUserOutput } from '@app/common/model';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { LOEYBErrorCode } from '../../../../../constants';
-import { SayHelloInput } from '../../../../../dto';
-import { LOEYBException, SayHelloOutput } from '../../../../../models';
+import { LOEYBErrorCode } from '../../../../../libs/common/src/constants';
+import {
+  RegisterUserInput,
+  SayHelloInput,
+} from '../../../../../libs/common/src/dto';
+import { LOEYBException } from '../../../../../models';
 
 @Injectable()
 export class AuthenticationService {
@@ -19,7 +23,21 @@ export class AuthenticationService {
         .toPromise();
     } catch (error) {
       this.logger.error(error.message);
-      throw new LOEYBException(LOEYBErrorCode.ERROR, 7829, error.message);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
+    }
+  }
+
+  async registerUser(input: RegisterUserInput): Promise<RegisterUserOutput> {
+    try {
+      return await this.client
+        .send<RegisterUserOutput, RegisterUserInput>(
+          { cmd: 'registerUser' },
+          input,
+        )
+        .toPromise();
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
     }
   }
 }
