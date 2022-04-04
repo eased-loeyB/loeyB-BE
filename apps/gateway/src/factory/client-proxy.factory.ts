@@ -1,7 +1,7 @@
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
-import { LOEYBConfigService } from 'configs/loeyb-config.service';
-import { AUTHENTICATION } from '../../../../constants';
+import { LOEYBConfigService } from '../../../../libs/common/src/config/loeyb-config.service';
+import { AUTHENTICATION } from '../../../../libs/common/src/constant';
 
 const AUTHENTICATION_FACTORY = {
   provide: 'AUTHENTICATION_SERVICE',

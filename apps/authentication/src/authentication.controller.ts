@@ -1,8 +1,8 @@
 import { Controller, Logger } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { SayHelloInput } from '../../../dto';
-import { SayHelloOutput, LOEYBException } from '../../../models';
+import { SayHelloInput } from '../../../libs/common/src/dto';
+import { SayHelloOutput, LOEYBException } from '../../../libs/common/src/model';
 @Controller()
 export class AuthenticationController {
   private logger: Logger;

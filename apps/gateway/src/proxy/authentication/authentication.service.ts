@@ -1,8 +1,11 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { LOEYBErrorCode } from '../../../../../constants';
-import { SayHelloInput } from '../../../../../dto';
-import { LOEYBException, SayHelloOutput } from '../../../../../models';
+import { LOEYBErrorCode } from '../../../../../libs/common/src/constant';
+import { SayHelloInput } from '../../../../../libs/common/src/dto';
+import {
+  LOEYBException,
+  SayHelloOutput,
+} from '../../../../../libs/common/src/model';
 
 @Injectable()
 export class AuthenticationService {

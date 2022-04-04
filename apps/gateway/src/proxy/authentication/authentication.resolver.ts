@@ -1,10 +1,9 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
 import { Logger } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
-import { SayHelloOutput } from '../../../../../models';
-import { SayHelloInput } from '../../../../../dto';
-import { LOEYBException } from '../../../../../models';
-import { LOEYBErrorCode } from '../../../../../constants';
+import { SayHelloInput } from '../../../../../libs/common/src/dto';
+import { LOEYBException } from '../../../../../libs/common/src/model';
+import { LOEYBErrorCode } from '../../../../../libs/common/src/constant';
 
 @Resolver('authentication')
 export class AuthenticationResolver {
@@ -29,9 +28,7 @@ export class AuthenticationResolver {
   ): Promise<string> {
     try {
       this.logger.debug(input);
-      return await this.authenticationService.sayHello({
-        ...input,
-      });
+      return 'Hello Ibrohim';
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);

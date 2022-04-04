@@ -1,0 +1,65 @@
+version: '3.7'
+services:
+  gateway:
+    image: 568080291959.dkr.ecr.ap-northeast-2.amazonaws.com/loeyb:latest
+    container_name: gateway
+    hostname: gateway
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.80'
+          memory: '10g'
+    ports:
+      - 3000:3000
+    depends_on:
+      - authentication
+      - rabbitmq
+    volumes:
+      - ./apps:/loeyb/apps
+      - ./libs:/loeyb/libs
+      - ./nest-cli.json:/loeyb/nest-cli.json
+      - ./package.json:/loeyb/package.json
+      - ./tsconfig.json:/loeyb/tsconfig.json
+      - ./tsconfig.build.json:/loeyb/tsconfig.build.json
+      - ./schema.gql:/loeyb/schema.gql
+      - /tmp:/tmp
+    working_dir: /loeyb
+    command: npm run start:gateway
+  authentication:
+    image: 568080291959.dkr.ecr.ap-northeast-2.amazonaws.com/loeyb:latest
+    container_name: authentication
+    hostname: authentication
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.80'
+          memory: '10g'
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./apps:/loeyb/apps
+      - ./libs:/loeyb/libs
+      - ./nest-cli.json:/loeyb/nest-cli.json
+      - ./package.json:/loeyb/package.json
+      - ./tsconfig.json:/loeyb/tsconfig.json
+      - ./tsconfig.build.json:/loeyb/tsconfig.build.json
+    working_dir: /loeyb
+    command: npm run start:authentication
+  rabbitmq:
+    image: rabbitmq:3.8.17-management-alpine
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.80'
+          memory: '10g'
