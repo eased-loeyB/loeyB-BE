@@ -4,8 +4,7 @@ import { AuthenticationService } from './authentication.service';
 import { LOEYBException } from '../../../../../libs/common/src/model';
 import { LOEYBErrorCode } from '../../../../../libs/common/src/constant';
 import { RegisterUserInput } from '../../../../../libs/common/src/dto';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { RegisterUserOutput } from '@app/common/model';
+import { RegisterUserOutput } from '../../../../../libs/common/src/model';
 @Resolver('authentication')
 export class AuthenticationResolver {
   private readonly logger: Logger;
@@ -13,6 +12,11 @@ export class AuthenticationResolver {
 
   constructor(private readonly authenticationService: AuthenticationService) {
     this.logger = new Logger('AuthenticationResolver');
+  }
+
+  @Query(() => String)
+  sayHello(): string {
+    return 'Hello World!';
   }
 
   @Mutation(() => RegisterUserOutput, {

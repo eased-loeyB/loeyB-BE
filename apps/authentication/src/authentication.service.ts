@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { LOEYBErrorCode } from '../../../libs/common/src/constant';
 import { RegisterUserInput } from '../../../libs/common/src/dto';
-import { LOEYBException } from '../../../libs/common/src/model';
-import { RegisterUserOutput } from '@app/common/model';
+import {
+  LOEYBException,
+  RegisterUserOutput,
+} from '../../../libs/common/src/model';
 import { EntityManager } from 'typeorm';
 import { LOEYBUserRepository } from '../../../libs/database/src/repositories';
-import { LOEYBUserEntity } from '@app/database/entities';
+import { LOEYBUserEntity } from '../../../libs/database/src/entities';
 
 @Injectable()
 export class AuthenticationService {

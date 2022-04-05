@@ -2,8 +2,10 @@ import { Controller, Logger } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { RegisterUserInput } from '../../../libs/common/src/dto';
-import { LOEYBException } from '../../../libs/common/src/model';
-import { RegisterUserOutput } from '@app/common/model';
+import {
+  LOEYBException,
+  RegisterUserOutput,
+} from '../../../libs/common/src/model';
 import { EntityManager, getConnection, QueryRunner } from 'typeorm';
 @Controller()
 export class AuthenticationController {

@@ -4,7 +4,7 @@ import { AuthenticationService } from './authentication.service';
 import { LOEYBConfigModule } from '../../../libs/common/src/config/loeyb-config.module';
 import { LOEYBConfigService } from '../../../libs/common/src/config/loeyb-config.service';
 import { AUTHENTICATION_FACTORY } from 'apps/gateway/src/factory';
-import { DatabaseModule } from '@app/database';
+import { DatabaseModule } from '../../../libs/database/src/index';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LOEYBUserRepository } from '../../../libs/database/src/repositories';
 

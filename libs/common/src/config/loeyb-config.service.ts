@@ -82,4 +82,11 @@ export class LOEYBConfigService {
   get rabbitmqPass(): string | undefined {
     return this.configService.get<string | undefined>('RABBITMQ_PASS');
   }
+  get redisHost(): string {
+    return this.configService.get<string>('REDIS_HOST', 'localhost');
+  }
+
+  get redisPort(): number {
+    return this.configService.get<number>('REDIS_PORT', 6379);
+  }
 }

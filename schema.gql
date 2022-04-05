@@ -3,21 +3,67 @@
 # ------------------------------------------------------
 
 """"""
-type SayHello {
-  """sayHello"""
-  sayHello: String!
+type RegisterUSer {
+  result: String!
+}
+
+""""""
+type RegisterUserOutput {
+  """LOEYB ERROR CODE"""
+  result: LOEYBErrorCode!
+
+  """errorMessage"""
+  errorMessage: String
+  data: RegisterUSer
+}
+
+"""loeyB error code"""
+enum LOEYBErrorCode {
+  """SUCCESS"""
+  SUCCESS
+
+  """USER_NOT_FOUND"""
+  USER_NOT_FOUND
+
+  """PASSWORD_INCORRECT"""
+  PASSWORD_INCORRECT
+
+  """DUPLICATE_EMAIL"""
+  DUPLICATE_EMAIL
+
+  """QUERY_ERROR"""
+  QUERY_ERROR
+
+  """ALREADY_REGISTERED_USER"""
+  ALREADY_REGISTERED_USER
+
+  """ERROR"""
+  ERROR
+
+  """PARMETER_VALIDATION_ERROR"""
+  PARMETER_VALIDATION_ERROR
 }
 
 type Query {
-  """sayHello"""
-  sayHello(
-    """sayHello input"""
-    input: SayHelloInput!
-  ): String!
+  sayHello: String!
 }
 
-"""카파 로그인"""
-input SayHelloInput {
-  """sayHello"""
-  sayHello: String!
+type Mutation {
+  """회원가입"""
+  registerUser(
+    """loeyb 회원가입"""
+    input: RegisterUserInput!
+  ): RegisterUserOutput!
+}
+
+"""회원가입"""
+input RegisterUserInput {
+  """이메일"""
+  email: String!
+
+  """비밀번호"""
+  password: String!
+
+  """비밀번호 확인"""
+  passwordConfirm: String!
 }

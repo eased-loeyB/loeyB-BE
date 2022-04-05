@@ -8,6 +8,12 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
+    "build:common": "nest build common",
+    "build:cache": "nest build cache",
+    "build:aws": "nest build aws",
+    "build:database": "nest build database",
+    "build:gateway": "nest build gateway",
+    "build:authentication": "nest build authentication",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:gateway": "nest start gateway --watch",
@@ -32,6 +38,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/swagger": "^5.2.1",
     "@nestjs/throttler": "^2.0.1",
+    "@nestjs/typeorm": "^8.0.3",
     "amqp-connection-manager": "^4.1.1",
     "amqplib": "^0.8.0",
     "apollo-server-core": "^3.6.6",
@@ -42,11 +49,13 @@
     "graphql-redis-subscriptions": "^2.4.2",
     "install": "^0.13.0",
     "npm": "^8.6.0",
+    "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "swagger-ui-express": "^4.3.0",
-    "typeorm": "^0.3.3"
+    "ts-morph": "^14.0.0",
+    "typeorm": "^0.2.45"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
@@ -92,10 +101,16 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@app/aws(|/.*)$": "<rootDir>/libs/aws/src/$1",
-      "^@app/cache(|/.*)$": "<rootDir>/libs/cache/src/$1",
-      "^@app/common(|/.*)$": "<rootDir>/libs/common/src/$1",
-      "^@app/database(|/.*)$": "<rootDir>/libs/database/src/$1"
+      "@libs/aws/(.*)": "<rootDir>/libs/aws/src/$1",
+      "@libs/aws": "<rootDir>/libs/aws/src",
+      "@libs/common/(.*)": "<rootDir>/libs/common/src/$1",
+      "@libs/common": "<rootDir>/libs/common/src",
+      "@libs/cache/(.*)": "<rootDir>/libs/cache/src/$1",
+      "@libs/cache": "<rootDir>/libs/cache/src",
+      "@libs/database/(.*)": "<rootDir>/libs/database/src/$1",
+      "@libs/database": "<rootDir>/libs/database/src",
+      "@libs/model/(.*)": "<rootDir>/libs/model/src/$1",
+      "@libs/model": "<rootDir>/libs/model/src"
     }
   }
 }

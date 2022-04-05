@@ -1,8 +1,7 @@
-import { LOEYBConfigService } from '@app/common/config/loeyb-config.service';
+import { LOEYBConfigService } from '../../../libs/common/src/config/loeyb-config.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { getMetadataArgsStorage } from 'typeorm';
-import { DatabaseService } from './database.service';
 import { LOEYBNamingStrategy } from './loeyb-naming.strategy';
 
 @Module({
@@ -34,7 +33,5 @@ import { LOEYBNamingStrategy } from './loeyb-naming.strategy';
       inject: [LOEYBConfigService],
     }),
   ],
-  providers: [DatabaseService],
-  exports: [DatabaseService],
 })
 export class DatabaseModule {}

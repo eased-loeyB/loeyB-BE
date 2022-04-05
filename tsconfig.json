@@ -11,37 +11,15 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@app/aws": [
-        "libs/aws/src"
-      ],
-      "@app/aws/*": [
-        "libs/aws/src/*"
-      ],
-      "@app/cache": [
-        "libs/cache/src"
-      ],
-      "@app/cache/*": [
-        "libs/cache/src/*"
-      ],
-      "@app/common": [
-        "libs/common/src"
-      ],
-      "@app/common/*": [
-        "libs/common/src/*"
-      ],
-      "@app/database": [
-        "libs/database/src"
-      ],
-      "@app/database/*": [
-        "libs/database/src/*"
-      ]
+      "@libs/aws": ["libs/aws/src"],
+      "@libs/aws/*": ["libs/aws/src/*"],
+      "@libs/cache": ["libs/cache/src"],
+      "@libs/cache/*": ["libs/cache/src/*"],
+      "@libs/common": ["libs/common/src"],
+      "@libs/common/*": ["libs/common/src/*"],
+      "@libs/database": ["libs/database/src"],
+      "@libs/database/*": ["libs/database/src/*"]
     }
   }
 }

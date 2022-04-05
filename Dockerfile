@@ -1,18 +1,18 @@
-FROM node:12.19.0-alpine3.9 AS builder
+FROM node:latest AS builder
 RUN mkdir -p /loeyb
 WORKDIR /loeyb
 COPY . .
-RUN npm install -g @nestjs/cli
-RUN npm install
+RUN npm install --legacy-peer-deps
+RUN npm install @nestjs/typeorm --force
 COPY . /loeyb
-RUN nest build common \
- && nest build aws \
- && nest build cache \
- && nest build database \
- && nest build gateway \
- && nest build authentication \
+RUN npm run build:common \
+npm run build:aws \
+npm run build:cache \
+npm run build:database \
+npm run build:gateway \
+npm run build:authentication \
  && rm -fr apps libs
-FROM node:12.19.0-alpine3.9
+FROM node:latest
 WORKDIR /loeyb
 COPY --from=builder /loeyb ./
 CMD [“npm”, “run”, “start”]
