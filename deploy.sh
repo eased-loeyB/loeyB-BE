@@ -1,11 +1,6 @@
 #!/bin/bash
 
 STAGE=${1}
-if [[ -z ${STAGE} ]]; then
-    echo 'Stop Deploy'
-    exit;
-fi
-
 IP_LIST=$(aws ec2 describe-instances --filters --query "Reservations[].Instances[].[PublicIpAddress,Tags[?Key=='Name'].Value[]]" --output text --region ap-northeast-2 | sed '$!N;s/\n/\t/' | grep loeyb-${STAGE}-api | awk '{print $1}')
 
 for IP in ${IP_LIST};
