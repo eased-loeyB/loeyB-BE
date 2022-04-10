@@ -25,7 +25,7 @@ jobs:
       - name: Ckeck GPG Key
         run: |
           gpg --version
-          gpg --list-key paul@capa.ai
+          gpg --list-key tursunali777@mail.ru
 
       - name: Install sops
         env:
@@ -50,8 +50,8 @@ jobs:
         env:
           PEM: ${{ secrets.SSH_PEM_KEY }}
         run: |
-          echo -e "$PEM" > capa-api.pem
-          chmod 400 capa-api.pem
+          echo -e "$PEM" > loeyb-api.pem
+          chmod 400 loeyb-api.pem
 
       - name: Decrypt fcm service account json
         env:
