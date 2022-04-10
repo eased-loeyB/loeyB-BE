@@ -45,4 +45,4 @@ jobs:
           docker build --build-arg NODE_ENV=development -t ${ECR}/loeyb:latest .
           echo "== push ========================================================"
           docker push ${ECR}/loeyb --all-tags
-          bash ./docker.sh development
+          bash ./deploy.sh development
