@@ -34,9 +34,6 @@ jobs:
           echo -e "$PEM" > loeyb-api.pem
           chmod 400 loeyb-api.pem
 
-      - name: Decrypt fcm service account json
-        env:
-          PEM: ${{ secrets.SSH_PEM_KEY }}
       - name: Decrypt development.env, Docker build and push image to Amazon ECR and Development Deploy
         env:
           ECR: ${{ steps.login-ecr.outputs.registry }}
