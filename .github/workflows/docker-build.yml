@@ -41,7 +41,7 @@ jobs:
           PEM: ${{ secrets.SSH_PEM_KEY }}
         if: ${{ github.ref == 'refs/heads/develop' }}
         run: |
-          echo "== build ======================================================="
+          echo "== build ===========================develop============================"
           docker build --build-arg NODE_ENV=development -t ${ECR}/loeyb:latest .
           echo "== push ========================================================"
           docker push ${ECR}/loeyb --all-tags
