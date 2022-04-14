@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Generated,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -21,6 +22,7 @@ export class LOEYBUserEntity extends BaseEntity {
     unique: true,
     comment: 'indexing',
   })
+  @Generated('increment')
   seq!: number;
 
   @Column({
