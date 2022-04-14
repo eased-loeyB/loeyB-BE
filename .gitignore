@@ -33,3 +33,14 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# env
+.env
+*.env
+docker.env
+
+# pem
+*.pem
+
+#graphql
+schema.gql

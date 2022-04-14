@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IsEnum } from 'class-validator';
 import { LoggerOptions } from 'typeorm';
-
 export enum Environment {
   DEFAULT = '',
   DEVELOPMENT = 'development',
@@ -12,11 +11,9 @@ export enum Environment {
   PRODUCTION = 'production',
   TEST = 'test',
 }
-
 @Injectable()
 export class LOEYBConfigService {
   constructor(private readonly configService: ConfigService) {}
-
   @IsEnum(Environment)
   get nodeEnv(): Environment {
     return this.configService.get<Environment>(
@@ -24,19 +21,19 @@ export class LOEYBConfigService {
       Environment.PRODUCTION,
     );
   }
-
   get logLevel(): 'debug' | 'info' | 'warn' | 'error' | 'silent' {
     return this.configService.get<
       'debug' | 'info' | 'warn' | 'error' | 'silent'
     >('LOG_LEVEL', 'info');
   }
-
   get gatewayPort(): number {
     return this.configService.get<number>('GATEWAY_PORT', 3000);
   }
-
   get dbHost(): string {
-    return this.configService.get<string>('DB_HOST', 'localhost');
+    return this.configService.get<string>(
+      'DB_HOST',
+      'loeyb-develop.cbh1v93vrfjs.ap-northeast-2.rds.amazonaws.com',
+    );
   }
   get dbPort(): number {
     return this.configService.get<number>('DB_PORT', 5432);
@@ -62,30 +59,33 @@ export class LOEYBConfigService {
       <LoggerOptions>'error',
     );
   }
-
   get rabbitmqProto(): string {
     return this.configService.get<string>('RABBITMQ_PROTO', 'amqp');
   }
-
   get rabbitmqHost(): string {
-    return this.configService.get<string>('RABBITMQ_HOST', 'localhost');
+    return this.configService.get<string>(
+      'RABBITMQ_HOST',
+      'b-66cdea29-d2a6-476b-a809-9a6f81bf543e.mq.ap-northeast-2.amazonaws.com',
+    );
   }
-
   get rabbitmqPort(): number {
     return this.configService.get<number>('RABBITMQ_PORT', 5672);
   }
-
   get rabbitmqUser(): string | undefined {
-    return this.configService.get<string | undefined>('RABBITMQ_USER');
+    return this.configService.get<string | undefined>(
+      'RABBITMQ_USER',
+      'rabbitmq',
+    );
   }
-
   get rabbitmqPass(): string | undefined {
-    return this.configService.get<string | undefined>('RABBITMQ_PASS');
+    return this.configService.get<string | undefined>(
+      'RABBITMQ_PASS',
+      'loeyb4ever!!',
+    );
   }
   get redisHost(): string {
     return this.configService.get<string>('REDIS_HOST', 'localhost');
   }
-
   get redisPort(): number {
     return this.configService.get<number>('REDIS_PORT', 6379);
   }
