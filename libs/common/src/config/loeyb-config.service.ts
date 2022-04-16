@@ -86,7 +86,7 @@ export class LOEYBConfigService {
     );
   }
   get redisHost(): string {
-    return this.configService.get<string>('REDIS_HOST', 'localhost');
+    return this.configService.get<string>('REDIS_HOST', '127.0.0.1');
   }
   get redisPort(): number {
     return this.configService.get<number>('REDIS_PORT', 6379);
@@ -119,5 +119,16 @@ export class LOEYBConfigService {
       'REFRESH_TOKEN_EXPIRE_TIME_UNIT',
       <OpUnitType>'month',
     );
+  }
+
+  get mandrillAPIKey(): string | undefined {
+    return this.configService.get<string | undefined>(
+      'MANDRILL_API_KEY',
+      undefined,
+    );
+  }
+
+  get loeybURL(): string {
+    return this.configService.get<string>('LOEYB_URL', 'https://loeyb.ai');
   }
 }

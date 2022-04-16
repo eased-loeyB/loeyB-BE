@@ -7,11 +7,15 @@ import { AUTHENTICATION_FACTORY } from 'apps/gateway/src/factory';
 import { DatabaseModule } from '../../../libs/database/src/index';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LOEYBUserRepository } from '../../../libs/database/src/repositories';
+import { LOEYBEmailModule } from '../../../libs/common/src/email/loeyb-email.module';
+import { RedisCacheModule } from '../../../libs/cache/src';
 
 @Module({
   imports: [
     LOEYBConfigModule,
+    LOEYBEmailModule,
     DatabaseModule,
+    RedisCacheModule,
     TypeOrmModule.forFeature([LOEYBUserRepository]),
   ],
   controllers: [AuthenticationController],

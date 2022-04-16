@@ -3,10 +3,14 @@ import { AuthenticationService } from './authentication.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
   RegisterUserInput,
+  RequestEmailVerificationCodeInput,
   TokenRefreshInput,
+  VerifyEmailVerificationCodeInput,
 } from '../../../libs/common/src/dto';
 import {
   AuthenticationOutput,
+  LOEYBException,
+  Output,
   RegisterUserOutput,
 } from '../../../libs/common/src/model';
 import { TransactionBlock } from '../../../libs/common/src/transaction/transaction';
@@ -45,5 +49,33 @@ export class AuthenticationController {
         );
       },
     );
+  }
+
+  @MessagePattern({ cmd: 'requestEmailVerificationCode' })
+  async requestEmailVerificationCode(
+    @Payload() input: RequestEmailVerificationCodeInput,
+  ): Promise<Output> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<Output> => {
+        return await this.authenticationService.requestEmailVerificationCode(
+          input as RequestEmailVerificationCodeInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'verifyEmailVerificationCode' })
+  async verifyEmailVerificationCode(
+    @Payload() input: VerifyEmailVerificationCodeInput,
+  ): Promise<Output> {
+    try {
+      return await this.authenticationService.verifyEmailVerificationCode(
+        input,
+      );
+    } catch (error) {
+      return LOEYBException.processException(error);
+    }
   }
 }

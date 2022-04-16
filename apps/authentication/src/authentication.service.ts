@@ -1,14 +1,21 @@
-import { Injectable } from '@nestjs/common';
-import { LOEYBErrorCode } from '../../../libs/common/src/constant';
+import { Injectable, Logger, CACHE_MANAGER, Inject } from '@nestjs/common';
+import {
+  EMAIL_VERIFICATION_CODE_PREFIX,
+  Language,
+  LOEYBErrorCode,
+} from '../../../libs/common/src/constant';
 import {
   ReCreateAccessTokenInput,
   RegisterUserInput,
+  RequestEmailVerificationCodeInput,
   TokenRefreshInput,
+  VerifyEmailVerificationCodeInput,
 } from '../../../libs/common/src/dto';
 import {
   Authentication,
   AuthenticationOutput,
   LOEYBException,
+  Output,
   RegisterUserOutput,
 } from '../../../libs/common/src/model';
 import { EntityManager } from 'typeorm';
@@ -17,12 +24,21 @@ import { LOEYBUserEntity } from '../../../libs/database/src/entities';
 import { LOEYBConfigService } from '@libs/common/config/loeyb-config.service';
 
 import * as jwt from 'jsonwebtoken';
+import { Cache } from 'cache-manager';
 import * as dayjs from 'dayjs';
 import { Payload } from '../../../libs/common/src/interface';
+import { KO_EMAIL_VERIFICATION_SUBJECT } from '@libs/common/email/ko/user/text';
+import { koEmailVerificationCodeTemplate } from '@libs/common/email/ko/user/html';
+import { enEmailVerificationCodeTemplate } from '@libs/common/email/en/user/html';
+import { LOEYBEmailService } from '@libs/common/email/loeyb-email.service';
 
 @Injectable()
 export class AuthenticationService {
-  constructor(private readonly configService: LOEYBConfigService) {}
+  constructor(
+    private readonly configService: LOEYBConfigService,
+    private readonly loeybEmailService: LOEYBEmailService,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+  ) {}
   async registerUser(
     input: RegisterUserInput,
     entityManager: EntityManager,
@@ -161,5 +177,88 @@ export class AuthenticationService {
       } as Payload,
       this.configService.jwtSecret,
     );
+  }
+
+  async requestEmailVerificationCode(
+    input: RequestEmailVerificationCodeInput,
+    entityManager: EntityManager,
+  ): Promise<Output> {
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+
+    const user = await loeybUserRepository.findRegisteredUserByEmail(
+      input.email,
+    );
+    if (user != null) {
+      Logger.warn(JSON.stringify(user));
+      throw new LOEYBException(LOEYBErrorCode.DUPLICATE_EMAIL);
+    }
+    const code = Math.random().toString().split('.')[1].substring(0, 6);
+    Logger.debug(code);
+    await this.cacheManager.set(
+      EMAIL_VERIFICATION_CODE_PREFIX + input.email,
+      code,
+      {
+        ttl: 180,
+      },
+    );
+    const now: dayjs.Dayjs = dayjs();
+    const exp: dayjs.Dayjs = now.add(3, 'minute');
+
+    void this.sendEmailVerificationCode(input.language, input.email, code, exp);
+
+    return {
+      result: LOEYBErrorCode.SUCCESS,
+    } as Output;
+  }
+
+  async sendEmailVerificationCode(
+    language: Language,
+    email: string,
+    code: string,
+    expireTime: dayjs.Dayjs,
+  ): Promise<void> {
+    let template: string;
+    let subject: string;
+    const expire = `${expireTime.year()}년 ${
+      expireTime.month() + 1
+    }월 ${expireTime.date()}일 ${expireTime.hour()}:${expireTime.minute()}`;
+    switch (language) {
+      case Language.ENGLISH:
+        subject = KO_EMAIL_VERIFICATION_SUBJECT;
+        template = enEmailVerificationCodeTemplate(
+          code,
+          this.configService.loeybURL,
+        );
+        break;
+      case Language.KOREAN:
+      default:
+        subject = KO_EMAIL_VERIFICATION_SUBJECT;
+        template = koEmailVerificationCodeTemplate(
+          code,
+          this.configService.loeybURL,
+          expire,
+        );
+        break;
+    }
+    await this.loeybEmailService.sendEmail(template, subject, [email]);
+  }
+
+  async verifyEmailVerificationCode(
+    input: VerifyEmailVerificationCodeInput,
+  ): Promise<Output> {
+    const code = await this.cacheManager.get(
+      EMAIL_VERIFICATION_CODE_PREFIX + input.email,
+    );
+    if (code != input.code) {
+      return {
+        result: LOEYBErrorCode.CODE_MISMATCH,
+      } as Output;
+    }
+    return {
+      result: LOEYBErrorCode.SUCCESS,
+    } as Output;
   }
 }

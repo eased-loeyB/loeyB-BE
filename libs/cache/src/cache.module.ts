@@ -1,8 +1,21 @@
-import { Module } from '@nestjs/common';
-import { CacheService } from './cache.service';
+import { LOEYBConfigModule } from '@libs/common/config/loeyb-config.module';
+import { LOEYBConfigService } from '@libs/common/config/loeyb-config.service';
+import { CacheModule, Module } from '@nestjs/common';
+import * as redisStore from 'cache-manager-redis-store';
 
 @Module({
-  providers: [CacheService],
-  exports: [CacheService],
+  imports: [
+    CacheModule.registerAsync({
+      imports: [LOEYBConfigModule],
+      inject: [LOEYBConfigService],
+      useFactory: async (config: LOEYBConfigService) => ({
+        store: redisStore,
+        host: config.redisHost,
+        port: config.redisPort,
+        ttl: null,
+      }),
+    }),
+  ],
+  exports: [CacheModule],
 })
-export class CacheModule {}
+export class RedisCacheModule {}
