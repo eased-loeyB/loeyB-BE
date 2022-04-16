@@ -1,12 +1,15 @@
 import { Controller, Logger } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { RegisterUserInput } from '../../../libs/common/src/dto';
 import {
-  LOEYBException,
+  RegisterUserInput,
+  TokenRefreshInput,
+} from '../../../libs/common/src/dto';
+import {
+  AuthenticationOutput,
   RegisterUserOutput,
 } from '../../../libs/common/src/model';
-import { EntityManager, getConnection, QueryRunner } from 'typeorm';
+import { TransactionBlock } from '../../../libs/common/src/transaction/transaction';
 @Controller()
 export class AuthenticationController {
   private logger: Logger;
@@ -18,21 +21,29 @@ export class AuthenticationController {
   async registerUser(
     @Payload() input: RegisterUserInput,
   ): Promise<RegisterUserOutput> {
-    const queryRunner: QueryRunner = getConnection().createQueryRunner();
-    try {
-      await queryRunner.startTransaction();
-      const entityManager: EntityManager = queryRunner.manager;
-      const result = await this.authenticationService.registerUser(
-        input,
-        entityManager,
-      );
-      await queryRunner.commitTransaction();
-      return result;
-    } catch (error) {
-      await queryRunner.rollbackTransaction();
-      return LOEYBException.processException(error);
-    } finally {
-      await queryRunner.release();
-    }
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<RegisterUserOutput> => {
+        return await this.authenticationService.registerUser(
+          input as RegisterUserInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'refreshAccessToken' })
+  async refreshAccessToken(
+    @Payload() input: TokenRefreshInput,
+  ): Promise<AuthenticationOutput> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<AuthenticationOutput> => {
+        return await this.authenticationService.refreshAccessToken(
+          input as TokenRefreshInput,
+          entityManager,
+        );
+      },
+    );
   }
 }
