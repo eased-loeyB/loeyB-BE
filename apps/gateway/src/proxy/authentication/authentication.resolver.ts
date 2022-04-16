@@ -1,9 +1,15 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { Logger } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
-import { LOEYBException } from '../../../../../libs/common/src/model';
+import {
+  AuthenticationOutput,
+  LOEYBException,
+} from '../../../../../libs/common/src/model';
 import { LOEYBErrorCode } from '../../../../../libs/common/src/constant';
-import { RegisterUserInput } from '../../../../../libs/common/src/dto';
+import {
+  RegisterUserInput,
+  TokenRefreshInput,
+} from '../../../../../libs/common/src/dto';
 import { RegisterUserOutput } from '../../../../../libs/common/src/model';
 @Resolver('authentication')
 export class AuthenticationResolver {
@@ -34,6 +40,29 @@ export class AuthenticationResolver {
     try {
       this.logger.debug(input);
       return await this.authenticationService.registerUser(input);
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @Mutation(() => AuthenticationOutput, {
+    name: 'refresh',
+    description: 'Authorization: Bearer 토큰 갱신',
+  })
+  async refresh(
+    @Args({
+      name: 'input',
+      description: '토큰 갱신',
+      type: () => TokenRefreshInput,
+    })
+    input: TokenRefreshInput,
+  ): Promise<AuthenticationOutput> {
+    try {
+      this.logger.debug(input);
+      return await this.authenticationService.refreshAccessToken({
+        ...input,
+      });
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);

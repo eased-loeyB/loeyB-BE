@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IsEnum } from 'class-validator';
 import { LoggerOptions } from 'typeorm';
+import { OpUnitType } from 'dayjs';
+
 export enum Environment {
   DEFAULT = '',
   DEVELOPMENT = 'development',
@@ -88,5 +90,34 @@ export class LOEYBConfigService {
   }
   get redisPort(): number {
     return this.configService.get<number>('REDIS_PORT', 6379);
+  }
+
+  get jwtSecret(): string {
+    return this.configService.get<string>('JWT_SECRET', 'loeyb');
+  }
+
+  get accessTokenExprieTimeValue(): number {
+    return this.configService.get<number>(
+      'ACCESS_TOKEN_EXPIRE_TIME_VALUE',
+      500,
+    );
+  }
+
+  get accessTokenExpireTimeUnit(): OpUnitType {
+    return this.configService.get<OpUnitType>(
+      'ACCESS_TOKEN_EXPIRE_TIME_UNIT',
+      'minute',
+    );
+  }
+
+  get refreshTokenExprieTimeValue(): number {
+    return this.configService.get<number>('REFRESH_TOKEN_EXPIRE_TIME_VALUE', 1);
+  }
+
+  get refreshTokenExpireTimeUnit(): OpUnitType {
+    return this.configService.get<OpUnitType>(
+      'REFRESH_TOKEN_EXPIRE_TIME_UNIT',
+      <OpUnitType>'month',
+    );
   }
 }

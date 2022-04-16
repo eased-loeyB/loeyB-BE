@@ -42,6 +42,22 @@ export class LOEYBUserEntity extends BaseEntity {
   })
   password!: string;
 
+  @Column({
+    name: 'last_login_at',
+    type: 'timestamptz',
+    nullable: true,
+    comment: '마지막 로그인 시간',
+  })
+  lastLoginAt?: Date | null;
+
+  @Column({
+    name: 'last_logout_at',
+    type: 'timestamptz',
+    nullable: true,
+    comment: '마지막 로그아웃 시간',
+  })
+  lastLogoutAt?: Date | null;
+
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',
