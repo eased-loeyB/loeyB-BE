@@ -281,7 +281,7 @@ export class AuthenticationService {
     } as Output;
   }
 
-  async authentication(
+  async authenticate(
     input: AuthenticationInput,
     entityManager: EntityManager,
   ): Promise<AuthenticationOutput> {

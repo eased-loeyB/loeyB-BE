@@ -120,10 +120,10 @@ export class AuthenticationResolver {
   }
 
   @Query(() => AuthenticationOutput, {
-    name: 'authentication',
+    name: 'authenticate',
     description: '로그인',
   })
-  async authentication(
+  async authenticate(
     @Args({
       name: 'input',
       description: '로그인',
@@ -133,7 +133,7 @@ export class AuthenticationResolver {
   ): Promise<AuthenticationOutput> {
     try {
       this.logger.debug(input);
-      return await this.authenticationService.authentication({
+      return await this.authenticationService.authenticate({
         ...input,
       });
     } catch (error) {

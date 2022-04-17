@@ -103,7 +103,7 @@ type Query {
   ): Output!
 
   """로그인"""
-  authentication(
+  authenticate(
     """로그인"""
     input: AuthenticationInput!
   ): AuthenticationOutput!

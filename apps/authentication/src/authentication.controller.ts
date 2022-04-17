@@ -82,13 +82,13 @@ export class AuthenticationController {
   }
 
   @MessagePattern({ cmd: 'authentication' })
-  async authentication(
+  async authenticate(
     @Payload() input: AuthenticationInput,
   ): Promise<AuthenticationOutput> {
     return await TransactionBlock(
       input,
       async (input, entityManager): Promise<AuthenticationOutput> => {
-        return await this.authenticationService.authentication(
+        return await this.authenticationService.authenticate(
           input as AuthenticationInput,
           entityManager,
         );

@@ -85,7 +85,7 @@ export class AuthenticationService {
     }
   }
 
-  async authentication(
+  async authenticate(
     input: AuthenticationInput,
   ): Promise<AuthenticationOutput> {
     try {
