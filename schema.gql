@@ -2,19 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-""""""
-type RegisterUSer {
-  result: String!
-}
-
-""""""
-type RegisterUserOutput {
+"""Default Output"""
+type Output {
   """LOEYB ERROR CODE"""
   result: LOEYBErrorCode!
 
   """errorMessage"""
   errorMessage: String
-  data: RegisterUSer
 }
 
 """loeyB error code"""
@@ -42,10 +36,70 @@ enum LOEYBErrorCode {
 
   """PARMETER_VALIDATION_ERROR"""
   PARMETER_VALIDATION_ERROR
+  TOKEN_EXPIRED
+  CODE_MISMATCH
+}
+
+""""""
+type RegisterUSer {
+  result: String!
+}
+
+""""""
+type RegisterUserOutput {
+  """LOEYB ERROR CODE"""
+  result: LOEYBErrorCode!
+
+  """errorMessage"""
+  errorMessage: String
+  data: RegisterUSer
+}
+
+""""""
+type Authentication {
+  """JWT"""
+  accessToken: String!
+
+  """"""
+  tokenType: String!
+
+  """"""
+  expiresIn: Float!
+
+  """JWT"""
+  refreshToken: String!
+
+  """"""
+  redirectUrl: String
+}
+
+""""""
+type AuthenticationOutput {
+  """LOEYB ERROR CODE"""
+  result: LOEYBErrorCode!
+
+  """errorMessage"""
+  errorMessage: String
+  data: Authentication
 }
 
 type Query {
   sayHello: String!
+
+  """이메일 인증 확인"""
+  verifyEmailVerificationCode(
+    """이메일 인증"""
+    input: VerifyEmailVerificationCodeInput!
+  ): Output!
+}
+
+"""이메일 인증"""
+input VerifyEmailVerificationCodeInput {
+  """이메일"""
+  email: String!
+
+  """인증번호"""
+  code: String!
 }
 
 type Mutation {
@@ -54,6 +108,18 @@ type Mutation {
     """loeyb 회원가입"""
     input: RegisterUserInput!
   ): RegisterUserOutput!
+
+  """Authorization: Bearer 토큰 갱신"""
+  refresh(
+    """토큰 갱신"""
+    input: TokenRefreshInput!
+  ): AuthenticationOutput!
+
+  """이메일 인증 요청"""
+  requestEmailVerificationCode(
+    """이메일 인증 코드"""
+    input: RequestEmailVerificationCodeInput!
+  ): Output!
 }
 
 """회원가입"""
@@ -66,4 +132,16 @@ input RegisterUserInput {
 
   """비밀번호 확인"""
   passwordConfirm: String!
+}
+
+"""토큰 갱신"""
+input TokenRefreshInput {
+  """refresh 토큰"""
+  refreshToken: String!
+}
+
+"""이메일 인증 코드"""
+input RequestEmailVerificationCodeInput {
+  """이메일"""
+  email: String!
 }

@@ -29,6 +29,7 @@
     "test:e2e": "jest --config ./apps/loey/test/jest-e2e.json"
   },
   "dependencies": {
+    "@mailchimp/mailchimp_transactional": "^1.0.47",
     "@nestjs/apollo": "^10.0.8",
     "@nestjs/common": "^8.4.3",
     "@nestjs/config": "^2.0.0",
@@ -43,6 +44,8 @@
     "amqplib": "^0.8.0",
     "apollo-server-core": "^3.6.6",
     "apollo-server-express": "^3.6.6",
+    "cache-manager": "^3.6.1",
+    "cache-manager-redis-store": "^2.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "dayjs": "^1.11.1",
