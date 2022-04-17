@@ -8,6 +8,7 @@ import {
 } from '../../../../../libs/common/src/model';
 import { LOEYBErrorCode } from '../../../../../libs/common/src/constant';
 import {
+  AuthenticationInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
   TokenRefreshInput,
@@ -110,6 +111,29 @@ export class AuthenticationResolver {
     try {
       this.logger.debug(input);
       return await this.authenticationService.verifyEmailVerificationCode({
+        ...input,
+      });
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @Query(() => AuthenticationOutput, {
+    name: 'authenticate',
+    description: '로그인',
+  })
+  async authenticate(
+    @Args({
+      name: 'input',
+      description: '로그인',
+      type: () => AuthenticationInput,
+    })
+    input: AuthenticationInput,
+  ): Promise<AuthenticationOutput> {
+    try {
+      this.logger.debug(input);
+      return await this.authenticationService.authenticate({
         ...input,
       });
     } catch (error) {

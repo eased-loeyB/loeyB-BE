@@ -8,22 +8,18 @@ import { One } from '.';
  */
 @ObjectType({ description: '' })
 export class RegisterUSer {
-  // @Field(() => String, { nullable: false, description: 'JWT' })
-  // accessToken!: string;
-  // @Field(() => String, {
-  //   nullable: false,
-  //   defaultValue: 'Bearer',
-  //   description: '',
-  // })
-  // tokenType!: string;
-  // @Field(() => Float, { nullable: false, description: '' })
-  // expiresIn!: number;
-  // @Field(() => String, { nullable: false, description: 'JWT' })
-  // refreshToken!: string;
-  // @Field(() => String, { nullable: true, description: '' })
-  // redirectUrl?: string | null;
-  @Field(() => String)
-  result: string;
+  @Field(() => String, { nullable: false, description: 'JWT' })
+  accessToken!: string;
+  @Field(() => String, {
+    nullable: false,
+    defaultValue: 'Bearer',
+    description: '',
+  })
+  tokenType!: string;
+  @Field(() => Float, { nullable: false, description: '' })
+  expiresIn!: number;
+  @Field(() => String, { nullable: false, description: 'JWT' })
+  refreshToken!: string;
 }
 @ObjectType({ description: '' })
 export class RegisterUserOutput extends One(RegisterUSer) {}

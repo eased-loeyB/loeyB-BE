@@ -42,7 +42,17 @@ enum LOEYBErrorCode {
 
 """"""
 type RegisterUSer {
-  result: String!
+  """JWT"""
+  accessToken: String!
+
+  """"""
+  tokenType: String!
+
+  """"""
+  expiresIn: Float!
+
+  """JWT"""
+  refreshToken: String!
 }
 
 """"""
@@ -91,6 +101,12 @@ type Query {
     """이메일 인증"""
     input: VerifyEmailVerificationCodeInput!
   ): Output!
+
+  """로그인"""
+  authenticate(
+    """로그인"""
+    input: AuthenticationInput!
+  ): AuthenticationOutput!
 }
 
 """이메일 인증"""
@@ -100,6 +116,15 @@ input VerifyEmailVerificationCodeInput {
 
   """인증번호"""
   code: String!
+}
+
+"""로그인"""
+input AuthenticationInput {
+  """이메일"""
+  email: String!
+
+  """비밀번호"""
+  password: String!
 }
 
 type Mutation {

@@ -8,6 +8,7 @@ import {
   RegisterUserOutput,
 } from '../../../../../libs/common/src/model';
 import {
+  AuthenticationInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
   TokenRefreshInput,
@@ -64,7 +65,7 @@ export class AuthenticationService {
         .toPromise();
     } catch (error) {
       this.logger.error(error.message);
-      throw new LOEYBException(LOEYBErrorCode.ERROR, 7829, error.message);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
     }
   }
 
@@ -80,7 +81,23 @@ export class AuthenticationService {
         .toPromise();
     } catch (error) {
       this.logger.error(error.message);
-      throw new LOEYBException(LOEYBErrorCode.ERROR, 7829, error.message);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
+    }
+  }
+
+  async authenticate(
+    input: AuthenticationInput,
+  ): Promise<AuthenticationOutput> {
+    try {
+      return await this.client
+        .send<AuthenticationOutput, AuthenticationInput>(
+          { cmd: 'authentication' },
+          input,
+        )
+        .toPromise();
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
     }
   }
 }
