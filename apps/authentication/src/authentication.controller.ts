@@ -2,6 +2,7 @@ import { Controller, Logger } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
+  AuthenticationInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
   TokenRefreshInput,
@@ -14,6 +15,7 @@ import {
   RegisterUserOutput,
 } from '../../../libs/common/src/model';
 import { TransactionBlock } from '../../../libs/common/src/transaction/transaction';
+import { EntityManager } from 'typeorm';
 @Controller()
 export class AuthenticationController {
   private logger: Logger;
@@ -77,5 +79,20 @@ export class AuthenticationController {
     } catch (error) {
       return LOEYBException.processException(error);
     }
+  }
+
+  @MessagePattern({ cmd: 'authentication' })
+  async authentication(
+    @Payload() input: AuthenticationInput,
+  ): Promise<AuthenticationOutput> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<AuthenticationOutput> => {
+        return await this.authenticationService.authentication(
+          input as AuthenticationInput,
+          entityManager,
+        );
+      },
+    );
   }
 }

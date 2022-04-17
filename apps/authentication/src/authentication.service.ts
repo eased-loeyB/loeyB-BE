@@ -5,6 +5,7 @@ import {
   LOEYBErrorCode,
 } from '../../../libs/common/src/constant';
 import {
+  AuthenticationInput,
   ReCreateAccessTokenInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
@@ -31,12 +32,13 @@ import { KO_EMAIL_VERIFICATION_SUBJECT } from '@libs/common/email/ko/user/text';
 import { koEmailVerificationCodeTemplate } from '@libs/common/email/ko/user/html';
 import { enEmailVerificationCodeTemplate } from '@libs/common/email/en/user/html';
 import { LOEYBEmailService } from '@libs/common/email/loeyb-email.service';
-
+import * as argon2 from 'argon2';
 @Injectable()
 export class AuthenticationService {
   constructor(
     private readonly configService: LOEYBConfigService,
     private readonly loeybEmailService: LOEYBEmailService,
+    private readonly loeybUserRepository: LOEYBUserRepository,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
   async registerUser(
@@ -53,16 +55,33 @@ export class AuthenticationService {
       throw new LOEYBException(LOEYBErrorCode.ALREADY_REGISTERED_USER);
     }
 
+    const encryptedPassword = await argon2.hash(input.password);
     user = await loeybUserRepository.save(
       loeybUserRepository.create({
         email: input.email,
-        password: input.password,
+        password: encryptedPassword,
       }),
+    );
+
+    const now: dayjs.Dayjs = dayjs();
+    const exp: dayjs.Dayjs = now.add(
+      this.configService.accessTokenExprieTimeValue,
+      this.configService.accessTokenExpireTimeUnit,
     );
 
     return {
       result: LOEYBErrorCode.SUCCESS,
-      data: 'succes',
+      data: {
+        accessToken: await this.createAccessToken(
+          user,
+          now,
+          exp,
+          loeybUserRepository,
+        ),
+        tokenType: 'Bearer',
+        expiresIn: exp.unix(),
+        refreshToken: await this.createRefreshToken(user, now),
+      },
     };
   }
 
@@ -260,5 +279,46 @@ export class AuthenticationService {
     return {
       result: LOEYBErrorCode.SUCCESS,
     } as Output;
+  }
+
+  async authentication(
+    input: AuthenticationInput,
+    entityManager: EntityManager,
+  ): Promise<AuthenticationOutput> {
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+    const user: LOEYBUserEntity =
+      await loeybUserRepository.findRegisteredUserByEmail(input.email);
+    if (user == null) {
+      throw new LOEYBException(LOEYBErrorCode.USER_NOT_FOUND);
+    }
+
+    if (!(await argon2.verify(user.password, input.password))) {
+      throw new LOEYBException(LOEYBErrorCode.PASSWORD_INCORRECT);
+    }
+
+    const now: dayjs.Dayjs = dayjs();
+    const exp: dayjs.Dayjs = now.add(
+      this.configService.accessTokenExprieTimeValue,
+      this.configService.accessTokenExpireTimeUnit,
+    );
+
+    return {
+      result: LOEYBErrorCode.SUCCESS,
+      data: {
+        accessToken: await this.createAccessToken(
+          user,
+          now,
+          exp,
+          loeybUserRepository,
+        ),
+        tokenType: 'Bearer',
+        expiresIn: exp.unix(),
+        refreshToken: await this.createRefreshToken(user, now),
+        redirectUrl: null,
+      },
+    };
   }
 }
