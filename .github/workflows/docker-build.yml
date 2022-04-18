@@ -42,7 +42,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/develop' }}
         run: |
           echo "== build ===========================develop============================"
-          docker --platform linux/amd64 --build-arg NODE_ENV=development -t ${ECR}/loeyb:latest .
+          docker buildx build --platform linux/amd64 --build-arg NODE_ENV=development -t ${ECR}/loeyb:latest .
           echo "== push ========================================================"
           docker push ${ECR}/loeyb --all-tags
           bash ./deploy.sh
