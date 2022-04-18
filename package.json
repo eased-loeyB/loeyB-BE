@@ -12,8 +12,6 @@
     "build:cache": "nest build cache",
     "build:aws": "nest build aws",
     "build:database": "nest build database",
-    "build:gateway": "nest build gateway",
-    "build:authentication": "nest build authentication",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:gateway": "nest start gateway --watch",

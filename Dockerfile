@@ -1,18 +1,32 @@
-FROM node:latest AS builder
-RUN mkdir -p /loeyb
+FROM 568080291959.dkr.ecr.ap-northeast-2.amazonaws.com/loeyb-base-docker:latest as build
+
+LABEL maintainer="tursunali777@mail.ru"
+
 WORKDIR /loeyb
-COPY . .
-RUN npm install --legacy-peer-deps
-RUN npm install @nestjs/typeorm --force
-COPY . /loeyb
-RUN npm run build:common \
-npm run build:aws \
-npm run build:cache \
-npm run build:database \
-npm run build:gateway \
-npm run build:authentication \
+
+ARG NODE_ENV
+ENV NODE_ENV=${NODE_ENV}
+
+COPY ./apps ./apps
+COPY ./libs ./libs
+COPY ./nest-cli.json .
+COPY ./package.json .
+COPY ./tsconfig.json .
+COPY ./tsconfig.build.json .
+COPY ./development.env .
+
+ENV PATH=${PATH}:./node_modules/.bin
+
+RUN nest build common \
+ && nest build aws \
+ && nest build cache \
+ && nest build database \
+ && nest build gateway \
+ && nest build authentication \
  && rm -fr apps libs
-FROM node:latest
-WORKDIR /loeyb
-COPY --from=builder /loeyb ./
-CMD [“npm”, “run”, “start”]
+
+ FROM 568080291959.dkr.ecr.ap-northeast-2.amazonaws.com/loeyb-base-docker:latest as loeyb
+
+ WORKDIR /loeyb
+
+COPY --from=build /loeyb /loeyb
