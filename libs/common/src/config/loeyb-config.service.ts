@@ -85,7 +85,7 @@ export class LOEYBConfigService {
       'loeyb4ever!!',
     );
   }
-  get redisHost(): string {
+  get redisHost(): string | undefined {
     return this.configService.get<string>(
       'REDIS_HOST',
       'loeyb-develop.fvwiek.0001.apn2.cache.amazonaws.com',
