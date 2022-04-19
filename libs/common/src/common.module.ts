@@ -15,8 +15,8 @@ export const PUB_SUB = 'PUB_SUB';
       useFactory: (configService: LOEYBConfigService) =>
         new RedisPubSub({
           connection: {
-            host: configService.redisHost,
-            port: configService.redisPort,
+            host: 'loeyb-develop.fvwiek.0001.apn2.cache.amazonaws.com',
+            port: 6379,
           },
         }),
     },

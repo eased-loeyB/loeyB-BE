@@ -17,7 +17,7 @@ async function bootstrap(): Promise<void> {
     transport: Transport.RMQ,
     options: {
       urls: [
-        `${configService.rabbitmqProto}://${configService.rabbitmqUser}:${configService.rabbitmqPass}@${configService.rabbitmqHost}:${configService.rabbitmqPort}`,
+        `amqps://rabbitmq:loeyb4ever!!@b-66cdea29-d2a6-476b-a809-9a6f81bf543e.mq.ap-northeast-2.amazonaws.com:5672`,
       ],
       queue: AUTHENTICATION,
       noAck: true,
