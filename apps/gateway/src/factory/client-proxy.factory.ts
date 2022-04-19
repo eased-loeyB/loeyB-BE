@@ -10,7 +10,7 @@ const AUTHENTICATION_FACTORY = {
       transport: Transport.RMQ,
       options: {
         urls: [
-          `amqps://rabbitmq:loeyb4ever!!@b-66cdea29-d2a6-476b-a809-9a6f81bf543e.mq.ap-northeast-2.amazonaws.com:5672`,
+          `${config.rabbitmqProto}://${config.rabbitmqUser}:${config.rabbitmqPass}@${config.rabbitmqHost}:${config.rabbitmqPort}`,
         ],
         queue: AUTHENTICATION,
         noAck: true,
