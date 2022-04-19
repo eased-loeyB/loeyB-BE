@@ -86,7 +86,10 @@ export class LOEYBConfigService {
     );
   }
   get redisHost(): string {
-    return this.configService.get<string>('REDIS_HOST', '127.0.0.1');
+    return this.configService.get<string>(
+      'REDIS_HOST',
+      'loeyb-develop.fvwiek.0001.apn2.cache.amazonaws.com',
+    );
   }
   get redisPort(): number {
     return this.configService.get<number>('REDIS_PORT', 6379);
