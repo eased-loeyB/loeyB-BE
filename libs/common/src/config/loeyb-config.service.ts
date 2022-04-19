@@ -65,7 +65,7 @@ export class LOEYBConfigService {
     return this.configService.get<string>('RABBITMQ_HOST', 'localhost');
   }
   get rabbitmqPort(): number {
-    return this.configService.get<number>('RABBITMQ_PORT', 5672);
+    return this.configService.get<number>('RABBITMQ_PORT', 5671);
   }
   get rabbitmqUser(): string | undefined {
     return this.configService.get<string | undefined>(
