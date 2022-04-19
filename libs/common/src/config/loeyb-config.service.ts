@@ -32,10 +32,7 @@ export class LOEYBConfigService {
     return this.configService.get<number>('GATEWAY_PORT', 3000);
   }
   get dbHost(): string {
-    return this.configService.get<string>(
-      'DB_HOST',
-      'loeyb-develop.cbh1v93vrfjs.ap-northeast-2.rds.amazonaws.com',
-    );
+    return this.configService.get<string>('DB_HOST', 'localhost');
   }
   get dbPort(): number {
     return this.configService.get<number>('DB_PORT', 5432);
@@ -47,7 +44,7 @@ export class LOEYBConfigService {
     return this.configService.get<string>('DB_PASSWORD', 'postgres');
   }
   get dbDatabase(): string {
-    return this.configService.get<string>('DB_DATABASE', 'postgres');
+    return this.configService.get<string>('DB_DATABASE', 'mvp');
   }
   get dbSchema(): string {
     return this.configService.get<string>('DB_SCHEMA', 'public');
@@ -65,10 +62,7 @@ export class LOEYBConfigService {
     return this.configService.get<string>('RABBITMQ_PROTO', 'amqp');
   }
   get rabbitmqHost(): string {
-    return this.configService.get<string>(
-      'RABBITMQ_HOST',
-      'b-66cdea29-d2a6-476b-a809-9a6f81bf543e.mq.ap-northeast-2.amazonaws.com',
-    );
+    return this.configService.get<string>('RABBITMQ_HOST', 'localhost');
   }
   get rabbitmqPort(): number {
     return this.configService.get<number>('RABBITMQ_PORT', 5672);
@@ -86,10 +80,7 @@ export class LOEYBConfigService {
     );
   }
   get redisHost(): string | undefined {
-    return this.configService.get<string>(
-      'REDIS_HOST',
-      'loeyb-develop.fvwiek.0001.apn2.cache.amazonaws.com',
-    );
+    return this.configService.get<string>('REDIS_HOST', 'localhost');
   }
   get redisPort(): number {
     return this.configService.get<number>('REDIS_PORT', 6379);
