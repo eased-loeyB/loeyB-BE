@@ -11,7 +11,7 @@ import { LOEYBNamingStrategy } from './loeyb-naming.strategy';
         config: LOEYBConfigService,
       ): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions => ({
         type: 'postgres',
-        host: config.dbHost,
+        host: 'loeyb-develop.cbh1v93vrfjs.ap-northeast-2.rds.amazonaws.com',
         port: config.dbPort,
         username: config.dbUsername,
         password: config.dbPassword,

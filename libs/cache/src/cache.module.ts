@@ -1,5 +1,5 @@
-import { LOEYBConfigModule } from '@libs/common/config/loeyb-config.module';
-import { LOEYBConfigService } from '@libs/common/config/loeyb-config.service';
+import { LOEYBConfigModule } from '../../common/src/config/loeyb-config.module';
+import { LOEYBConfigService } from '../../common/src/config/loeyb-config.service';
 import { CacheModule, Module } from '@nestjs/common';
 import * as redisStore from 'cache-manager-redis-store';
 
@@ -10,7 +10,7 @@ import * as redisStore from 'cache-manager-redis-store';
       inject: [LOEYBConfigService],
       useFactory: async (config: LOEYBConfigService) => ({
         store: redisStore,
-        host: config.redisHost,
+        host: 'loeyb-develop.fvwiek.0001.apn2.cache.amazonaws.com',
         port: config.redisPort,
         ttl: null,
       }),
