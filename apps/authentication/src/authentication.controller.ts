@@ -15,7 +15,6 @@ import {
   RegisterUserOutput,
 } from '../../../libs/common/src/model';
 import { TransactionBlock } from '../../../libs/common/src/transaction/transaction';
-import { EntityManager } from 'typeorm';
 @Controller()
 export class AuthenticationController {
   private logger: Logger;
