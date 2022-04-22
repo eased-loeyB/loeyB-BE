@@ -38,6 +38,7 @@ lerna-debug.log*
 .env
 *.env
 docker.env
+development.env
 
 # pem
 *.pem
