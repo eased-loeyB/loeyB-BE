@@ -33,6 +33,7 @@ import { koEmailVerificationCodeTemplate } from '@libs/common/email/ko/user/html
 import { enEmailVerificationCodeTemplate } from '@libs/common/email/en/user/html';
 import { LOEYBEmailService } from '@libs/common/email/loeyb-email.service';
 import * as argon2 from 'argon2';
+
 @Injectable()
 export class AuthenticationService {
   constructor(

@@ -1,12 +1,12 @@
-import { NestFactory } from '@nestjs/core';
-import { AuthenticationModule } from './authentication.module';
-import { LOEYBConfigService } from '../../../libs/common/src/config/loeyb-config.service';
-import { AUTHENTICATION } from '../../../libs/common/src/constant';
+import { LOEYBConfigService } from '@libs/common/config/loeyb-config.service';
+import { STARDUST } from '@libs/common/constant';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { StardustModule } from './stardust.module';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AuthenticationModule);
+  const app = await NestFactory.create(StardustModule);
 
   app.useGlobalPipes(new ValidationPipe());
 
@@ -19,7 +19,7 @@ async function bootstrap(): Promise<void> {
       urls: [
         `${configService.rabbitmqProto}://${configService.rabbitmqUser}:${configService.rabbitmqPass}@${configService.rabbitmqHost}:${configService.rabbitmqPort}`,
       ],
-      queue: AUTHENTICATION,
+      queue: STARDUST,
       noAck: true,
       queueOptions: {
         durable: true,
@@ -27,7 +27,7 @@ async function bootstrap(): Promise<void> {
     },
   });
 
-  Logger.log(`${AUTHENTICATION} is running on [${configService.nodeEnv}]`);
+  Logger.log(`${STARDUST} is running on [${configService.nodeEnv}]`);
 
   await app.startAllMicroservicesAsync();
 }

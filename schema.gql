@@ -16,6 +16,9 @@ enum LOEYBErrorCode {
   """SUCCESS"""
   SUCCESS
 
+  """NO_USER"""
+  NO_USER
+
   """USER_NOT_FOUND"""
   USER_NOT_FOUND
 
@@ -38,6 +41,9 @@ enum LOEYBErrorCode {
   PARMETER_VALIDATION_ERROR
   TOKEN_EXPIRED
   CODE_MISMATCH
+
+  """ALREADY_ADDED_CATEGORIES"""
+  ALREADY_ADDED_CATEGORIES
 }
 
 """"""
@@ -145,6 +151,12 @@ type Mutation {
     """이메일 인증 코드"""
     input: RequestEmailVerificationCodeInput!
   ): Output!
+
+  """register at least 3 categories at first"""
+  registerCategories(
+    """register at least 3 categories at first"""
+    input: RegisterCategoriesInput!
+  ): Output!
 }
 
 """회원가입"""
@@ -169,4 +181,91 @@ input TokenRefreshInput {
 input RequestEmailVerificationCodeInput {
   """이메일"""
   email: String!
+}
+
+"""registerCategories"""
+input RegisterCategoriesInput {
+  """이메일"""
+  email: String!
+
+  """name"""
+  name: String!
+
+  """category"""
+  category: [LoeybCategoryType!]!
+}
+
+"""유저들의 국가"""
+enum LoeybCategoryType {
+  """"""
+  FOOD
+
+  """"""
+  EXERCISE
+
+  """"""
+  SICK
+
+  """"""
+  MEDICINE
+
+  """"""
+  THOUGHT
+
+  """"""
+  EMOTION
+
+  """"""
+  GOALS
+
+  """"""
+  IDEAS
+
+  """"""
+  FRIENDS
+
+  """"""
+  FAMILY
+
+  """"""
+  PETS
+
+  """"""
+  COWORKER
+
+  """"""
+  FASHION
+
+  """"""
+  MUSIC
+
+  """"""
+  ART
+
+  """"""
+  BOOKS
+
+  """"""
+  VIDEO
+
+  """"""
+  TRAVEL
+
+  """"""
+  SPORTS
+
+  """"""
+  PROJECT
+
+  """"""
+  SCHOOL
+
+  """"""
+  SKILL
+
+  """"""
+  COMPANY
+
+  """"""
+  AWARD
 }

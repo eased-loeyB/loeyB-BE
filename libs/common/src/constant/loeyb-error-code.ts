@@ -2,6 +2,8 @@ import { registerEnumType } from '@nestjs/graphql';
 
 export enum LOEYBErrorCode {
   SUCCESS = 'SUCCESS',
+  NO_USER = 'NO_USER',
+
   USER_NOT_FOUND = 'USER_NOT_FOUND',
   PASSWORD_INCORRECT = 'PASSWORD_INCORRECT',
   DUPLICATE_EMAIL = 'DUPLICATE_EMAIL',
@@ -11,6 +13,8 @@ export enum LOEYBErrorCode {
   PARMETER_VALIDATION_ERROR = 'PARMETER_VALIDATION_ERROR',
   TOKEN_EXPIRED = 'TOKEN_EXPIRED',
   CODE_MISMATCH = 'CODE_MISMATCH',
+
+  ALREADY_ADDED_CATEGORIES = 'ALREADY_ADDED_CATEGORIES',
 }
 
 registerEnumType(LOEYBErrorCode, {
@@ -18,6 +22,7 @@ registerEnumType(LOEYBErrorCode, {
   description: 'loeyB error code',
   valuesMap: {
     SUCCESS: { description: 'SUCCESS' },
+    NO_USER: { description: 'NO_USER' },
     USER_NOT_FOUND: { description: 'USER_NOT_FOUND' },
     PASSWORD_INCORRECT: { description: 'PASSWORD_INCORRECT' },
     DUPLICATE_EMAIL: { description: 'DUPLICATE_EMAIL' },
@@ -25,5 +30,6 @@ registerEnumType(LOEYBErrorCode, {
     ALREADY_REGISTERED_USER: { description: 'ALREADY_REGISTERED_USER' },
     ERROR: { description: 'ERROR' },
     PARMETER_VALIDATION_ERROR: { description: 'PARMETER_VALIDATION_ERROR' },
+    ALREADY_ADDED_CATEGORIES: { description: 'ALREADY_ADDED_CATEGORIES' },
   },
 });

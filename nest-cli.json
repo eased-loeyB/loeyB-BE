@@ -61,6 +61,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/database/tsconfig.lib.json"
       }
+    },
+    "stardust": {
+      "type": "application",
+      "root": "apps/stardust",
+      "entryFile": "main",
+      "sourceRoot": "apps/stardust/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/stardust/tsconfig.app.json"
+      }
     }
   }
 }

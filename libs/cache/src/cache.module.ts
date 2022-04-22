@@ -10,7 +10,7 @@ import * as redisStore from 'cache-manager-redis-store';
       inject: [LOEYBConfigService],
       useFactory: async (config: LOEYBConfigService) => ({
         store: redisStore,
-        host: 'loeyb-develop.fvwiek.0001.apn2.cache.amazonaws.com',
+        host: config.redisHost,
         port: config.redisPort,
         ttl: null,
       }),
