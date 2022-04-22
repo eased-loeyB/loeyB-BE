@@ -18,7 +18,7 @@ import { LOEYBConfigService, Environment } from './loeyb-config.service';
         join(__dirname, '../../..', `${Environment.LOCAL}.env`),
         join(__dirname, '../../..', `${Environment.STAGING}.env`),
         join(__dirname, '../../..', `${Environment.PRODUCTION}.env`),
-        join(__dirname, '../../../..', `${Environment.TEST}.env`),
+        join(__dirname, '../../..', `${Environment.TEST}.env`),
       ],
     }),
   ],
