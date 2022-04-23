@@ -15,6 +15,7 @@ import {
   VerifyEmailVerificationCodeInput,
 } from '../../../../../libs/common/src/dto';
 import { RegisterUserOutput } from '../../../../../libs/common/src/model';
+import { LoeybAuth } from '../../decorator';
 @Resolver('authentication')
 export class AuthenticationResolver {
   private readonly logger: Logger;
@@ -24,6 +25,7 @@ export class AuthenticationResolver {
     this.logger = new Logger('AuthenticationResolver');
   }
 
+  @LoeybAuth()
   @Query(() => String)
   sayHello(): string {
     return 'Hello World!';
