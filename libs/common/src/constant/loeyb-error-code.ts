@@ -3,6 +3,8 @@ import { registerEnumType } from '@nestjs/graphql';
 export enum LOEYBErrorCode {
   SUCCESS = 'SUCCESS',
   NO_USER = 'NO_USER',
+  INVALID_TOKEN = 'INVALID_TOKEN',
+  UNAUTHORIZED = 'UNAUTHORIZED',
 
   USER_NOT_FOUND = 'USER_NOT_FOUND',
   PASSWORD_INCORRECT = 'PASSWORD_INCORRECT',
@@ -23,7 +25,9 @@ registerEnumType(LOEYBErrorCode, {
   valuesMap: {
     SUCCESS: { description: 'SUCCESS' },
     NO_USER: { description: 'NO_USER' },
+    INVALID_TOKEN: { description: 'INVALID_TOKEN' },
     USER_NOT_FOUND: { description: 'USER_NOT_FOUND' },
+    UNAUTHORIZED: { description: 'UNAUTHORIZED' },
     PASSWORD_INCORRECT: { description: 'PASSWORD_INCORRECT' },
     DUPLICATE_EMAIL: { description: 'DUPLICATE_EMAIL' },
     QUERY_ERROR: { description: 'QUERY_ERROR' },
