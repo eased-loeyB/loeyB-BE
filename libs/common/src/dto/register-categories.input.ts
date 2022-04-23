@@ -1,7 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
-import { AbstractInput } from '.';
-import { LoeybCategoryType } from '../constant';
+import { AbstractInput, AreaCategoryInput } from '.';
 import { StringTransform } from './transformer';
 /**
  * RegisterCategoriesInput
@@ -17,15 +16,17 @@ export class RegisterCategoriesInput extends AbstractInput {
   @Field(() => String, { nullable: false, description: '이메일' })
   @StringTransform()
   email!: string;
+
   @IsNotEmpty()
   @IsString()
   @Field(() => String, { nullable: false, description: 'name' })
   @StringTransform()
   name!: string;
+
   @IsNotEmpty()
-  @Field(() => [LoeybCategoryType], {
+  @Field(() => [AreaCategoryInput], {
     nullable: false,
     description: 'category',
   })
-  category!: LoeybCategoryType[];
+  areaCategory!: AreaCategoryInput[];
 }

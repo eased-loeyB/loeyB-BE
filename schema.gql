@@ -50,6 +50,9 @@ enum LOEYBErrorCode {
 
   """ALREADY_ADDED_CATEGORIES"""
   ALREADY_ADDED_CATEGORIES
+
+  """ALREADY_REGISTERED_IMAGE"""
+  ALREADY_REGISTERED_IMAGE
 }
 
 """"""
@@ -103,6 +106,24 @@ type AuthenticationOutput {
   """errorMessage"""
   errorMessage: String
   data: Authentication
+}
+
+""""""
+type LOEYBFile {
+  """"""
+  fileId: ID!
+
+  """"""
+  fileName: String
+
+  """"""
+  fileExtension: String
+
+  """"""
+  fileMimetype: String
+
+  """파일 용량 in bytes"""
+  fileSize: Float
 }
 
 type Query {
@@ -163,6 +184,12 @@ type Mutation {
     """register at least 3 categories at first"""
     input: RegisterCategoriesInput!
   ): Output!
+
+  """upload file with tag and date and location information"""
+  registerRecord(
+    """upload file with tag and date and location information"""
+    input: RegisterRecordInput!
+  ): Output!
 }
 
 """회원가입"""
@@ -172,9 +199,6 @@ input RegisterUserInput {
 
   """비밀번호"""
   password: String!
-
-  """비밀번호 확인"""
-  passwordConfirm: String!
 }
 
 """토큰 갱신"""
@@ -198,7 +222,31 @@ input RegisterCategoriesInput {
   name: String!
 
   """category"""
-  category: [LoeybCategoryType!]!
+  areaCategory: [AreaCategoryInput!]!
+}
+
+""""""
+input AreaCategoryInput {
+  area: LoeybAreaType!
+  category: LoeybCategoryType!
+}
+
+"""topic"""
+enum LoeybAreaType {
+  """HEALTH"""
+  HEALTH
+
+  """MIND"""
+  MIND
+
+  """SOCIAL"""
+  SOCIAL
+
+  """LIFE"""
+  LIFE
+
+  """WORK"""
+  WORK
 }
 
 """유저들의 국가"""
@@ -274,4 +322,26 @@ enum LoeybCategoryType {
 
   """"""
   AWARD
+}
+
+""""""
+input RegisterRecordInput {
+  email: String!
+  imgFiles: ImgFileInput
+  areaCategoryTag: [AreaCategoryTagInput!]!
+  date: String!
+  location: String!
+}
+
+""""""
+input ImgFileInput {
+  fileId: String!
+  fileName: String!
+}
+
+""""""
+input AreaCategoryTagInput {
+  area: LoeybAreaType!
+  category: LoeybCategoryType!
+  tag: String
 }

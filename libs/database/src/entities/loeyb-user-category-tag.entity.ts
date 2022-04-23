@@ -1,4 +1,3 @@
-import { LoeybAreaType } from '@libs/common/constant';
 import { LoeybCategoryType } from '@libs/common/constant/loeyb-category-type';
 import {
   BaseEntity,
@@ -10,8 +9,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('loeyb-user-category')
-export class LOEYBUserCategoryEntity extends BaseEntity {
+@Entity('loeyb-user-category-tag')
+export class LOEYBUserCategoryTagEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', {
     name: 'id',
     comment: '고유 아이디',
@@ -43,12 +42,12 @@ export class LOEYBUserCategoryEntity extends BaseEntity {
   name!: string;
 
   @Column({
-    name: 'area',
+    name: 'topic',
     type: 'varchar',
     length: 255,
-    comment: 'name',
+    comment: 'topic',
   })
-  area!: LoeybAreaType;
+  topic!: string;
 
   @Column({
     name: 'category',
@@ -57,6 +56,14 @@ export class LOEYBUserCategoryEntity extends BaseEntity {
     comment: 'name',
   })
   category!: LoeybCategoryType;
+
+  @Column({
+    name: 'tag',
+    type: 'varchar',
+    length: 255,
+    comment: 'name',
+  })
+  tag!: string;
 
   @CreateDateColumn({
     name: 'created_at',

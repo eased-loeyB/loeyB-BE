@@ -1,5 +1,5 @@
 import { LOEYBErrorCode } from '@libs/common/constant';
-import { RegisterCategoriesInput } from '@libs/common/dto';
+import { RegisterCategoriesInput, RegisterRecordInput } from '@libs/common/dto';
 import { LOEYBException, Output } from '@libs/common/model';
 import { Logger } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
@@ -30,6 +30,27 @@ export class StardustResolver {
       this.logger.debug(input);
       this.logger.debug(user);
       return await this.stardustService.registerCategories(input);
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @Mutation(() => Output, {
+    name: 'registerRecord',
+    description: 'upload file with tag and date and location information',
+  })
+  async registerRecord(
+    @Args({
+      name: 'input',
+      description: 'upload file with tag and date and location information',
+      type: () => RegisterRecordInput,
+    })
+    input: RegisterRecordInput,
+  ): Promise<Output> {
+    try {
+      this.logger.debug(input);
+      return await this.stardustService.registerRecord(input);
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);

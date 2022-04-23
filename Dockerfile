@@ -22,6 +22,7 @@ RUN nest build common \
  && nest build cache \
  && nest build database \
  && nest build gateway \
+ && nest build file \
  && nest build authentication \
  && nest build stardust \
  && rm -fr apps libs

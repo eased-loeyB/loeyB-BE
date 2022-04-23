@@ -10,8 +10,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('loeyb-user-category')
-export class LOEYBUserCategoryEntity extends BaseEntity {
+@Entity('loeyb-user-records')
+export class LOEYBUserRecordsEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', {
     name: 'id',
     comment: '고유 아이디',
@@ -35,12 +35,20 @@ export class LOEYBUserCategoryEntity extends BaseEntity {
   userId!: string;
 
   @Column({
-    name: 'name',
+    name: 'file_id',
     type: 'varchar',
     length: 255,
-    comment: 'name',
+    comment: 'fileId',
   })
-  name!: string;
+  fildId!: string;
+
+  @Column({
+    name: 'file_name',
+    type: 'varchar',
+    length: 255,
+    comment: 'fileName',
+  })
+  fildName!: string;
 
   @Column({
     name: 'area',
@@ -57,6 +65,30 @@ export class LOEYBUserCategoryEntity extends BaseEntity {
     comment: 'name',
   })
   category!: LoeybCategoryType;
+
+  @Column({
+    name: 'tag',
+    type: 'varchar',
+    length: 255,
+    comment: 'name',
+  })
+  tag!: string;
+
+  @Column({
+    name: 'date',
+    type: 'varchar',
+    length: 255,
+    comment: 'date',
+  })
+  date!: string;
+
+  @Column({
+    name: 'location',
+    type: 'varchar',
+    length: 255,
+    comment: 'location',
+  })
+  location!: string;
 
   @CreateDateColumn({
     name: 'created_at',

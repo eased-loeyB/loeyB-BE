@@ -125,4 +125,24 @@ export class LOEYBConfigService {
   get loeybURL(): string {
     return this.configService.get<string>('LOEYB_URL', 'https://loeyb.ai');
   }
+
+  get awsAccessKey(): string {
+    return this.configService.get<string>('AWS_ACCESS_KEY_ID');
+  }
+
+  get awsSecretAccessKey(): string {
+    return this.configService.get<string>('AWS_SECRET_ACCESS_KEY');
+  }
+
+  get awsRegion(): string {
+    return this.configService.get<string>('AWS_REGION', 'ap-northeast-2');
+  }
+
+  get awsS3BucketKey(): string {
+    return this.configService.get<string>('AWS_S3_BUCKET_KEY');
+  }
+
+  get awsS3BucketAcl(): string {
+    return this.configService.get<string>('AWS_S3_BUCKET_ACL', 'public-read');
+  }
 }
