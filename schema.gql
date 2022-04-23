@@ -19,6 +19,12 @@ enum LOEYBErrorCode {
   """NO_USER"""
   NO_USER
 
+  """INVALID_TOKEN"""
+  INVALID_TOKEN
+
+  """UNAUTHORIZED"""
+  UNAUTHORIZED
+
   """USER_NOT_FOUND"""
   USER_NOT_FOUND
 
