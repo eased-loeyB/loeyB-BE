@@ -1,4 +1,4 @@
-import { RegisterCategoriesInput } from '@libs/common/dto';
+import { RegisterCategoriesInput, RegisterRecordInput } from '@libs/common/dto';
 import { Output } from '@libs/common/model';
 import { TransactionBlock } from '@libs/common/transaction/transaction';
 import { Controller, Logger } from '@nestjs/common';
@@ -16,13 +16,24 @@ export class StardustController {
   async registerCategories(
     @Payload() input: RegisterCategoriesInput,
   ): Promise<Output> {
-    console.log(input);
-
     return await TransactionBlock(
       input,
       async (input, entityManager): Promise<Output> => {
         return await this.stardustService.registerCategories(
           input as RegisterCategoriesInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'registerRecord' })
+  async registerRecord(@Payload() input: RegisterRecordInput): Promise<Output> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<Output> => {
+        return await this.stardustService.registerRecord(
+          input as RegisterRecordInput,
           entityManager,
         );
       },

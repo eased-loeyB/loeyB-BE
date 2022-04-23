@@ -1,7 +1,11 @@
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
 import { LOEYBConfigService } from '../../../../libs/common/src/config/loeyb-config.service';
-import { AUTHENTICATION, STARDUST } from '../../../../libs/common/src/constant';
+import {
+  AUTHENTICATION,
+  FILE,
+  STARDUST,
+} from '../../../../libs/common/src/constant';
 
 const AUTHENTICATION_FACTORY = {
   provide: 'AUTHENTICATION_SERVICE',
@@ -41,4 +45,22 @@ const STARDUST_FACTORY = {
   inject: [LOEYBConfigService],
 };
 
-export { AUTHENTICATION_FACTORY, STARDUST_FACTORY };
+const FILE_FACTORY = {
+  provide: 'FILE_SERVICE',
+  useFactory: (config: LOEYBConfigService) =>
+    ClientProxyFactory.create({
+      transport: Transport.RMQ,
+      options: {
+        urls: [
+          `${config.rabbitmqProto}://${config.rabbitmqUser}:${config.rabbitmqPass}@${config.rabbitmqHost}:${config.rabbitmqPort}`,
+        ],
+        queue: FILE,
+        noAck: true,
+        queueOptions: {
+          durable: true,
+        },
+      },
+    }),
+  inject: [LOEYBConfigService],
+};
+export { AUTHENTICATION_FACTORY, STARDUST_FACTORY, FILE_FACTORY };

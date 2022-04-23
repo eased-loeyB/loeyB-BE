@@ -1,4 +1,5 @@
-import { LoeybCategoryType } from '@libs/common/constant';
+import { LoeybAreaType } from '@libs/common/constant';
+import { LoeybCategoryType } from '@libs/common/constant/loeyb-category-type';
 import {
   BaseEntity,
   Column,
@@ -40,6 +41,14 @@ export class LOEYBUserCategoryEntity extends BaseEntity {
     comment: 'name',
   })
   name!: string;
+
+  @Column({
+    name: 'area',
+    type: 'varchar',
+    length: 255,
+    comment: 'name',
+  })
+  area!: LoeybAreaType;
 
   @Column({
     name: 'category',
