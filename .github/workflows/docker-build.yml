@@ -25,7 +25,8 @@ jobs:
       - name: Ckeck GPG Key
         run: |
           gpg --version
-          gpg --list-key tursunali@777mail.ru
+          gpg --list-secret-keys --keyid-format=long
+          gpg --list-secret-keys tursunali777@mail.ru
 
       - name: Install sops
         env:
