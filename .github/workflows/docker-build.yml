@@ -16,24 +16,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Import GPG key
-        id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@v4
-        with:
-          gpg_private_key: ${{ secrets.PGP_PRIVATE_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
-          fingerprint: 'C5DC716231FFE41BB7F4EC1DC031C57B48E6BDFE'
-
-      - name: Check GPG Key
+      - name: Import PGP(gpg) credentials
         run: |
-          echo "export GPG_TTY=\$(tty)" >> ~/.profile
-          echo "export GPG_TTY=\$(tty)" >> ~/.bashrc
-          echo "export GPG_TTY=\$(tty)" >> ~/.bash_profile
-          echo "export GPG_TTY=\$(tty)" >> ~/.zshrc
-          source ~/.bashrc
-          source ~/.zshrc 
-          export GPG_TTY
+          echo -e "$PGP_PRIVATE_KEY" | gpg --import
+        env:
+          PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
+
+      - name: Ckeck GPG Key
+        run: |
           gpg --version
+          gpg --list-key tursunali@777mail.ru
 
       - name: Install sops
         env:
