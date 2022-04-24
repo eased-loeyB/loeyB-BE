@@ -26,7 +26,10 @@ jobs:
 
       - name: Check GPG Key
         run: |
-          GPG_TTY=$(tty)
+          echo "export GPG_TTY=\$(tty)" >> ~/.profile
+          echo "export GPG_TTY=\$(tty)" >> ~/.bashrc
+          echo "export GPG_TTY=\$(tty)" >> ~/.bash_profile
+          echo "export GPG_TTY=\$(tty)" >> ~/.zshrc
           export GPG_TTY
           gpg --version
 
