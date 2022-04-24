@@ -16,11 +16,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Import PGP(gpg) credentials
-        run: |
-          echo -e "$PGP_PRIVATE_KEY" | gpg --import
-        env:
-          PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.PGP_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          fingerprint: 'C5DC716231FFE41BB7F4EC1DC031C57B48E6BDFE'
 
       - name: Check GPG Key
         run: |
