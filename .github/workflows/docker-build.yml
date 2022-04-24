@@ -16,26 +16,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Import PGP(gpg) credentials
-        run: |
-          echo -e "$PGP_PRIVATE_KEY" | gpg --import --no-tty --batch --yes
-        env:
-          PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
-
-      - name: Ckeck GPG Key
-        run: |
-          gpg --version
-          gpg --list-secret-keys --keyid-format=long
-          gpg --list-secret-keys tursunali777@mail.ru
-
-      - name: Install sops
-        env:
-          SOPS_VERSION: v3.7.1
-        run: |
-          wget https://github.com/mozilla/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux
-          chmod +x ./sops-${SOPS_VERSION}.linux
-          sudo mv ./sops-${SOPS_VERSION}.linux /usr/local/bin/sops
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -61,7 +41,6 @@ jobs:
           PEM: ${{ secrets.SSH_PEM_KEY }}
         if: ${{ github.ref == 'refs/heads/develop' }}
         run: |
-          sops --input-type dotenv --output-type dotenv -d development.env.encrypted > development.env
           echo "== build ============================develop============================"
           docker buildx build --platform linux/amd64 --build-arg NODE_ENV=development -t ${ECR}/loeyb:latest .
           echo "== push ========================================================"
