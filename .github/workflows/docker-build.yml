@@ -22,10 +22,9 @@ jobs:
         env:
           PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
 
-      - name: Ckeck GPG Key
+      - name: Check GPG Key
         run: |
           gpg --version
-          gpg --list-key tursunali@777mail.ru
 
       - name: Install sops
         env:
