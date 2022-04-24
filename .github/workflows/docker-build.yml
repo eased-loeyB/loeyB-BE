@@ -26,6 +26,8 @@ jobs:
 
       - name: Check GPG Key
         run: |
+          GPG_TTY=$(tty)
+          export GPG_TTY
           gpg --version
 
       - name: Install sops
