@@ -18,7 +18,7 @@ jobs:
 
       - name: Import PGP(gpg) credentials
         run: |
-          echo -e "$PGP_PRIVATE_KEY" | base64 --decode | gpg --import
+          echo -e "$PGP_PRIVATE_KEY" | gpg --import
         env:
           PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
 
