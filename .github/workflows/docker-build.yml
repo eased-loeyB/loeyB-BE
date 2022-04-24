@@ -30,6 +30,8 @@ jobs:
           echo "export GPG_TTY=\$(tty)" >> ~/.bashrc
           echo "export GPG_TTY=\$(tty)" >> ~/.bash_profile
           echo "export GPG_TTY=\$(tty)" >> ~/.zshrc
+          source ~/.bashrc
+          source ~/.zshrc 
           export GPG_TTY
           gpg --version
 
