@@ -16,6 +16,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Import PGP(gpg) credentials
+        run: |
+          echo -e "$PGP_PRIVATE_KEY" | gpg --import
+        env:
+          PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
+
+      - name: Ckeck GPG Key
+        run: |
+          gpg --version
+          gpg --list-key tursunali@777mail.ru
+
+      - name: Install sops
+        env:
+          SOPS_VERSION: v3.7.1
+        run: |
+          wget https://github.com/mozilla/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux
+          chmod +x ./sops-${SOPS_VERSION}.linux
+          sudo mv ./sops-${SOPS_VERSION}.linux /usr/local/bin/sops
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
