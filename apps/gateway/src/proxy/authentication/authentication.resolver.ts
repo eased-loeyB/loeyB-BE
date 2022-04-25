@@ -5,6 +5,7 @@ import {
   AuthenticationOutput,
   LOEYBException,
   Output,
+  RequestEmailVerificationOutput,
 } from '../../../../../libs/common/src/model';
 import { LOEYBErrorCode } from '../../../../../libs/common/src/constant';
 import {
@@ -75,7 +76,7 @@ export class AuthenticationResolver {
     }
   }
 
-  @Mutation(() => Output, {
+  @Mutation(() => RequestEmailVerificationOutput, {
     name: 'requestEmailVerificationCode',
     description: '이메일 인증 요청',
   })
@@ -86,7 +87,7 @@ export class AuthenticationResolver {
       type: () => RequestEmailVerificationCodeInput,
     })
     input: RequestEmailVerificationCodeInput,
-  ): Promise<Output> {
+  ): Promise<RequestEmailVerificationOutput> {
     try {
       this.logger.debug(input);
       return await this.authenticationService.requestEmailVerificationCode({
@@ -136,6 +137,29 @@ export class AuthenticationResolver {
     try {
       this.logger.debug(input);
       return await this.authenticationService.authenticate({
+        ...input,
+      });
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @Mutation(() => RequestEmailVerificationOutput, {
+    name: 'requestEmailVerificationCode',
+    description: '이메일 인증 요청',
+  })
+  async checkDuplicateEmail(
+    @Args({
+      name: 'input',
+      description: '이메일 인증 코드',
+      type: () => RequestEmailVerificationCodeInput,
+    })
+    input: RequestEmailVerificationCodeInput,
+  ): Promise<RequestEmailVerificationOutput> {
+    try {
+      this.logger.debug(input);
+      return await this.authenticationService.requestEmailVerificationCode({
         ...input,
       });
     } catch (error) {

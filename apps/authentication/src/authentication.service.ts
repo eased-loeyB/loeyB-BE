@@ -18,6 +18,7 @@ import {
   LOEYBException,
   Output,
   RegisterUserOutput,
+  RequestEmailVerificationOutput,
 } from '../../../libs/common/src/model';
 import { EntityManager } from 'typeorm';
 import { LOEYBUserRepository } from '../../../libs/database/src/repositories';
@@ -198,10 +199,12 @@ export class AuthenticationService {
     );
   }
 
+  // we need to change it later output
+
   async requestEmailVerificationCode(
     input: RequestEmailVerificationCodeInput,
     entityManager: EntityManager,
-  ): Promise<Output> {
+  ): Promise<RequestEmailVerificationOutput> {
     const loeybUserRepository: LOEYBUserRepository =
       entityManager.getCustomRepository<LOEYBUserRepository>(
         LOEYBUserRepository,
@@ -230,6 +233,9 @@ export class AuthenticationService {
 
     return {
       result: LOEYBErrorCode.SUCCESS,
+      data: {
+        code: code,
+      },
     } as Output;
   }
 

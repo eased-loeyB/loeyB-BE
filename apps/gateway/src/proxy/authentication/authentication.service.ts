@@ -6,6 +6,8 @@ import {
   LOEYBException,
   Output,
   RegisterUserOutput,
+  RequestEmailVerification,
+  RequestEmailVerificationOutput,
 } from '../../../../../libs/common/src/model';
 import {
   AuthenticationInput,
@@ -55,13 +57,13 @@ export class AuthenticationService {
 
   async requestEmailVerificationCode(
     input: RequestEmailVerificationCodeInput,
-  ): Promise<Output> {
+  ): Promise<RequestEmailVerificationOutput> {
     try {
       return await this.client
-        .send<Output, RequestEmailVerificationCodeInput>(
-          { cmd: 'requestEmailVerificationCode' },
-          input,
-        )
+        .send<
+          RequestEmailVerificationOutput,
+          RequestEmailVerificationCodeInput
+        >({ cmd: 'requestEmailVerificationCode' }, input)
         .toPromise();
     } catch (error) {
       this.logger.error(error.message);
