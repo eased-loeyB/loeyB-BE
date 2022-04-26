@@ -8,12 +8,25 @@ import { ErrorFormatter } from '../../../libs/common/src/util/error-formatter';
 import { ResponseFormatter } from '../../../libs/common/src/util/response-formatter';
 import { LOEYBConfigService } from '../../../libs/common/src/config/loeyb-config.service';
 import { LOEYBConfigModule } from '../../../libs/common/src/config/loeyb-config.module';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 
 @Module({
   imports: [
     ProxyModule,
     LOEYBConfigModule,
     StrategyModule,
+    ThrottlerModule.forRootAsync({
+      useFactory: async (config: LOEYBConfigService) => ({
+        ttl: 1,
+        limit: 10,
+        storage: new ThrottlerStorageRedisService({
+          host: config.redisHost,
+          port: config.redisPort,
+        }),
+      }),
+      inject: [LOEYBConfigService],
+    }),
     GraphQLModule.forRootAsync({
       driver: ApolloDriver,
       useFactory: async (config: LOEYBConfigService) => ({
