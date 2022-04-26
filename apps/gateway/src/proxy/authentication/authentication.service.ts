@@ -13,6 +13,7 @@ import {
   AuthenticationInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
+  SetUsernameInput,
   TokenRefreshInput,
   VerifyEmailVerificationCodeInput,
 } from '../../../../../libs/common/src/dto';
@@ -96,6 +97,17 @@ export class AuthenticationService {
           { cmd: 'authentication' },
           input,
         )
+        .toPromise();
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
+    }
+  }
+
+  async setUsername(input: SetUsernameInput): Promise<Output> {
+    try {
+      return await this.client
+        .send<Output, SetUsernameInput>({ cmd: 'setUsername' }, input)
         .toPromise();
     } catch (error) {
       this.logger.error(error);

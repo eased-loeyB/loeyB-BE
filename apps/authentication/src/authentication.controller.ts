@@ -5,6 +5,7 @@ import {
   AuthenticationInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
+  SetUsernameInput,
   TokenRefreshInput,
   VerifyEmailVerificationCodeInput,
 } from '../../../libs/common/src/dto';
@@ -90,6 +91,19 @@ export class AuthenticationController {
       async (input, entityManager): Promise<AuthenticationOutput> => {
         return await this.authenticationService.authenticate(
           input as AuthenticationInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'setUsername' })
+  async setUsername(@Payload() input: SetUsernameInput): Promise<Output> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<Output> => {
+        return await this.authenticationService.setUsername(
+          input as SetUsernameInput,
           entityManager,
         );
       },

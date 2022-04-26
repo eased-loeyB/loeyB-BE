@@ -12,6 +12,7 @@ import {
   AuthenticationInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
+  SetUsernameInput,
   TokenRefreshInput,
   VerifyEmailVerificationCodeInput,
 } from '../../../../../libs/common/src/dto';
@@ -145,21 +146,21 @@ export class AuthenticationResolver {
     }
   }
 
-  @Mutation(() => RequestEmailVerificationOutput, {
-    name: 'requestEmailVerificationCode',
+  @Mutation(() => Output, {
+    name: '',
     description: '이메일 인증 요청',
   })
-  async checkDuplicateEmail(
+  async setUsername(
     @Args({
       name: 'input',
       description: '이메일 인증 코드',
-      type: () => RequestEmailVerificationCodeInput,
+      type: () => SetUsernameInput,
     })
-    input: RequestEmailVerificationCodeInput,
-  ): Promise<RequestEmailVerificationOutput> {
+    input: SetUsernameInput,
+  ): Promise<Output> {
     try {
       this.logger.debug(input);
-      return await this.authenticationService.requestEmailVerificationCode({
+      return await this.authenticationService.setUsername({
         ...input,
       });
     } catch (error) {

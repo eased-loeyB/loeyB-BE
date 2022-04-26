@@ -9,6 +9,7 @@ import {
   ReCreateAccessTokenInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
+  SetUsernameInput,
   TokenRefreshInput,
   VerifyEmailVerificationCodeInput,
 } from '../../../libs/common/src/dto';
@@ -325,6 +326,28 @@ export class AuthenticationService {
         refreshToken: await this.createRefreshToken(user, now),
         redirectUrl: null,
       },
+    };
+  }
+
+  async setUsername(
+    input: SetUsernameInput,
+    entityManager: EntityManager,
+  ): Promise<Output> {
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+    const user: LOEYBUserEntity =
+      await loeybUserRepository.findRegisteredUserByEmail(input.email);
+    if (user == null) {
+      throw new LOEYBException(LOEYBErrorCode.USER_NOT_FOUND);
+    }
+    await loeybUserRepository.update(
+      { id: user.id },
+      { username: input.username },
+    );
+    return {
+      result: LOEYBErrorCode.SUCCESS,
     };
   }
 }
