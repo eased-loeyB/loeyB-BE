@@ -146,6 +146,7 @@ export class AuthenticationResolver {
     }
   }
 
+  @LoeybAuth()
   @Mutation(() => Output, {
     name: '',
     description: '이메일 인증 요청',

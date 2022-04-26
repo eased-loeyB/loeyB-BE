@@ -17,7 +17,6 @@ export class RegisterRecordInput extends AbstractInput {
   @IsNotEmpty()
   @IsString()
   @StringTransform()
-  @Field(() => String, { nullable: false })
   email!: string;
 
   @IsOptional()

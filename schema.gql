@@ -126,6 +126,22 @@ type LOEYBFile {
   fileSize: Float
 }
 
+""""""
+type RequestEmailVerification {
+  """JWT"""
+  code: String!
+}
+
+""""""
+type RequestEmailVerificationOutput {
+  """LOEYB ERROR CODE"""
+  result: LOEYBErrorCode!
+
+  """errorMessage"""
+  errorMessage: String
+  data: RequestEmailVerification
+}
+
 type Query {
   sayHello: String!
 
@@ -177,6 +193,12 @@ type Mutation {
   requestEmailVerificationCode(
     """이메일 인증 코드"""
     input: RequestEmailVerificationCodeInput!
+  ): RequestEmailVerificationOutput!
+
+  """이메일 인증 요청"""
+  setUsername(
+    """이메일 인증 코드"""
+    input: SetUsernameInput!
   ): Output!
 
   """register at least 3 categories at first"""
@@ -213,11 +235,14 @@ input RequestEmailVerificationCodeInput {
   email: String!
 }
 
+"""이메일 인증 코드"""
+input SetUsernameInput {
+  """"""
+  username: String!
+}
+
 """registerCategories"""
 input RegisterCategoriesInput {
-  """이메일"""
-  email: String!
-
   """name"""
   name: String!
 
@@ -326,7 +351,6 @@ enum LoeybCategoryType {
 
 """"""
 input RegisterRecordInput {
-  email: String!
   imgFiles: ImgFileInput
   areaCategoryTag: [AreaCategoryTagInput!]!
   date: String!

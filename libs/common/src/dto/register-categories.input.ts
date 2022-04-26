@@ -13,7 +13,6 @@ export class RegisterCategoriesInput extends AbstractInput {
   @IsEmail()
   @IsNotEmpty()
   @IsString()
-  @Field(() => String, { nullable: false, description: '이메일' })
   @StringTransform()
   email!: string;
 

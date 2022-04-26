@@ -13,6 +13,7 @@ export class StardustResolver {
     this.logger = new Logger('AuthenticationResolver');
   }
 
+  @LoeybAuth()
   @Mutation(() => Output, {
     name: 'registerCategories',
     description: 'register at least 3 categories at first',
@@ -36,6 +37,7 @@ export class StardustResolver {
     }
   }
 
+  @LoeybAuth()
   @Mutation(() => Output, {
     name: 'registerRecord',
     description: 'upload file with tag and date and location information',
