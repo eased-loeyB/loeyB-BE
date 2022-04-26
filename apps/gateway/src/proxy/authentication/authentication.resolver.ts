@@ -5,12 +5,14 @@ import {
   AuthenticationOutput,
   LOEYBException,
   Output,
+  RequestEmailVerificationOutput,
 } from '../../../../../libs/common/src/model';
 import { LOEYBErrorCode } from '../../../../../libs/common/src/constant';
 import {
   AuthenticationInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
+  SetUsernameInput,
   TokenRefreshInput,
   VerifyEmailVerificationCodeInput,
 } from '../../../../../libs/common/src/dto';
@@ -75,7 +77,7 @@ export class AuthenticationResolver {
     }
   }
 
-  @Mutation(() => Output, {
+  @Mutation(() => RequestEmailVerificationOutput, {
     name: 'requestEmailVerificationCode',
     description: '이메일 인증 요청',
   })
@@ -86,7 +88,7 @@ export class AuthenticationResolver {
       type: () => RequestEmailVerificationCodeInput,
     })
     input: RequestEmailVerificationCodeInput,
-  ): Promise<Output> {
+  ): Promise<RequestEmailVerificationOutput> {
     try {
       this.logger.debug(input);
       return await this.authenticationService.requestEmailVerificationCode({
@@ -136,6 +138,29 @@ export class AuthenticationResolver {
     try {
       this.logger.debug(input);
       return await this.authenticationService.authenticate({
+        ...input,
+      });
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @Mutation(() => Output, {
+    name: '',
+    description: '이메일 인증 요청',
+  })
+  async setUsername(
+    @Args({
+      name: 'input',
+      description: '이메일 인증 코드',
+      type: () => SetUsernameInput,
+    })
+    input: SetUsernameInput,
+  ): Promise<Output> {
+    try {
+      this.logger.debug(input);
+      return await this.authenticationService.setUsername({
         ...input,
       });
     } catch (error) {

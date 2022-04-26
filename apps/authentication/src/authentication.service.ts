@@ -9,6 +9,7 @@ import {
   ReCreateAccessTokenInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
+  SetUsernameInput,
   TokenRefreshInput,
   VerifyEmailVerificationCodeInput,
 } from '../../../libs/common/src/dto';
@@ -18,6 +19,7 @@ import {
   LOEYBException,
   Output,
   RegisterUserOutput,
+  RequestEmailVerificationOutput,
 } from '../../../libs/common/src/model';
 import { EntityManager } from 'typeorm';
 import { LOEYBUserRepository } from '../../../libs/database/src/repositories';
@@ -198,10 +200,12 @@ export class AuthenticationService {
     );
   }
 
+  // we need to change it later output
+
   async requestEmailVerificationCode(
     input: RequestEmailVerificationCodeInput,
     entityManager: EntityManager,
-  ): Promise<Output> {
+  ): Promise<RequestEmailVerificationOutput> {
     const loeybUserRepository: LOEYBUserRepository =
       entityManager.getCustomRepository<LOEYBUserRepository>(
         LOEYBUserRepository,
@@ -230,6 +234,9 @@ export class AuthenticationService {
 
     return {
       result: LOEYBErrorCode.SUCCESS,
+      data: {
+        code: code,
+      },
     } as Output;
   }
 
@@ -319,6 +326,28 @@ export class AuthenticationService {
         refreshToken: await this.createRefreshToken(user, now),
         redirectUrl: null,
       },
+    };
+  }
+
+  async setUsername(
+    input: SetUsernameInput,
+    entityManager: EntityManager,
+  ): Promise<Output> {
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+    const user: LOEYBUserEntity =
+      await loeybUserRepository.findRegisteredUserByEmail(input.email);
+    if (user == null) {
+      throw new LOEYBException(LOEYBErrorCode.USER_NOT_FOUND);
+    }
+    await loeybUserRepository.update(
+      { id: user.id },
+      { username: input.username },
+    );
+    return {
+      result: LOEYBErrorCode.SUCCESS,
     };
   }
 }

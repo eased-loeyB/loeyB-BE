@@ -5,6 +5,7 @@ import {
   AuthenticationInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
+  SetUsernameInput,
   TokenRefreshInput,
   VerifyEmailVerificationCodeInput,
 } from '../../../libs/common/src/dto';
@@ -13,6 +14,7 @@ import {
   LOEYBException,
   Output,
   RegisterUserOutput,
+  RequestEmailVerificationOutput,
 } from '../../../libs/common/src/model';
 import { TransactionBlock } from '../../../libs/common/src/transaction/transaction';
 @Controller()
@@ -55,10 +57,10 @@ export class AuthenticationController {
   @MessagePattern({ cmd: 'requestEmailVerificationCode' })
   async requestEmailVerificationCode(
     @Payload() input: RequestEmailVerificationCodeInput,
-  ): Promise<Output> {
+  ): Promise<RequestEmailVerificationOutput> {
     return await TransactionBlock(
       input,
-      async (input, entityManager): Promise<Output> => {
+      async (input, entityManager): Promise<RequestEmailVerificationOutput> => {
         return await this.authenticationService.requestEmailVerificationCode(
           input as RequestEmailVerificationCodeInput,
           entityManager,
@@ -89,6 +91,19 @@ export class AuthenticationController {
       async (input, entityManager): Promise<AuthenticationOutput> => {
         return await this.authenticationService.authenticate(
           input as AuthenticationInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'setUsername' })
+  async setUsername(@Payload() input: SetUsernameInput): Promise<Output> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<Output> => {
+        return await this.authenticationService.setUsername(
+          input as SetUsernameInput,
           entityManager,
         );
       },

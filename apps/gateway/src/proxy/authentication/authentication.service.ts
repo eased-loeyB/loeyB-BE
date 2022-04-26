@@ -6,11 +6,14 @@ import {
   LOEYBException,
   Output,
   RegisterUserOutput,
+  RequestEmailVerification,
+  RequestEmailVerificationOutput,
 } from '../../../../../libs/common/src/model';
 import {
   AuthenticationInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
+  SetUsernameInput,
   TokenRefreshInput,
   VerifyEmailVerificationCodeInput,
 } from '../../../../../libs/common/src/dto';
@@ -55,13 +58,13 @@ export class AuthenticationService {
 
   async requestEmailVerificationCode(
     input: RequestEmailVerificationCodeInput,
-  ): Promise<Output> {
+  ): Promise<RequestEmailVerificationOutput> {
     try {
       return await this.client
-        .send<Output, RequestEmailVerificationCodeInput>(
-          { cmd: 'requestEmailVerificationCode' },
-          input,
-        )
+        .send<
+          RequestEmailVerificationOutput,
+          RequestEmailVerificationCodeInput
+        >({ cmd: 'requestEmailVerificationCode' }, input)
         .toPromise();
     } catch (error) {
       this.logger.error(error.message);
@@ -94,6 +97,17 @@ export class AuthenticationService {
           { cmd: 'authentication' },
           input,
         )
+        .toPromise();
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
+    }
+  }
+
+  async setUsername(input: SetUsernameInput): Promise<Output> {
+    try {
+      return await this.client
+        .send<Output, SetUsernameInput>({ cmd: 'setUsername' }, input)
         .toPromise();
     } catch (error) {
       this.logger.error(error);

@@ -43,6 +43,16 @@ export class LOEYBUserEntity extends BaseEntity {
   password!: string;
 
   @Column({
+    name: 'username',
+    type: 'varchar',
+    default: '',
+    length: 320,
+    unique: true,
+    comment: 'username',
+  })
+  username!: string;
+
+  @Column({
     name: 'last_login_at',
     type: 'timestamptz',
     nullable: true,

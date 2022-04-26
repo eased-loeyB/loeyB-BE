@@ -11,3 +11,4 @@ export * from './area-category.input';
 export * from './img-file.input';
 export * from './register-file.input';
 export * from './area-category-tag.input';
+export * from './set-username.input';
