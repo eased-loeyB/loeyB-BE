@@ -106,6 +106,29 @@ services:
         limits:
           cpus: '0.80'
           memory: '10g'
+  log:
+    image: 568080291959.dkr.ecr.ap-northeast-2.amazonaws.com/loeyb:latest
+    container_name: log
+    hostname: log
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.80'
+          memory: '10g'
+    depends_on:
+      - postgres
+      - rabbitmq
+      - redis
+    volumes:
+      - ./apps:/loeyb/apps
+      - ./libs:/loeyb/libs
+      - ./nest-cli.json:/loeyb/nest-cli.json
+      - ./package.json:/loeyb/package.json
+      - ./tsconfig.json:/loeyb/tsconfig.json
+      - ./tsconfig.build.json:/loeyb/tsconfig.build.json
+    working_dir: /capa
+    command: npm run start:log
   postgres:
     image: postgres:11.10-alpine
     container_name: postgres

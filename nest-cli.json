@@ -79,6 +79,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/file/tsconfig.app.json"
       }
+    },
+    "user-activity-log": {
+      "type": "application",
+      "root": "apps/user-activity-log",
+      "entryFile": "main",
+      "sourceRoot": "apps/user-activity-log/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/user-activity-log/tsconfig.app.json"
+      }
     }
   }
 }

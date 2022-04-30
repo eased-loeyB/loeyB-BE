@@ -17,6 +17,7 @@
     "start:gateway": "nest start gateway --watch",
     "start:authentication": "nest start authentication --watch",
     "start:stardust": "nest start stardust --watch",
+    "start:log": "nest start user-activity-log --watch",
     "start:file": "nest start file --watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
