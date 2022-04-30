@@ -1,5 +1,5 @@
 import { LOEYBConfigService } from '@libs/common/config/loeyb-config.service';
-import { RegisterFileInput } from '@libs/common/dto';
+import { RegisterFileInput, RequestFileInput } from '@libs/common/dto';
 import { LOEYBException, LOEYBFileOutput } from '@libs/common/model';
 import {
   HttpException,
@@ -13,6 +13,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { createReadStream, ReadStream } from 'fs';
 import { S3, AWSError } from 'aws-sdk';
 import { LOEYBErrorCode } from '@libs/common/constant';
+import { Readable } from 'stream';
 
 @Injectable()
 export class FileService {
@@ -86,5 +87,25 @@ export class FileService {
       this.logger.error(error.message);
       throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
     }
+  }
+
+  async download(input: RequestFileInput): Promise<Readable> {
+    const params: S3.Types.GetObjectRequest = {
+      Bucket: this.config.awsS3BucketKey,
+      Key: input.fileId,
+    } as S3.Types.GetObjectRequest;
+    return await this.s3Instance
+      .headObject(params)
+      .promise()
+      .then((): Readable => {
+        return this.s3Instance.getObject(params).createReadStream();
+      })
+      .catch((error: AWSError) => {
+        this.logger.error(error.message);
+        throw new LOEYBException(
+          LOEYBErrorCode.FILE_NOT_FOUND,
+          error.statusCode,
+        );
+      });
   }
 }
