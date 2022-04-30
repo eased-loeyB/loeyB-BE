@@ -14,6 +14,7 @@ import { createReadStream, ReadStream } from 'fs';
 import { S3, AWSError } from 'aws-sdk';
 import { LOEYBErrorCode } from '@libs/common/constant';
 import { Readable } from 'stream';
+import * as sharp from 'sharp';
 
 @Injectable()
 export class FileService {
@@ -66,6 +67,33 @@ export class FileService {
         });
       return await this.registerFile(input);
     } catch (error) {}
+  }
+
+  async uploadThumbnailToS3(file: Express.Multer.File) {
+    await sharp(file.path)
+      .resize({ width: 256, height: 256 })
+      .toBuffer(async (err, data) => {
+        if (err)
+          throw new LOEYBException(LOEYBErrorCode.SHARP_IMAGE_RESIZE_ERROR);
+        const params: S3.Types.PutObjectRequest = {
+          Bucket: this.config.awsS3BucketKey,
+          Key: `${file.filename.split('.')[0]}.${file.originalname
+            .split('.')
+            .pop()}`,
+          Body: data,
+        } as S3.Types.PutObjectRequest;
+
+        await this.s3Instance
+          .upload(params)
+          .promise()
+          .then((data: S3.ManagedUpload.SendData): void => {
+            Logger.debug(data.Key);
+            Logger.debug(data.Location);
+          })
+          .catch((error: AWSError) => {
+            throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+          });
+      });
   }
 
   /**

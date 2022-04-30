@@ -56,6 +56,9 @@ enum LOEYBErrorCode {
 
   """FILE_NOT_FOUND"""
   FILE_NOT_FOUND
+
+  """SHARP_IMAGE_RESIZE_ERROR"""
+  SHARP_IMAGE_RESIZE_ERROR
 }
 
 """"""
