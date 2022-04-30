@@ -9,7 +9,6 @@ export class SetUsernameInput extends AbstractInput {
   @Length(6, 320)
   @IsNotEmpty()
   @IsEmail()
-  @Field(() => String, { nullable: false, description: '이메일' })
   @StringTransform()
   email!: string;
 

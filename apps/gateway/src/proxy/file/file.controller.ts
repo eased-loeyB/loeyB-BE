@@ -11,12 +11,14 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiConsumes,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { LoeybAuth } from '../../decorator';
 import { FileService } from './file.service';
 
 @ApiTags('File')
@@ -45,6 +47,8 @@ export class FileController {
   })
   @ApiConsumes('multipart/form-data', 'form-data')
   @ApiResponse({ type: () => LOEYBFileOutput })
+  @ApiBearerAuth('Authorization')
+  @LoeybAuth()
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
