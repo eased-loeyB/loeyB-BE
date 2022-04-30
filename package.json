@@ -18,6 +18,7 @@
     "start:authentication": "nest start authentication --watch",
     "start:stardust": "nest start stardust --watch",
     "start:file": "nest start file --watch",
+    "start:notification": "nest start notification --watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
