@@ -12,3 +12,5 @@ export * from './img-file.input';
 export * from './register-file.input';
 export * from './area-category-tag.input';
 export * from './set-username.input';
+export * from './user-activity-log.input';
+export * from './request-file.input';
