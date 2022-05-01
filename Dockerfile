@@ -25,6 +25,9 @@ RUN nest build common \
  && nest build file \
  && nest build authentication \
  && nest build stardust \
+ && nest build notification \
+ && nest build user-activity-log \
+ && nest build scheduler \
  && rm -fr apps libs
 
  FROM 568080291959.dkr.ecr.ap-northeast-2.amazonaws.com/loeyb-base-docker:latest as loeyb
