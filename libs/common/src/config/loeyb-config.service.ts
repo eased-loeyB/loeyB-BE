@@ -90,6 +90,14 @@ export class LOEYBConfigService {
     return this.configService.get<string>('JWT_SECRET', 'loeyb');
   }
 
+  get googleClientId(): string {
+    return this.configService.get<string>('GOOGLE_CLIENT_ID', 'loeyb');
+  }
+
+  get googleClientSecret(): string {
+    return this.configService.get<string>('GOOGLE_CLIENT_SECRET', 'loeyb');
+  }
+
   get accessTokenExprieTimeValue(): number {
     return this.configService.get<number>(
       'ACCESS_TOKEN_EXPIRE_TIME_VALUE',

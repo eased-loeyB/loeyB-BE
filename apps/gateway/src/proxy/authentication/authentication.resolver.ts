@@ -10,6 +10,7 @@ import {
 import { LOEYBErrorCode } from '../../../../../libs/common/src/constant';
 import {
   AuthenticationInput,
+  GoogleLoginInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
   SetUsernameInput,
@@ -138,6 +139,29 @@ export class AuthenticationResolver {
     try {
       this.logger.debug(input);
       return await this.authenticationService.authenticate({
+        ...input,
+      });
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @Mutation(() => AuthenticationOutput, {
+    name: '',
+    description: '이메일 인증 요청',
+  })
+  async googleLogin(
+    @Args({
+      name: 'input',
+      description: '이메일 인증 코드',
+      type: () => GoogleLoginInput,
+    })
+    input: GoogleLoginInput,
+  ): Promise<AuthenticationOutput> {
+    try {
+      this.logger.debug(input);
+      return await this.authenticationService.googleLogin({
         ...input,
       });
     } catch (error) {
