@@ -39,11 +39,11 @@ import * as argon2 from 'argon2';
 import { Auth, google } from 'googleapis';
 @Injectable()
 export class AuthenticationService {
+  private readonly oathClient: Auth.OAuth2Client;
   constructor(
     private readonly configService: LOEYBConfigService,
     private readonly loeybEmailService: LOEYBEmailService,
     private readonly loeybUserRepository: LOEYBUserRepository,
-    private readonly oathClient: Auth.OAuth2Client,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {
     this.oathClient = new google.auth.OAuth2(
