@@ -5,6 +5,7 @@ import {
   AUTHENTICATION,
   FILE,
   STARDUST,
+  NOTIFICATION,
   USER_ACTIVITY_LOG,
 } from '../../../../libs/common/src/constant';
 
@@ -37,6 +38,25 @@ const STARDUST_FACTORY = {
           `${config.rabbitmqProto}://${config.rabbitmqUser}:${config.rabbitmqPass}@${config.rabbitmqHost}:${config.rabbitmqPort}`,
         ],
         queue: STARDUST,
+        noAck: true,
+        queueOptions: {
+          durable: true,
+        },
+      },
+    }),
+  inject: [LOEYBConfigService],
+};
+
+const NOTIFICATION_FACTORY = {
+  provide: 'NOTIFICATION_SERVICE',
+  useFactory: (config: LOEYBConfigService) =>
+    ClientProxyFactory.create({
+      transport: Transport.RMQ,
+      options: {
+        urls: [
+          `${config.rabbitmqProto}://${config.rabbitmqUser}:${config.rabbitmqPass}@${config.rabbitmqHost}:${config.rabbitmqPort}`,
+        ],
+        queue: NOTIFICATION,
         noAck: true,
         queueOptions: {
           durable: true,
@@ -87,5 +107,6 @@ export {
   AUTHENTICATION_FACTORY,
   STARDUST_FACTORY,
   FILE_FACTORY,
+  NOTIFICATION_FACTORY,
   USER_ACTIVITY_LOG_FACTORY,
 };

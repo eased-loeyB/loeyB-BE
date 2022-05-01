@@ -19,6 +19,7 @@
     "start:stardust": "nest start stardust --watch",
     "start:log": "nest start user-activity-log --watch",
     "start:file": "nest start file --watch",
+    "start:notification": "nest start notification --watch",
     "start:scheduler": "nest start scheduler --watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
