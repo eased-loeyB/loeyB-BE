@@ -87,8 +87,8 @@
       "sourceRoot": "apps/notification/src",
       "compilerOptions": {
         "tsConfigPath": "apps/notification/tsconfig.app.json"
-  }
-},
+      }
+    },
     "user-activity-log": {
       "type": "application",
       "root": "apps/user-activity-log",
