@@ -6,6 +6,7 @@ import {
 } from '../../../libs/common/src/constant';
 import {
   AuthenticationInput,
+  GoogleLoginInput,
   ReCreateAccessTokenInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
@@ -35,14 +36,21 @@ import { koEmailVerificationCodeTemplate } from '@libs/common/email/ko/user/html
 import { enEmailVerificationCodeTemplate } from '@libs/common/email/en/user/html';
 import { LOEYBEmailService } from '@libs/common/email/loeyb-email.service';
 import * as argon2 from 'argon2';
+import { Auth, google } from 'googleapis';
 @Injectable()
 export class AuthenticationService {
   constructor(
     private readonly configService: LOEYBConfigService,
     private readonly loeybEmailService: LOEYBEmailService,
     private readonly loeybUserRepository: LOEYBUserRepository,
+    private readonly oathClient: Auth.OAuth2Client,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
-  ) {}
+  ) {
+    this.oathClient = new google.auth.OAuth2(
+      this.configService.googleClientId,
+      this.configService.googleClientSecret,
+    );
+  }
   async registerUser(
     input: RegisterUserInput,
     entityManager: EntityManager,
@@ -85,6 +93,35 @@ export class AuthenticationService {
         refreshToken: await this.createRefreshToken(user, now),
       },
     };
+  }
+
+  async googleLogin(
+    input: GoogleLoginInput,
+    entityManager: EntityManager,
+  ): Promise<AuthenticationOutput> {
+    const tokenInfo = await this.oathClient.getTokenInfo(input.token);
+    let result: any;
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+    const user: LOEYBUserEntity =
+      await loeybUserRepository.findRegisteredUserByEmail(tokenInfo.email);
+    if (user == null) {
+      result = await this.registerUser(
+        { email: tokenInfo.email, password: tokenInfo.email },
+        entityManager,
+      );
+    } else {
+      result = await this.authenticate(
+        {
+          email: tokenInfo.email,
+          password: tokenInfo.email,
+        },
+        entityManager,
+      );
+    }
+    return result;
   }
 
   async refreshAccessToken(

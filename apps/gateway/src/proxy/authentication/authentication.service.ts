@@ -11,6 +11,7 @@ import {
 } from '../../../../../libs/common/src/model';
 import {
   AuthenticationInput,
+  GoogleLoginInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
   SetUsernameInput,
@@ -108,6 +109,20 @@ export class AuthenticationService {
     try {
       return await this.client
         .send<Output, SetUsernameInput>({ cmd: 'setUsername' }, input)
+        .toPromise();
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
+    }
+  }
+
+  async googleLogin(input: GoogleLoginInput): Promise<AuthenticationOutput> {
+    try {
+      return await this.client
+        .send<AuthenticationOutput, GoogleLoginInput>(
+          { cmd: 'googleLogin' },
+          input,
+        )
         .toPromise();
     } catch (error) {
       this.logger.error(error);

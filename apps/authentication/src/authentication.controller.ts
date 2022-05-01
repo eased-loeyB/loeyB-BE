@@ -3,6 +3,7 @@ import { AuthenticationService } from './authentication.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
   AuthenticationInput,
+  GoogleLoginInput,
   RegisterUserInput,
   RequestEmailVerificationCodeInput,
   SetUsernameInput,
@@ -91,6 +92,21 @@ export class AuthenticationController {
       async (input, entityManager): Promise<AuthenticationOutput> => {
         return await this.authenticationService.authenticate(
           input as AuthenticationInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'googleLogin' })
+  async googleLogin(
+    @Payload() input: GoogleLoginInput,
+  ): Promise<AuthenticationOutput> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<AuthenticationOutput> => {
+        return await this.authenticationService.googleLogin(
+          input as GoogleLoginInput,
           entityManager,
         );
       },
