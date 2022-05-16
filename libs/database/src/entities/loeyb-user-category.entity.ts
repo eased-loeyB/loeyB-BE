@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('loeyb-user-category')
+@Entity('loeyb_user_category')
 export class LOEYBUserCategoryEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', {
     name: 'id',
@@ -48,7 +48,7 @@ export class LOEYBUserCategoryEntity extends BaseEntity {
     length: 255,
     comment: 'name',
   })
-  area!: LoeybAreaType;
+  area!: LoeybAreaType | string;
 
   @Column({
     name: 'category',
@@ -56,7 +56,7 @@ export class LOEYBUserCategoryEntity extends BaseEntity {
     length: 255,
     comment: 'name',
   })
-  category!: LoeybCategoryType;
+  category!: LoeybCategoryType | string;
 
   @CreateDateColumn({
     name: 'created_at',

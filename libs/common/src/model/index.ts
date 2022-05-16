@@ -3,4 +3,6 @@ export * from './output.model';
 export * from './register-user.model';
 export * from './authentication.model';
 export * from './loeyb-file.model';
+export * from './registered-name-area-category.model';
 export * from './request-email-verification.model';
+export * from './registered-area-category-tag.model';
