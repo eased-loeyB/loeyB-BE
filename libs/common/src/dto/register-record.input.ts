@@ -14,10 +14,10 @@ import { StringTransform } from './transformer';
 export class RegisterRecordInput extends AbstractInput {
   @Length(6, 320)
   @IsEmail()
-  @IsNotEmpty()
   @IsString()
+  @Field()
   @StringTransform()
-  email!: string;
+  email?: string;
 
   @IsOptional()
   @ValidateNested({ each: true })

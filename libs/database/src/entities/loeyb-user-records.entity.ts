@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('loeyb-user-records')
+@Entity('loeyb_user_records')
 export class LOEYBUserRecordsEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', {
     name: 'id',

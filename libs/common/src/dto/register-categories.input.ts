@@ -11,10 +11,10 @@ import { StringTransform } from './transformer';
 export class RegisterCategoriesInput extends AbstractInput {
   @Length(6, 320)
   @IsEmail()
-  @IsNotEmpty()
   @IsString()
+  @Field()
   @StringTransform()
-  email!: string;
+  email?: string;
 
   @IsNotEmpty()
   @IsString()

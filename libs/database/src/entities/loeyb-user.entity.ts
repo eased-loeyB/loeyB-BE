@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('loeyb-user')
+@Entity('loeyb_user')
 export class LOEYBUserEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', {
     name: 'id',
@@ -46,11 +46,11 @@ export class LOEYBUserEntity extends BaseEntity {
     name: 'username',
     type: 'varchar',
     default: '',
+    nullable: true,
     length: 320,
-    unique: true,
     comment: 'username',
   })
-  username!: string;
+  username?: string;
 
   @Column({
     name: 'last_login_at',

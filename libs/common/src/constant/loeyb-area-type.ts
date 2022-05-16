@@ -4,7 +4,7 @@ export enum LoeybAreaType {
   HEALTH = 'HEALTH',
   MIND = 'MIND',
   SOCIAL = 'SOCIAL',
-  LIFE = 'LIFE',
+  HOBBY = 'HOBBY',
   WORK = 'WORK',
 }
 
@@ -15,7 +15,7 @@ registerEnumType(LoeybAreaType, {
     HEALTH: { description: 'HEALTH' },
     MIND: { description: 'MIND' },
     SOCIAL: { description: 'SOCIAL' },
-    LIFE: { description: 'LIFE' },
+    HOBBY: { description: 'HOBBY' },
     WORK: { description: 'WORK' },
   },
 });
