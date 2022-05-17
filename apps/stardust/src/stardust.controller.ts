@@ -1,5 +1,6 @@
 import {
   addCategoryAndAreaInput,
+  addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
@@ -59,6 +60,19 @@ export class StardustController {
       async (input, entityManager): Promise<Output> => {
         return await this.stardustService.addCategoryAndArea(
           input as addCategoryAndAreaInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'addTag' })
+  async addTag(@Payload() input: addTagInput): Promise<Output> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<Output> => {
+        return await this.stardustService.addTag(
+          input as addTagInput,
           entityManager,
         );
       },

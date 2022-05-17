@@ -1,6 +1,7 @@
 import { LOEYBErrorCode } from '@libs/common/constant';
 import {
   addCategoryAndAreaInput,
+  addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
@@ -90,6 +91,31 @@ export class StardustResolver {
       this.logger.debug(input);
       this.logger.debug(user);
       return await this.stardustService.addCategoryAndArea(input);
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @LoeybAuth()
+  @Mutation(() => Output, {
+    name: 'addTag',
+    description: 'add categories when upload img file',
+  })
+  async addTag(
+    @CurrentUser() user: any,
+    @Args({
+      name: 'input',
+      description: 'add categories when upload img file',
+      type: () => addTagInput,
+    })
+    input: addTagInput,
+  ): Promise<Output> {
+    try {
+      console.log(input);
+      this.logger.debug(input);
+      this.logger.debug(user);
+      return await this.stardustService.addTag(input);
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);

@@ -6,16 +6,12 @@ import {
   IsString,
   Length,
 } from 'class-validator';
-import { AbstractInput, AreaCategoryInput } from '.';
-import { LoeybAreaType } from '../constant';
+import { AbstractInput } from '.';
+import { LoeybCategoryType } from '../constant';
 import { StringTransform } from './transformer';
-/**
- * addCategoriesAndAreaInput
- *
- * @description 사진 업로드 할 때, 카테고리를 추가하고 싶을 때
- */
-@InputType('addCategoryAndAreaInput', { description: 'addCategoryAndArea' })
-export class addCategoryAndAreaInput extends AbstractInput {
+
+@InputType('addTagInput', { description: 'addTagInput' })
+export class addTagInput extends AbstractInput {
   @Length(6, 320)
   @IsEmail()
   @IsOptional()
@@ -26,9 +22,9 @@ export class addCategoryAndAreaInput extends AbstractInput {
 
   @IsNotEmpty()
   @IsString()
-  @Field(() => String, { nullable: false, description: 'category' })
+  @Field(() => LoeybCategoryType, { nullable: false, description: 'category' })
   @StringTransform()
-  category!: string;
+  category!: LoeybCategoryType;
 
   @IsNotEmpty()
   @IsString()

@@ -1,6 +1,7 @@
 import { LOEYBErrorCode } from '@libs/common/constant';
 import {
   addCategoryAndAreaInput,
+  addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
@@ -54,6 +55,17 @@ export class StardustService {
           { cmd: 'addCategoryAndArea' },
           input,
         )
+        .toPromise();
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
+    }
+  }
+
+  async addTag(input: addTagInput): Promise<Output> {
+    try {
+      return await this.client
+        .send<Output, addTagInput>({ cmd: 'addTag' }, input)
         .toPromise();
     } catch (error) {
       this.logger.error(error.message);
