@@ -3,6 +3,7 @@ import {
   addCategoryAndAreaInput,
   addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
+  fetchRegisteredCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
 } from '@libs/common/dto';
@@ -11,6 +12,7 @@ import {
   Output,
   RegisteredAreaAndCategoryAndTag,
   RegisteredAreaAndCategoryAndTagOutput,
+  RegisteredCategoryAndTagOutput,
   RegisteredNameAreaAndCategory,
   RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
@@ -183,7 +185,6 @@ export class StardustService {
     input: addTagInput,
     entityManager: EntityManager,
   ): Promise<Output> {
-    console.log('it is coming');
     const loeybUserRepository: LOEYBUserRepository =
       entityManager.getCustomRepository<LOEYBUserRepository>(
         LOEYBUserRepository,
@@ -298,5 +299,33 @@ export class StardustService {
       result: LOEYBErrorCode.SUCCESS,
       data: registeredAreaAndCategory,
     } as RegisteredAreaAndCategoryAndTagOutput;
+  }
+
+  async fetchRegisteredCategoryAndTag(
+    input: fetchRegisteredCategoryAndTagInput,
+    entityManager: EntityManager,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+
+    const user: LOEYBUserEntity =
+      await loeybUserRepository.findRegisteredUserByEmail(input.email);
+    if (user == null) {
+      throw new LOEYBException(LOEYBErrorCode.NO_USER);
+    }
+
+    const tags = await entityManager.query(
+      `select luct.category, luct.tag from loeyb_user_category_tag luct
+       where luct.user_id = $1
+       limit $2
+       offset $3`,
+      [user.id, input.limit, input.offset],
+    );
+    return {
+      result: LOEYBErrorCode.SUCCESS,
+      data: tags,
+    };
   }
 }

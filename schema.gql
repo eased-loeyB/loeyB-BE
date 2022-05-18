@@ -214,6 +214,25 @@ type RegisteredAreaAndCategoryAndTagOutput {
   data: [RegisteredAreaAndCategoryAndTag!]
 }
 
+""""""
+type RegisteredCategoryAndTag {
+  """"""
+  category: String
+
+  """"""
+  tag: String
+}
+
+""""""
+type RegisteredCategoryAndTagOutput {
+  """LOEYB ERROR CODE"""
+  result: LOEYBErrorCode!
+
+  """errorMessage"""
+  errorMessage: String
+  data: RegisteredCategoryAndTag
+}
+
 type Query {
   sayHello: String!
 
@@ -238,8 +257,8 @@ type Query {
   """fetchRegisteredAreaAndCategoryAndTag"""
   fetchRegisteredAreaAndCategoryAndTag(
     """upload file with tag and date and location information"""
-    input: fetchRegisteredAreaAndCategoryAndTagInput!
-  ): RegisteredAreaAndCategoryAndTagOutput!
+    input: fetchRegisteredCategoryAndTag!
+  ): RegisteredCategoryAndTagOutput!
 }
 
 """이메일 인증"""
@@ -263,6 +282,12 @@ input AuthenticationInput {
 """show registered area, category, tag"""
 input fetchRegisteredAreaAndCategoryAndTagInput {
   email: String
+}
+
+"""show registered area, category, tag"""
+input fetchRegisteredCategoryAndTag {
+  limit: String = "40"
+  offset: String = "0"
 }
 
 type Mutation {

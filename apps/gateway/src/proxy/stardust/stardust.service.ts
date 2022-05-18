@@ -3,6 +3,7 @@ import {
   addCategoryAndAreaInput,
   addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
+  fetchRegisteredCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
 } from '@libs/common/dto';
@@ -10,6 +11,7 @@ import {
   LOEYBException,
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
+  RegisteredCategoryAndTagOutput,
   RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
 import { Inject, Injectable, Logger } from '@nestjs/common';
@@ -98,6 +100,22 @@ export class StardustService {
           RegisteredAreaAndCategoryAndTagOutput,
           fetchRegisteredAreaAndCategoryAndTagInput
         >({ cmd: 'fetchRegisteredAreaAndCategoryAndTag' }, input)
+        .toPromise();
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
+    }
+  }
+
+  async fetchRegisteredCategoryAndTag(
+    input: fetchRegisteredCategoryAndTagInput,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    try {
+      return await this.client
+        .send<
+          RegisteredCategoryAndTagOutput,
+          fetchRegisteredCategoryAndTagInput
+        >({ cmd: 'fetchRegisteredCategoryAndTag' }, input)
         .toPromise();
     } catch (error) {
       this.logger.error(error.message);

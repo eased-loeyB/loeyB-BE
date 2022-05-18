@@ -3,6 +3,7 @@ import {
   addCategoryAndAreaInput,
   addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
+  fetchRegisteredCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
 } from '@libs/common/dto';
@@ -10,6 +11,7 @@ import {
   LOEYBException,
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
+  RegisteredCategoryAndTagOutput,
   RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
 import { Logger } from '@nestjs/common';
@@ -164,6 +166,28 @@ export class StardustResolver {
       return await this.stardustService.fetchRegisteredAreaAndCategoryAndTag(
         input,
       );
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @LoeybAuth()
+  @Query(() => RegisteredCategoryAndTagOutput, {
+    name: 'fetchRegisteredAreaAndCategoryAndTag',
+    description: 'fetchRegisteredAreaAndCategoryAndTag',
+  })
+  async fetchRegisteredCategoryAndTag(
+    @Args({
+      name: 'input',
+      description: 'upload file with tag and date and location information',
+      type: () => fetchRegisteredCategoryAndTagInput,
+    })
+    input: fetchRegisteredCategoryAndTagInput,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    try {
+      this.logger.debug(input);
+      return await this.stardustService.fetchRegisteredCategoryAndTag(input);
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);

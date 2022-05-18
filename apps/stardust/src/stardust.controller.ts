@@ -2,12 +2,14 @@ import {
   addCategoryAndAreaInput,
   addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
+  fetchRegisteredCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
 } from '@libs/common/dto';
 import {
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
+  RegisteredCategoryAndTagOutput,
   RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
 import { TransactionBlock } from '@libs/common/transaction/transaction';
@@ -109,6 +111,21 @@ export class StardustController {
       ): Promise<RegisteredAreaAndCategoryAndTagOutput> => {
         return await this.stardustService.fetchRegisteredAreaAndCategoryAndTag(
           input as fetchRegisteredAreaAndCategoryAndTagInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'fetchRegisteredCategoryAndTag' })
+  async fetchRegisteredCategoryAndTag(
+    @Payload() input: fetchRegisteredCategoryAndTagInput,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<RegisteredCategoryAndTagOutput> => {
+        return await this.stardustService.fetchRegisteredCategoryAndTag(
+          input as fetchRegisteredCategoryAndTagInput,
           entityManager,
         );
       },
