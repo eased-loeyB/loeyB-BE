@@ -33,9 +33,9 @@ export class addCategoryAndAreaInput extends AbstractInput {
   @IsNotEmpty()
   @IsString()
   @StringTransform()
-  @Field(() => String, {
+  @Field(() => LoeybAreaType, {
     nullable: false,
     description: 'area',
   })
-  tag!: string;
+  area!: LoeybAreaType;
 }

@@ -476,7 +476,7 @@ input addCategoryAndAreaInput {
   category: String!
 
   """area"""
-  tag: String!
+  area: LoeybAreaType!
 }
 
 """addTagInput"""
