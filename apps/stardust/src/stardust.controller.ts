@@ -1,12 +1,16 @@
 import {
   addCategoryAndAreaInput,
+  addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
+  fetchRegisteredCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
+  SearchTagInput,
 } from '@libs/common/dto';
 import {
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
+  RegisteredCategoryAndTagOutput,
   RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
 import { TransactionBlock } from '@libs/common/transaction/transaction';
@@ -65,6 +69,19 @@ export class StardustController {
     );
   }
 
+  @MessagePattern({ cmd: 'addTag' })
+  async addTag(@Payload() input: addTagInput): Promise<Output> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<Output> => {
+        return await this.stardustService.addTag(
+          input as addTagInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
   @MessagePattern({ cmd: 'fetchRegisteredNameAndAreaAndCategory' })
   async fetchRegisteredNameAndAreaAndCategory(
     @Payload() input: fetchRegisteredAreaAndCategoryAndTagInput,
@@ -95,6 +112,36 @@ export class StardustController {
       ): Promise<RegisteredAreaAndCategoryAndTagOutput> => {
         return await this.stardustService.fetchRegisteredAreaAndCategoryAndTag(
           input as fetchRegisteredAreaAndCategoryAndTagInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'fetchRegisteredCategoryAndTag' })
+  async fetchRegisteredCategoryAndTag(
+    @Payload() input: fetchRegisteredCategoryAndTagInput,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<RegisteredCategoryAndTagOutput> => {
+        return await this.stardustService.fetchRegisteredCategoryAndTag(
+          input as fetchRegisteredCategoryAndTagInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'searchTag' })
+  async searchTag(
+    @Payload() input: SearchTagInput,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<RegisteredCategoryAndTagOutput> => {
+        return await this.stardustService.searchTag(
+          input as SearchTagInput,
           entityManager,
         );
       },

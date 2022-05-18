@@ -1,14 +1,18 @@
 import { LOEYBErrorCode } from '@libs/common/constant';
 import {
   addCategoryAndAreaInput,
+  addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
+  fetchRegisteredCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
+  SearchTagInput,
 } from '@libs/common/dto';
 import {
   LOEYBException,
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
+  RegisteredCategoryAndTagOutput,
   RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
 import { Logger } from '@nestjs/common';
@@ -97,6 +101,31 @@ export class StardustResolver {
   }
 
   @LoeybAuth()
+  @Mutation(() => Output, {
+    name: 'addTag',
+    description: 'add categories when upload img file',
+  })
+  async addTag(
+    @CurrentUser() user: any,
+    @Args({
+      name: 'input',
+      description: 'add categories when upload img file',
+      type: () => addTagInput,
+    })
+    input: addTagInput,
+  ): Promise<Output> {
+    try {
+      console.log(input);
+      this.logger.debug(input);
+      this.logger.debug(user);
+      return await this.stardustService.addTag(input);
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @LoeybAuth()
   @Query(() => RegisteredNameAreaAndCategoryOutput, {
     name: 'fetchRegisteredNameAndAreaAndCategory',
     description: 'fetchRegisteredNameAndAreaAndCategory',
@@ -138,6 +167,50 @@ export class StardustResolver {
       return await this.stardustService.fetchRegisteredAreaAndCategoryAndTag(
         input,
       );
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @LoeybAuth()
+  @Query(() => RegisteredCategoryAndTagOutput, {
+    name: 'fetchRegisteredCategoryAndTag',
+    description: 'fetchRegisteredCategoryAndTag',
+  })
+  async fetchRegisteredCategoryAndTag(
+    @Args({
+      name: 'input',
+      description: 'upload file with tag and date and location information',
+      type: () => fetchRegisteredCategoryAndTagInput,
+    })
+    input: fetchRegisteredCategoryAndTagInput,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    try {
+      this.logger.debug(input);
+      return await this.stardustService.fetchRegisteredCategoryAndTag(input);
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @LoeybAuth()
+  @Query(() => RegisteredCategoryAndTagOutput, {
+    name: 'searchTag',
+    description: 'searchTag',
+  })
+  async searchTag(
+    @Args({
+      name: 'input',
+      description: 'upload file with tag and date and location information',
+      type: () => SearchTagInput,
+    })
+    input: SearchTagInput,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    try {
+      this.logger.debug(input);
+      return await this.stardustService.searchTag(input);
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);

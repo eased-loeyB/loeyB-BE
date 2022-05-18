@@ -34,22 +34,6 @@ export class LOEYBUserCategoryTagEntity extends BaseEntity {
   userId!: string;
 
   @Column({
-    name: 'name',
-    type: 'varchar',
-    length: 255,
-    comment: 'name',
-  })
-  name!: string;
-
-  @Column({
-    name: 'topic',
-    type: 'varchar',
-    length: 255,
-    comment: 'topic',
-  })
-  topic!: string;
-
-  @Column({
     name: 'category',
     type: 'varchar',
     length: 255,

@@ -1,25 +1,31 @@
 import { LoeybAreaType, LOEYBErrorCode } from '@libs/common/constant';
 import {
   addCategoryAndAreaInput,
+  addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
+  fetchRegisteredCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
+  SearchTagInput,
 } from '@libs/common/dto';
 import {
   LOEYBException,
   Output,
   RegisteredAreaAndCategoryAndTag,
   RegisteredAreaAndCategoryAndTagOutput,
+  RegisteredCategoryAndTagOutput,
   RegisteredNameAreaAndCategory,
   RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
 import {
   LOEYBUserCategoryEntity,
+  LOEYBUserCategoryTagEntity,
   LOEYBUserEntity,
   LOEYBUserRecordsEntity,
 } from '@libs/database/entities';
 import {
   LOEYBUserCategoryRepository,
+  LOEYBUserCategoryTagRepository,
   LOEYBUserRecordsRepository,
   LOEYBUserRepository,
 } from '@libs/database/repositories';
@@ -176,6 +182,49 @@ export class StardustService {
     } as Output;
   }
 
+  async addTag(
+    input: addTagInput,
+    entityManager: EntityManager,
+  ): Promise<Output> {
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+
+    const user: LOEYBUserEntity =
+      await loeybUserRepository.findRegisteredUserByEmail(input.email);
+    if (user == null) {
+      throw new LOEYBException(LOEYBErrorCode.NO_USER);
+    }
+
+    const loeybUserCategoryTagRepository: LOEYBUserCategoryTagRepository =
+      entityManager.getCustomRepository<LOEYBUserCategoryTagRepository>(
+        LOEYBUserCategoryTagRepository,
+      );
+
+    const userTag: LOEYBUserCategoryTagEntity =
+      await loeybUserCategoryTagRepository.findOne({
+        userId: user.id,
+        category: input.category,
+        tag: input.tag,
+      });
+    if (userTag != null) {
+      throw new LOEYBException(LOEYBErrorCode.ALREADY_REGISTERED_TAG);
+    }
+
+    await loeybUserCategoryTagRepository.save(
+      loeybUserCategoryTagRepository.create({
+        userId: user.id,
+        category: input.category,
+        tag: input.tag,
+      }),
+    );
+
+    return {
+      result: LOEYBErrorCode.SUCCESS,
+    };
+  }
+
   async fetchRegisteredNameAndAreaAndCategory(
     input: fetchRegisteredAreaAndCategoryAndTagInput,
     entityManager: EntityManager,
@@ -251,5 +300,61 @@ export class StardustService {
       result: LOEYBErrorCode.SUCCESS,
       data: registeredAreaAndCategory,
     } as RegisteredAreaAndCategoryAndTagOutput;
+  }
+
+  async fetchRegisteredCategoryAndTag(
+    input: fetchRegisteredCategoryAndTagInput,
+    entityManager: EntityManager,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+
+    const user: LOEYBUserEntity =
+      await loeybUserRepository.findRegisteredUserByEmail(input.email);
+    if (user == null) {
+      throw new LOEYBException(LOEYBErrorCode.NO_USER);
+    }
+
+    const tags = await entityManager.query(
+      `select luct.category, luct.tag from loeyb_user_category_tag luct
+       where luct.user_id = $1
+       limit $2
+       offset $3`,
+      [user.id, input.limit, input.offset],
+    );
+    return {
+      result: LOEYBErrorCode.SUCCESS,
+      data: tags,
+    };
+  }
+
+  async searchTag(
+    input: SearchTagInput,
+    entityManager: EntityManager,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+
+    const user: LOEYBUserEntity =
+      await loeybUserRepository.findRegisteredUserByEmail(input.email);
+    if (user == null) {
+      throw new LOEYBException(LOEYBErrorCode.NO_USER);
+    }
+
+    const tags = entityManager.query(
+      `select luct.category, luct.tag from loeyb_user_category_tag luct 
+       where luct.user_id = $1 and luct.tag ilike $2
+       limit $3
+       offset $4`,
+      [user.id, input.keyword, input.limit, input.offset],
+    );
+    return {
+      result: LOEYBErrorCode.SUCCESS,
+      data: tags,
+    };
   }
 }
