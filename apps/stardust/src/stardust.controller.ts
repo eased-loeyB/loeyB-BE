@@ -5,6 +5,7 @@ import {
   fetchRegisteredCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
+  SearchTagInput,
 } from '@libs/common/dto';
 import {
   Output,
@@ -126,6 +127,21 @@ export class StardustController {
       async (input, entityManager): Promise<RegisteredCategoryAndTagOutput> => {
         return await this.stardustService.fetchRegisteredCategoryAndTag(
           input as fetchRegisteredCategoryAndTagInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'searchTag' })
+  async searchTag(
+    @Payload() input: SearchTagInput,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<RegisteredCategoryAndTagOutput> => {
+        return await this.stardustService.searchTag(
+          input as SearchTagInput,
           entityManager,
         );
       },

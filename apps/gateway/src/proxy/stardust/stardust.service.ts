@@ -6,6 +6,7 @@ import {
   fetchRegisteredCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
+  SearchTagInput,
 } from '@libs/common/dto';
 import {
   LOEYBException,
@@ -116,6 +117,22 @@ export class StardustService {
           RegisteredCategoryAndTagOutput,
           fetchRegisteredCategoryAndTagInput
         >({ cmd: 'fetchRegisteredCategoryAndTag' }, input)
+        .toPromise();
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
+    }
+  }
+
+  async searchTag(
+    input: SearchTagInput,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    try {
+      return await this.client
+        .send<RegisteredCategoryAndTagOutput, SearchTagInput>(
+          { cmd: 'searchTag' },
+          input,
+        )
         .toPromise();
     } catch (error) {
       this.logger.error(error.message);

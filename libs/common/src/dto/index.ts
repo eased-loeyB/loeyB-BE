@@ -20,3 +20,4 @@ export * from './add-category-and-area.input';
 export * from './user-activity-log.input';
 export * from './add-tag.input';
 export * from './fetch-registered-category-tag.input';
+export * from './search-tag.input';

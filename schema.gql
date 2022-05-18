@@ -257,7 +257,19 @@ type Query {
   """fetchRegisteredAreaAndCategoryAndTag"""
   fetchRegisteredAreaAndCategoryAndTag(
     """upload file with tag and date and location information"""
+    input: fetchRegisteredAreaAndCategoryAndTagInput!
+  ): RegisteredAreaAndCategoryAndTagOutput!
+
+  """fetchRegisteredCategoryAndTag"""
+  fetchRegisteredCategoryAndTag(
+    """upload file with tag and date and location information"""
     input: fetchRegisteredCategoryAndTag!
+  ): RegisteredCategoryAndTagOutput!
+
+  """searchTag"""
+  searchTag(
+    """upload file with tag and date and location information"""
+    input: SearchTagInput!
   ): RegisteredCategoryAndTagOutput!
 }
 
@@ -288,6 +300,18 @@ input fetchRegisteredAreaAndCategoryAndTagInput {
 input fetchRegisteredCategoryAndTag {
   limit: String = "40"
   offset: String = "0"
+}
+
+""""""
+input SearchTagInput {
+  """"""
+  keyword: String!
+
+  """"""
+  limit: Float = 40
+
+  """"""
+  offset: Float = 0
 }
 
 type Mutation {

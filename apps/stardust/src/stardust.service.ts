@@ -6,6 +6,7 @@ import {
   fetchRegisteredCategoryAndTagInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
+  SearchTagInput,
 } from '@libs/common/dto';
 import {
   LOEYBException,
@@ -322,6 +323,34 @@ export class StardustService {
        limit $2
        offset $3`,
       [user.id, input.limit, input.offset],
+    );
+    return {
+      result: LOEYBErrorCode.SUCCESS,
+      data: tags,
+    };
+  }
+
+  async searchTag(
+    input: SearchTagInput,
+    entityManager: EntityManager,
+  ): Promise<RegisteredCategoryAndTagOutput> {
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+
+    const user: LOEYBUserEntity =
+      await loeybUserRepository.findRegisteredUserByEmail(input.email);
+    if (user == null) {
+      throw new LOEYBException(LOEYBErrorCode.NO_USER);
+    }
+
+    const tags = entityManager.query(
+      `select luct.category, luct.tag from loeyb_user_category_tag luct 
+       where luct.user_id = $1 and luct.tag ilike $2
+       limit $3
+       offset $4`,
+      [user.id, input.keyword, input.limit, input.offset],
     );
     return {
       result: LOEYBErrorCode.SUCCESS,
