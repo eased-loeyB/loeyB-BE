@@ -7,7 +7,7 @@ import {
   Length,
 } from 'class-validator';
 import { AbstractInput, AreaCategoryInput } from '.';
-import { LoeybAreaType } from '../constant';
+import { LoeybAreaType, LoeybCategoryType } from '../constant';
 import { StringTransform } from './transformer';
 /**
  * addCategoriesAndAreaInput
@@ -26,9 +26,9 @@ export class addCategoryAndAreaInput extends AbstractInput {
 
   @IsNotEmpty()
   @IsString()
-  @Field(() => String, { nullable: false, description: 'category' })
+  @Field(() => LoeybCategoryType, { nullable: false, description: 'category' })
   @StringTransform()
-  category!: string;
+  category!: LoeybCategoryType;
 
   @IsNotEmpty()
   @IsString()

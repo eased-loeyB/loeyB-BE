@@ -1,21 +1,25 @@
 import { registerEnumType } from '@nestjs/graphql';
 
 export enum LoeybCategoryType {
+  // health
   FOOD = 'FOOD',
   EXERCISE = 'EXERCISE',
   SICK = 'SICK',
   MEDICINE = 'MEDICINE',
 
+  // mind
   THOUGHT = 'THOUGHT',
   EMOTION = 'EMOTION',
   GOALS = 'GOALS',
   IDEAS = 'IDEAS',
 
+  // social
   FRIENDS = 'FRIENDS',
   FAMILY = 'FAMILY',
   PETS = 'PETS',
   COWORKER = 'COWORKER',
 
+  // hobby
   FASHION = 'FASHION',
   MUSIC = 'MUSIC',
   ART = 'ART',
@@ -24,6 +28,7 @@ export enum LoeybCategoryType {
   TRAVEL = 'TRAVEL',
   SPORTS = 'SPORTS',
 
+  // work
   PROJECT = 'PROJECT',
   SCHOOL = 'SCHOOL',
   SKILL = 'SKILL',

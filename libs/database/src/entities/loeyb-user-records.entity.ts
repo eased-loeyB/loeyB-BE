@@ -90,6 +90,15 @@ export class LOEYBUserRecordsEntity extends BaseEntity {
   })
   location!: string;
 
+  @Column({
+    name: 'importance',
+    type: 'bigint',
+    nullable: true,
+    default: 0,
+    comment: '중요도',
+  })
+  importance!: number;
+
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',

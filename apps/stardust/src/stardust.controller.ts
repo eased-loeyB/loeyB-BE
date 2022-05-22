@@ -82,23 +82,23 @@ export class StardustController {
     );
   }
 
-  @MessagePattern({ cmd: 'fetchRegisteredNameAndAreaAndCategory' })
-  async fetchRegisteredNameAndAreaAndCategory(
-    @Payload() input: fetchRegisteredAreaAndCategoryAndTagInput,
-  ): Promise<RegisteredNameAreaAndCategoryOutput> {
-    return await TransactionBlock(
-      input,
-      async (
-        input,
-        entityManager,
-      ): Promise<RegisteredNameAreaAndCategoryOutput> => {
-        return await this.stardustService.fetchRegisteredNameAndAreaAndCategory(
-          input as fetchRegisteredAreaAndCategoryAndTagInput,
-          entityManager,
-        );
-      },
-    );
-  }
+  // @MessagePattern({ cmd: 'fetchRegisteredNameAndAreaAndCategory' })
+  // async fetchRegisteredNameAndAreaAndCategory(
+  //   @Payload() input: fetchRegisteredAreaAndCategoryAndTagInput,
+  // ): Promise<RegisteredNameAreaAndCategoryOutput> {
+  //   return await TransactionBlock(
+  //     input,
+  //     async (
+  //       input,
+  //       entityManager,
+  //     ): Promise<RegisteredNameAreaAndCategoryOutput> => {
+  //       return await this.stardustService.fetchRegisteredNameAndAreaAndCategory(
+  //         input as fetchRegisteredAreaAndCategoryAndTagInput,
+  //         entityManager,
+  //       );
+  //     },
+  //   );
+  // }
 
   @MessagePattern({ cmd: 'fetchRegisteredAreaAndCategoryAndTag' })
   async fetchRegisteredAreaAndCategoryAndTag(

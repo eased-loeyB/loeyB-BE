@@ -76,21 +76,21 @@ export class StardustService {
     }
   }
 
-  async fetchRegisteredNameAndAreaAndCategory(
-    input: fetchRegisteredAreaAndCategoryAndTagInput,
-  ): Promise<RegisteredNameAreaAndCategoryOutput> {
-    try {
-      return await this.client
-        .send<
-          RegisteredNameAreaAndCategoryOutput,
-          fetchRegisteredAreaAndCategoryAndTagInput
-        >({ cmd: 'fetchRegisteredNameAndAreaAndCategory' }, input)
-        .toPromise();
-    } catch (error) {
-      this.logger.error(error.message);
-      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
-    }
-  }
+  // async fetchRegisteredNameAndAreaAndCategory(
+  //   input: fetchRegisteredAreaAndCategoryAndTagInput,
+  // ): Promise<RegisteredNameAreaAndCategoryOutput> {
+  //   try {
+  //     return await this.client
+  //       .send<
+  //         RegisteredNameAreaAndCategoryOutput,
+  //         fetchRegisteredAreaAndCategoryAndTagInput
+  //       >({ cmd: 'fetchRegisteredNameAndAreaAndCategory' }, input)
+  //       .toPromise();
+  //   } catch (error) {
+  //     this.logger.error(error.message);
+  //     throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
+  //   }
+  // }
 
   async fetchRegisteredAreaAndCategoryAndTag(
     input: fetchRegisteredAreaAndCategoryAndTagInput,
