@@ -167,16 +167,6 @@ enum LoeybAreaType {
 }
 
 """"""
-type RegisteredNameAreaAndCategoryOutput {
-  """LOEYB ERROR CODE"""
-  result: LOEYBErrorCode!
-
-  """errorMessage"""
-  errorMessage: String
-  data: [RegisteredNameAreaAndCategory!]
-}
-
-""""""
 type RequestEmailVerification {
   """JWT"""
   code: String!
@@ -198,10 +188,85 @@ type RegisteredAreaAndCategoryAndTag {
   area: LoeybAreaType
 
   """"""
-  category: String
+  category: LoeybCategoryType
 
   """"""
-  tag: String
+  tag: [String!]
+}
+
+"""유저들의 국가"""
+enum LoeybCategoryType {
+  """"""
+  FOOD
+
+  """"""
+  EXERCISE
+
+  """"""
+  SICK
+
+  """"""
+  MEDICINE
+
+  """"""
+  THOUGHT
+
+  """"""
+  EMOTION
+
+  """"""
+  GOALS
+
+  """"""
+  IDEAS
+
+  """"""
+  FRIENDS
+
+  """"""
+  FAMILY
+
+  """"""
+  PETS
+
+  """"""
+  COWORKER
+
+  """"""
+  FASHION
+
+  """"""
+  MUSIC
+
+  """"""
+  ART
+
+  """"""
+  BOOKS
+
+  """"""
+  VIDEO
+
+  """"""
+  TRAVEL
+
+  """"""
+  SPORTS
+
+  """"""
+  PROJECT
+
+  """"""
+  SCHOOL
+
+  """"""
+  SKILL
+
+  """"""
+  COMPANY
+
+  """"""
+  AWARD
 }
 
 """"""
@@ -247,12 +312,6 @@ type Query {
     """로그인"""
     input: AuthenticationInput!
   ): AuthenticationOutput!
-
-  """fetchRegisteredNameAndAreaAndCategory"""
-  fetchRegisteredNameAndAreaAndCategory(
-    """upload file with tag and date and location information"""
-    input: fetchRegisteredAreaAndCategoryAndTagInput!
-  ): RegisteredNameAreaAndCategoryOutput!
 
   """fetchRegisteredAreaAndCategoryAndTag"""
   fetchRegisteredAreaAndCategoryAndTag(
@@ -420,81 +479,6 @@ input AreaCategoryInput {
   category: LoeybCategoryType!
 }
 
-"""유저들의 국가"""
-enum LoeybCategoryType {
-  """"""
-  FOOD
-
-  """"""
-  EXERCISE
-
-  """"""
-  SICK
-
-  """"""
-  MEDICINE
-
-  """"""
-  THOUGHT
-
-  """"""
-  EMOTION
-
-  """"""
-  GOALS
-
-  """"""
-  IDEAS
-
-  """"""
-  FRIENDS
-
-  """"""
-  FAMILY
-
-  """"""
-  PETS
-
-  """"""
-  COWORKER
-
-  """"""
-  FASHION
-
-  """"""
-  MUSIC
-
-  """"""
-  ART
-
-  """"""
-  BOOKS
-
-  """"""
-  VIDEO
-
-  """"""
-  TRAVEL
-
-  """"""
-  SPORTS
-
-  """"""
-  PROJECT
-
-  """"""
-  SCHOOL
-
-  """"""
-  SKILL
-
-  """"""
-  COMPANY
-
-  """"""
-  AWARD
-}
-
 """"""
 input RegisterRecordInput {
   email: String!
@@ -522,7 +506,7 @@ input addCategoryAndAreaInput {
   email: String
 
   """category"""
-  category: String!
+  category: LoeybCategoryType!
 
   """area"""
   area: LoeybAreaType!

@@ -13,18 +13,19 @@ import {
   Output,
   RegisteredAreaAndCategoryAndTag,
   RegisteredAreaAndCategoryAndTagOutput,
+  RegisteredCategoryAndTag,
   RegisteredCategoryAndTagOutput,
   RegisteredNameAreaAndCategory,
   RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
 import {
-  LOEYBUserCategoryEntity,
+  LOEYBUserAreaCategoryEntity,
   LOEYBUserCategoryTagEntity,
   LOEYBUserEntity,
   LOEYBUserRecordsEntity,
 } from '@libs/database/entities';
 import {
-  LOEYBUserCategoryRepository,
+  LOEYBUserAreaCategoryRepository,
   LOEYBUserCategoryTagRepository,
   LOEYBUserRecordsRepository,
   LOEYBUserRepository,
@@ -39,15 +40,15 @@ export class StardustService {
    * @param input RegisterCategoriesInput
    * @param entityManager
    * @returns Output
-   * @description: first time for adding categories and name
+   * @description: 처음에 회원가입하고, username 작성하고 카테고리 추가할 때 -> area, cateogry 만 추가
    */
   async registerCategories(
     input: RegisterCategoriesInput,
     entityManager: EntityManager,
   ): Promise<Output> {
-    const loeybUserCategoryRepository: LOEYBUserCategoryRepository =
-      entityManager.getCustomRepository<LOEYBUserCategoryRepository>(
-        LOEYBUserCategoryRepository,
+    const loeybUserAreaCategoryRepository: LOEYBUserAreaCategoryRepository =
+      entityManager.getCustomRepository<LOEYBUserAreaCategoryRepository>(
+        LOEYBUserAreaCategoryRepository,
       );
     const loeybUserRepository: LOEYBUserRepository =
       entityManager.getCustomRepository<LOEYBUserRepository>(
@@ -60,10 +61,9 @@ export class StardustService {
     }
 
     for (const c of input.areaCategory) {
-      await loeybUserCategoryRepository.save(
-        loeybUserCategoryRepository.create({
+      await loeybUserAreaCategoryRepository.save(
+        loeybUserAreaCategoryRepository.create({
           userId: user.id,
-          name: input.name,
           area: c.area,
           category: c.category,
         }),
@@ -142,16 +142,16 @@ export class StardustService {
     if (user == null) {
       throw new LOEYBException(LOEYBErrorCode.NO_USER);
     }
-    const loeybUserCategoryRepository: LOEYBUserCategoryRepository =
-      entityManager.getCustomRepository<LOEYBUserCategoryRepository>(
-        LOEYBUserCategoryRepository,
+    const loeybUserAreaCategoryRepository: LOEYBUserAreaCategoryRepository =
+      entityManager.getCustomRepository<LOEYBUserAreaCategoryRepository>(
+        LOEYBUserAreaCategoryRepository,
       );
 
     /**
      * 같은 area에 같은 카테고리 추가 불가
      */
-    const userCategory: LOEYBUserCategoryEntity[] =
-      await loeybUserCategoryRepository.findRegisteredCategoryAndArea(
+    const userCategory: LOEYBUserAreaCategoryEntity[] =
+      await loeybUserAreaCategoryRepository.findRegisteredCategoryAndArea(
         user.id,
         input.category,
         input.area,
@@ -161,17 +161,15 @@ export class StardustService {
       throw new LOEYBException(LOEYBErrorCode.ALREADY_REGISTERED_CATEGORY);
     }
 
-    const registeredUser = await loeybUserCategoryRepository.findRegisteredUser(
-      user.id,
-    );
+    const registeredUser =
+      await loeybUserAreaCategoryRepository.findRegisteredUser(user.id);
     if (registeredUser == null) {
       throw new LOEYBException(LOEYBErrorCode.NO_USER);
     }
 
-    await loeybUserCategoryRepository.save(
-      loeybUserCategoryRepository.create({
+    await loeybUserAreaCategoryRepository.save(
+      loeybUserAreaCategoryRepository.create({
         userId: user.id,
-        name: registeredUser.name,
         area: input.area,
         category: input.category,
       }),
@@ -182,6 +180,13 @@ export class StardustService {
     } as Output;
   }
 
+  /**
+   *
+   * @param input
+   * @param entityManager
+   * @returns
+   * @description stardust 저장하려고 할때, 원하는 태그가 없으면 추가하는 함수
+   */
   async addTag(
     input: addTagInput,
     entityManager: EntityManager,
@@ -225,6 +230,14 @@ export class StardustService {
     };
   }
 
+  /**
+   *
+   * @param input
+   * @param entityManager
+   * @returns
+   * @deprecated()
+   */
+  /*
   async fetchRegisteredNameAndAreaAndCategory(
     input: fetchRegisteredAreaAndCategoryAndTagInput,
     entityManager: EntityManager,
@@ -264,7 +277,15 @@ export class StardustService {
       data: registeredAreaCategory,
     } as RegisteredNameAreaAndCategoryOutput;
   }
+  */
 
+  /**
+   *
+   * @param input
+   * @param entityManager
+   * @returns
+   * @description 저장된 area, category, tag 모두 다 보여주는 함수 -> 어디서나 사용가능한 함수임.
+   */
   async fetchRegisteredAreaAndCategoryAndTag(
     input: fetchRegisteredAreaAndCategoryAndTagInput,
     entityManager: EntityManager,
@@ -280,28 +301,52 @@ export class StardustService {
       throw new LOEYBException(LOEYBErrorCode.NO_USER);
     }
 
-    const loeybUserRecordsRepository: LOEYBUserRecordsRepository =
-      entityManager.getCustomRepository<LOEYBUserRecordsRepository>(
-        LOEYBUserRecordsRepository,
+    const loeybUserAreaCategoryRepository: LOEYBUserAreaCategoryRepository =
+      entityManager.getCustomRepository<LOEYBUserAreaCategoryRepository>(
+        LOEYBUserAreaCategoryRepository,
       );
 
-    const result = await loeybUserRecordsRepository.findAllTag(user.id);
-    const registeredAreaAndCategory: RegisteredAreaAndCategoryAndTag[] = [];
+    const areaCategory: LOEYBUserAreaCategoryEntity[] =
+      await loeybUserAreaCategoryRepository.findRegisteredAreasAndCategories(
+        user.id,
+      );
 
-    for (const r of result) {
-      registeredAreaAndCategory.push({
-        area: r.area,
-        category: r.category,
-        tag: r.tag,
+    const loeybUserCategoryTagRepository: LOEYBUserCategoryTagRepository =
+      entityManager.getCustomRepository<LOEYBUserCategoryTagRepository>(
+        LOEYBUserCategoryTagRepository,
+      );
+
+    const categoryTag: LOEYBUserCategoryTagEntity[] =
+      await loeybUserCategoryTagRepository.findRegisteredCategoriesAndTags(
+        user.id,
+      );
+    /**
+     * todo: modifying query result data into object model
+     */
+    const registeredAreaAndCategoryAndTag: RegisteredAreaAndCategoryAndTag[] =
+      [];
+    for (const ac of areaCategory) {
+      const tagList: string[] = [];
+      for (const ct of categoryTag) {
+        if (ct.category === ac.category) {
+          tagList.push(ct.tag);
+        }
+      }
+      registeredAreaAndCategoryAndTag.push({
+        area: ac.area,
+        category: ac.category,
+        tag: tagList,
       });
     }
 
+    console.log(registeredAreaAndCategoryAndTag);
     return {
       result: LOEYBErrorCode.SUCCESS,
-      data: registeredAreaAndCategory,
+      data: registeredAreaAndCategoryAndTag,
     } as RegisteredAreaAndCategoryAndTagOutput;
   }
 
+  // 이거말고 fetchRegisteredAreaAndCateogryAndTag 사용하면 될 듯
   async fetchRegisteredCategoryAndTag(
     input: fetchRegisteredCategoryAndTagInput,
     entityManager: EntityManager,
@@ -330,6 +375,13 @@ export class StardustService {
     };
   }
 
+  /**
+   *
+   * @param input
+   * @param entityManager
+   * @returns
+   * @description stardust 저장할 때 tag sheet 에서 search 할 때,
+   */
   async searchTag(
     input: SearchTagInput,
     entityManager: EntityManager,

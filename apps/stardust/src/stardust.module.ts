@@ -7,7 +7,8 @@ import { StardustController } from './stardust.controller';
 import { StardustService } from './stardust.service';
 import { LOEYBConfigService } from '../../../libs/common/src/config/loeyb-config.service';
 import {
-  LOEYBUserCategoryRepository,
+  LOEYBUserCategoryTagRepository,
+  LOEYBUserAreaCategoryRepository,
   LOEYBUserRepository,
 } from '@libs/database/repositories';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -20,7 +21,8 @@ import { STARDUST_FACTORY } from 'apps/gateway/src/factory';
     RedisCacheModule,
     TypeOrmModule.forFeature([
       LOEYBUserRepository,
-      LOEYBUserCategoryRepository,
+      LOEYBUserCategoryTagRepository,
+      LOEYBUserAreaCategoryRepository,
     ]),
   ],
   controllers: [StardustController],

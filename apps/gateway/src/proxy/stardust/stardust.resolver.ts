@@ -125,29 +125,29 @@ export class StardustResolver {
     }
   }
 
-  @LoeybAuth()
-  @Query(() => RegisteredNameAreaAndCategoryOutput, {
-    name: 'fetchRegisteredNameAndAreaAndCategory',
-    description: 'fetchRegisteredNameAndAreaAndCategory',
-  })
-  async fetchRegisteredNameAndAreaAndCategory(
-    @Args({
-      name: 'input',
-      description: 'upload file with tag and date and location information',
-      type: () => fetchRegisteredAreaAndCategoryAndTagInput,
-    })
-    input: fetchRegisteredAreaAndCategoryAndTagInput,
-  ): Promise<RegisteredNameAreaAndCategoryOutput> {
-    try {
-      this.logger.debug(input);
-      return await this.stardustService.fetchRegisteredNameAndAreaAndCategory(
-        input,
-      );
-    } catch (error) {
-      this.logger.error(error);
-      throw new LOEYBException(LOEYBErrorCode.ERROR);
-    }
-  }
+  // @LoeybAuth()
+  // @Query(() => RegisteredNameAreaAndCategoryOutput, {
+  //   name: 'fetchRegisteredNameAndAreaAndCategory',
+  //   description: 'fetchRegisteredNameAndAreaAndCategory',
+  // })
+  // async fetchRegisteredNameAndAreaAndCategory(
+  //   @Args({
+  //     name: 'input',
+  //     description: 'upload file with tag and date and location information',
+  //     type: () => fetchRegisteredAreaAndCategoryAndTagInput,
+  //   })
+  //   input: fetchRegisteredAreaAndCategoryAndTagInput,
+  // ): Promise<RegisteredNameAreaAndCategoryOutput> {
+  //   try {
+  //     this.logger.debug(input);
+  //     return await this.stardustService.fetchRegisteredNameAndAreaAndCategory(
+  //       input,
+  //     );
+  //   } catch (error) {
+  //     this.logger.error(error);
+  //     throw new LOEYBException(LOEYBErrorCode.ERROR);
+  //   }
+  // }
 
   @LoeybAuth()
   @Query(() => RegisteredAreaAndCategoryAndTagOutput, {

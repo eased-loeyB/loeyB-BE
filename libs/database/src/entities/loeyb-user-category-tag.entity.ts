@@ -9,7 +9,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('loeyb-user-category-tag')
+/**
+ * not using 5/19 ~
+ */
+@Entity('loeyb_user_category_tag')
 export class LOEYBUserCategoryTagEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', {
     name: 'id',

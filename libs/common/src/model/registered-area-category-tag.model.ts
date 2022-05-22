@@ -1,6 +1,6 @@
 import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { Many, One } from '.';
-import { LoeybAreaType } from '../constant';
+import { LoeybAreaType, LoeybCategoryType } from '../constant';
 
 /**
  * Authentication
@@ -15,10 +15,10 @@ export class RegisteredAreaAndCategoryAndTag {
     description: '',
   })
   area?: LoeybAreaType;
-  @Field(() => String, { nullable: true, description: '' })
-  category?: string;
-  @Field(() => String, { nullable: true, description: '' })
-  tag?: string;
+  @Field(() => LoeybCategoryType, { nullable: true, description: '' })
+  category?: LoeybCategoryType;
+  @Field(() => [String], { nullable: true, description: '' })
+  tag?: string[];
 }
 
 @ObjectType({ description: '' })
