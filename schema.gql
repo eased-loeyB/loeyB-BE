@@ -298,6 +298,16 @@ type RegisteredCategoryAndTagOutput {
   data: RegisteredCategoryAndTag
 }
 
+""""""
+type RegisteredCategoryAndTagsOutput {
+  """LOEYB ERROR CODE"""
+  result: LOEYBErrorCode!
+
+  """errorMessage"""
+  errorMessage: String
+  data: [RegisteredCategoryAndTag!]
+}
+
 type Query {
   sayHello: String!
 
@@ -323,7 +333,7 @@ type Query {
   fetchRegisteredCategoryAndTag(
     """upload file with tag and date and location information"""
     input: fetchRegisteredCategoryAndTag!
-  ): RegisteredCategoryAndTagOutput!
+  ): RegisteredCategoryAndTagsOutput!
 
   """searchTag"""
   searchTag(

@@ -13,6 +13,7 @@ import {
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
   RegisteredCategoryAndTagOutput,
+  RegisteredCategoryAndTagsOutput,
   RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
 import { Logger } from '@nestjs/common';
@@ -46,7 +47,10 @@ export class StardustResolver {
     try {
       this.logger.debug(input);
       this.logger.debug(user);
-      return await this.stardustService.registerCategories(input);
+      return await this.stardustService.registerCategories({
+        ...input,
+        email: user.email,
+      });
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);
@@ -59,6 +63,7 @@ export class StardustResolver {
     description: 'upload file with tag and date and location information',
   })
   async registerRecord(
+    @CurrentUser() user: any,
     @Args({
       name: 'input',
       description: 'upload file with tag and date and location information',
@@ -68,7 +73,10 @@ export class StardustResolver {
   ): Promise<Output> {
     try {
       this.logger.debug(input);
-      return await this.stardustService.registerRecord(input);
+      return await this.stardustService.registerRecord({
+        ...input,
+        email: user.email,
+      });
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);
@@ -93,7 +101,10 @@ export class StardustResolver {
       console.log(input);
       this.logger.debug(input);
       this.logger.debug(user);
-      return await this.stardustService.addCategoryAndArea(input);
+      return await this.stardustService.addCategoryAndArea({
+        ...input,
+        email: user.email,
+      });
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);
@@ -118,7 +129,7 @@ export class StardustResolver {
       console.log(input);
       this.logger.debug(input);
       this.logger.debug(user);
-      return await this.stardustService.addTag(input);
+      return await this.stardustService.addTag({ ...input, email: user.email });
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);
@@ -155,6 +166,7 @@ export class StardustResolver {
     description: 'fetchRegisteredAreaAndCategoryAndTag',
   })
   async fetchRegisteredAreaAndCategoryAndTag(
+    @CurrentUser() user: any,
     @Args({
       name: 'input',
       description: 'upload file with tag and date and location information',
@@ -164,9 +176,10 @@ export class StardustResolver {
   ): Promise<RegisteredAreaAndCategoryAndTagOutput> {
     try {
       this.logger.debug(input);
-      return await this.stardustService.fetchRegisteredAreaAndCategoryAndTag(
-        input,
-      );
+      return await this.stardustService.fetchRegisteredAreaAndCategoryAndTag({
+        ...input,
+        email: user.email,
+      });
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);
@@ -174,21 +187,25 @@ export class StardustResolver {
   }
 
   @LoeybAuth()
-  @Query(() => RegisteredCategoryAndTagOutput, {
+  @Query(() => RegisteredCategoryAndTagsOutput, {
     name: 'fetchRegisteredCategoryAndTag',
     description: 'fetchRegisteredCategoryAndTag',
   })
   async fetchRegisteredCategoryAndTag(
+    @CurrentUser() user: any,
     @Args({
       name: 'input',
       description: 'upload file with tag and date and location information',
       type: () => fetchRegisteredCategoryAndTagInput,
     })
     input: fetchRegisteredCategoryAndTagInput,
-  ): Promise<RegisteredCategoryAndTagOutput> {
+  ): Promise<RegisteredCategoryAndTagsOutput> {
     try {
       this.logger.debug(input);
-      return await this.stardustService.fetchRegisteredCategoryAndTag(input);
+      return await this.stardustService.fetchRegisteredCategoryAndTag({
+        ...input,
+        email: user.email,
+      });
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);
@@ -201,6 +218,7 @@ export class StardustResolver {
     description: 'searchTag',
   })
   async searchTag(
+    @CurrentUser() user: any,
     @Args({
       name: 'input',
       description: 'upload file with tag and date and location information',
@@ -210,7 +228,10 @@ export class StardustResolver {
   ): Promise<RegisteredCategoryAndTagOutput> {
     try {
       this.logger.debug(input);
-      return await this.stardustService.searchTag(input);
+      return await this.stardustService.searchTag({
+        ...input,
+        email: user.email,
+      });
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);
