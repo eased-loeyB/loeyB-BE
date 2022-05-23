@@ -13,7 +13,6 @@ import {
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
   RegisteredCategoryAndTagOutput,
-  RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
