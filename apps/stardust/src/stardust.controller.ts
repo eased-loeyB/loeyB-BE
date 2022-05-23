@@ -11,6 +11,7 @@ import {
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
   RegisteredCategoryAndTagOutput,
+  RegisteredCategoryAndTagsOutput,
   RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
 import { TransactionBlock } from '@libs/common/transaction/transaction';
@@ -121,7 +122,7 @@ export class StardustController {
   @MessagePattern({ cmd: 'fetchRegisteredCategoryAndTag' })
   async fetchRegisteredCategoryAndTag(
     @Payload() input: fetchRegisteredCategoryAndTagInput,
-  ): Promise<RegisteredCategoryAndTagOutput> {
+  ): Promise<RegisteredCategoryAndTagsOutput> {
     return await TransactionBlock(
       input,
       async (input, entityManager): Promise<RegisteredCategoryAndTagOutput> => {

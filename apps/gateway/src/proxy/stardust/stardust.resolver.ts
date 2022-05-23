@@ -13,6 +13,7 @@ import {
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
   RegisteredCategoryAndTagOutput,
+  RegisteredCategoryAndTagsOutput,
   RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
 import { Logger } from '@nestjs/common';
@@ -186,7 +187,7 @@ export class StardustResolver {
   }
 
   @LoeybAuth()
-  @Query(() => RegisteredCategoryAndTagOutput, {
+  @Query(() => RegisteredCategoryAndTagsOutput, {
     name: 'fetchRegisteredCategoryAndTag',
     description: 'fetchRegisteredCategoryAndTag',
   })
@@ -198,7 +199,7 @@ export class StardustResolver {
       type: () => fetchRegisteredCategoryAndTagInput,
     })
     input: fetchRegisteredCategoryAndTagInput,
-  ): Promise<RegisteredCategoryAndTagOutput> {
+  ): Promise<RegisteredCategoryAndTagsOutput> {
     try {
       this.logger.debug(input);
       return await this.stardustService.fetchRegisteredCategoryAndTag({

@@ -15,6 +15,7 @@ import {
   RegisteredAreaAndCategoryAndTagOutput,
   RegisteredCategoryAndTag,
   RegisteredCategoryAndTagOutput,
+  RegisteredCategoryAndTagsOutput,
   RegisteredNameAreaAndCategory,
   RegisteredNameAreaAndCategoryOutput,
 } from '@libs/common/model';
@@ -350,7 +351,7 @@ export class StardustService {
   async fetchRegisteredCategoryAndTag(
     input: fetchRegisteredCategoryAndTagInput,
     entityManager: EntityManager,
-  ): Promise<RegisteredCategoryAndTagOutput> {
+  ): Promise<RegisteredCategoryAndTagsOutput> {
     const loeybUserRepository: LOEYBUserRepository =
       entityManager.getCustomRepository<LOEYBUserRepository>(
         LOEYBUserRepository,
@@ -369,6 +370,8 @@ export class StardustService {
        offset $3`,
       [user.id, input.limit, input.offset],
     );
+
+    console.log(tags);
     return {
       result: LOEYBErrorCode.SUCCESS,
       data: tags,

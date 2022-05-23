@@ -13,6 +13,7 @@ import {
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
   RegisteredCategoryAndTagOutput,
+  RegisteredCategoryAndTagsOutput,
 } from '@libs/common/model';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
@@ -109,11 +110,12 @@ export class StardustService {
 
   async fetchRegisteredCategoryAndTag(
     input: fetchRegisteredCategoryAndTagInput,
-  ): Promise<RegisteredCategoryAndTagOutput> {
+  ): Promise<RegisteredCategoryAndTagsOutput> {
     try {
+      console.log('it is coming');
       return await this.client
         .send<
-          RegisteredCategoryAndTagOutput,
+          RegisteredCategoryAndTagsOutput,
           fetchRegisteredCategoryAndTagInput
         >({ cmd: 'fetchRegisteredCategoryAndTag' }, input)
         .toPromise();
