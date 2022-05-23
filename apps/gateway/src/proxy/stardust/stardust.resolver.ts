@@ -218,6 +218,7 @@ export class StardustResolver {
     description: 'searchTag',
   })
   async searchTag(
+    @CurrentUser() user: any,
     @Args({
       name: 'input',
       description: 'upload file with tag and date and location information',
@@ -227,7 +228,10 @@ export class StardustResolver {
   ): Promise<RegisteredCategoryAndTagOutput> {
     try {
       this.logger.debug(input);
-      return await this.stardustService.searchTag(input);
+      return await this.stardustService.searchTag({
+        ...input,
+        email: user.email,
+      });
     } catch (error) {
       this.logger.error(error);
       throw new LOEYBException(LOEYBErrorCode.ERROR);
