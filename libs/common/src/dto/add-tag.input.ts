@@ -16,7 +16,6 @@ export class addTagInput extends AbstractInput {
   @IsEmail()
   @IsOptional()
   @IsString()
-  @Field(() => String, { nullable: true })
   @StringTransform()
   email?: string;
 

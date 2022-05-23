@@ -22,6 +22,7 @@ export class RegisterUserInput extends AbstractInput {
   @Field(() => String, { nullable: false, description: '이메일' })
   @StringTransform()
   email!: string;
+
   @Length(8, 16)
   @IsNotEmpty()
   @IsString()

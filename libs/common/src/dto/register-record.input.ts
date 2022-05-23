@@ -15,7 +15,6 @@ export class RegisterRecordInput extends AbstractInput {
   @Length(6, 320)
   @IsEmail()
   @IsString()
-  @Field()
   @StringTransform()
   email?: string;
 

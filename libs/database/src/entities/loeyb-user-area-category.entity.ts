@@ -52,15 +52,6 @@ export class LOEYBUserAreaCategoryEntity extends BaseEntity {
   })
   category?: LoeybCategoryType | null;
 
-  @Column({
-    name: 'tag',
-    type: 'varchar',
-    length: 255,
-    nullable: true,
-    comment: 'tag',
-  })
-  tag?: string | null;
-
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',

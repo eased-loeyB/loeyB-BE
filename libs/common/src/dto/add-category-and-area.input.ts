@@ -20,7 +20,6 @@ export class addCategoryAndAreaInput extends AbstractInput {
   @IsEmail()
   @IsOptional()
   @IsString()
-  @Field(() => String, { nullable: true })
   @StringTransform()
   email?: string;
 

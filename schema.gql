@@ -464,8 +464,6 @@ input SetUsernameInput {
 
 """registerCategories"""
 input RegisterCategoriesInput {
-  email: String!
-
   """name"""
   name: String!
 
@@ -481,7 +479,6 @@ input AreaCategoryInput {
 
 """"""
 input RegisterRecordInput {
-  email: String!
   imgFiles: ImgFileInput
   areaCategoryTag: [AreaCategoryTagInput!]!
   date: String!
@@ -503,8 +500,6 @@ input AreaCategoryTagInput {
 
 """addCategoryAndArea"""
 input addCategoryAndAreaInput {
-  email: String
-
   """category"""
   category: LoeybCategoryType!
 
@@ -514,8 +509,6 @@ input addCategoryAndAreaInput {
 
 """addTagInput"""
 input addTagInput {
-  email: String
-
   """category"""
   category: LoeybCategoryType!
 
