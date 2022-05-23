@@ -24,4 +24,12 @@ export class fetchRegisteredAreaAndCategoryAndTagInput extends AbstractInput {
   @IsString()
   @StringTransform()
   email?: string;
+
+  @IsString()
+  @Field(() => String, { nullable: true, defaultValue: '40' })
+  limit?: string;
+
+  @IsString()
+  @Field(() => String, { nullable: true, defaultValue: '0' })
+  offset?: string;
 }
