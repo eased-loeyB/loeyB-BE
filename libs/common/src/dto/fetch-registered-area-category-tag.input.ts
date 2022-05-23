@@ -22,7 +22,6 @@ export class fetchRegisteredAreaAndCategoryAndTagInput extends AbstractInput {
   @IsEmail()
   @IsOptional()
   @IsString()
-  @Field(() => String, { nullable: true })
   @StringTransform()
   email?: string;
 }

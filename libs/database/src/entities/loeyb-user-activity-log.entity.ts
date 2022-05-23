@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('capa_user_activity_log')
+@Entity('loeyb_user_activity_log')
 export class LOEYBUserActivityLogEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid', {
     name: 'id',
