@@ -352,7 +352,8 @@ input AuthenticationInput {
 
 """show registered area, category, tag"""
 input fetchRegisteredAreaAndCategoryAndTagInput {
-  email: String
+  limit: String = "40"
+  offset: String = "0"
 }
 
 """show registered area, category, tag"""
