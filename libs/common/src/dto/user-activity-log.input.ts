@@ -19,7 +19,6 @@ export class UserActivityLogInput extends AbstractInput {
   @IsEmail()
   @IsNotEmpty()
   @IsString()
-  @Field(() => String, { nullable: true, description: '이메일' })
   @StringTransform()
   email?: string | null;
 
