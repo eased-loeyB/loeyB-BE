@@ -15,13 +15,13 @@ export class LOEYBUserRecordsRepository extends Repository<LOEYBUserRecordsEntit
   async findSpecificRecords(input: FetchSpecificRecordsInput) {
     let where = ``;
     if (input.area != null) {
-      where += ` and lur.area = ${input.area}`;
+      where += ` and lur.area = '${input.area}'`;
     }
     if (input.category != null) {
-      where += ` and lur.category = ${input.category}`;
+      where += ` and lur.category = '${input.category}'`;
     }
     if (input.tag != null) {
-      where += ` and lur.tag = ${input.tag}`;
+      where += ` and lur.tag = '${input.tag}'`;
     }
     return this.query(
       `
