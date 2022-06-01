@@ -4,6 +4,7 @@ import {
   addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
   fetchRegisteredCategoryAndTagInput,
+  FetchRegisteredRecordsInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
   SearchTagInput,
@@ -15,6 +16,7 @@ import {
   RegisteredCategoryAndTagOutput,
   RegisteredCategoryAndTagsOutput,
   RegisteredNameAreaAndCategoryOutput,
+  StardustRecordsOutput,
 } from '@libs/common/model';
 import { Logger } from '@nestjs/common';
 import { Args, InputType, Mutation, Query, Resolver } from '@nestjs/graphql';
@@ -229,6 +231,32 @@ export class StardustResolver {
     try {
       this.logger.debug(input);
       return await this.stardustService.searchTag({
+        ...input,
+        email: user.email,
+      });
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @LoeybAuth()
+  @Query(() => StardustRecordsOutput, {
+    name: 'fetchRegisteredRecords',
+    description: 'fetchRegisteredRecords',
+  })
+  async fetchRegisteredRecords(
+    @CurrentUser() user: any,
+    @Args({
+      name: 'input',
+      description: 'upload file with tag and date and location information',
+      type: () => FetchRegisteredRecordsInput,
+    })
+    input: FetchRegisteredRecordsInput,
+  ): Promise<StardustRecordsOutput> {
+    try {
+      this.logger.debug(input);
+      return await this.stardustService.fetchRegisteredRecords({
         ...input,
         email: user.email,
       });
