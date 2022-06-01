@@ -3,7 +3,6 @@ import {
   addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
   fetchRegisteredCategoryAndTagInput,
-  FetchRegisteredRecordsInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
   SearchTagInput,
@@ -14,7 +13,6 @@ import {
   RegisteredCategoryAndTagOutput,
   RegisteredCategoryAndTagsOutput,
   RegisteredNameAreaAndCategoryOutput,
-  StardustRecordsOutput,
 } from '@libs/common/model';
 import { TransactionBlock } from '@libs/common/transaction/transaction';
 import { Controller, Logger } from '@nestjs/common';
@@ -145,22 +143,6 @@ export class StardustController {
       async (input, entityManager): Promise<RegisteredCategoryAndTagOutput> => {
         return await this.stardustService.searchTag(
           input as SearchTagInput,
-          entityManager,
-        );
-      },
-    );
-  }
-
-  @MessagePattern({ cmd: 'fetchRegisteredRecords' })
-  async fetchRegisteredRecords(
-    @Payload() input: FetchRegisteredRecordsInput,
-  ): Promise<StardustRecordsOutput> {
-    console.log('/ / / / / / / / / / / //');
-    return await TransactionBlock(
-      input,
-      async (input, entityManager): Promise<StardustRecordsOutput> => {
-        return await this.stardustService.fetchRegisteredRecords(
-          input as FetchRegisteredRecordsInput,
           entityManager,
         );
       },

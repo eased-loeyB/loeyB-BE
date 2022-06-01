@@ -15,7 +15,6 @@ export class RegisterRecordInput extends AbstractInput {
   @Length(6, 320)
   @IsEmail()
   @IsString()
-  @IsOptional()
   @StringTransform()
   email?: string;
 
@@ -39,8 +38,4 @@ export class RegisterRecordInput extends AbstractInput {
   @StringTransform()
   @Field(() => String, { nullable: false })
   location!: string;
-
-  @IsOptional()
-  @Field(() => Number, { nullable: true })
-  importance?: number;
 }

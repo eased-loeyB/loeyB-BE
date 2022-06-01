@@ -40,7 +40,7 @@ export class LOEYBUserRecordsEntity extends BaseEntity {
     length: 255,
     comment: 'fileId',
   })
-  fileId!: string;
+  fildId!: string;
 
   @Column({
     name: 'file_name',
@@ -48,7 +48,7 @@ export class LOEYBUserRecordsEntity extends BaseEntity {
     length: 255,
     comment: 'fileName',
   })
-  fileName!: string;
+  fildName!: string;
 
   @Column({
     name: 'area',

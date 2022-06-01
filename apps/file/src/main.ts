@@ -29,7 +29,7 @@ async function bootstrap(): Promise<void> {
 
   Logger.log(`${FILE} is running on [${configService.nodeEnv}]`);
 
-  await app.startAllMicroservices();
+  await app.startAllMicroservicesAsync();
 }
 
 void bootstrap();
