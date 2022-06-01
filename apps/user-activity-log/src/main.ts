@@ -30,7 +30,7 @@ async function bootstrap(): Promise<void> {
 
   Logger.log(`${USER_ACTIVITY_LOG} is running on [${configService.nodeEnv}]`);
 
-  await app.startAllMicroservicesAsync();
+  await app.startAllMicroservices();
 }
 
 void bootstrap();
