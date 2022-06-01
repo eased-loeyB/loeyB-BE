@@ -25,6 +25,15 @@ enum LOEYBErrorCode {
   """UNAUTHORIZED"""
   UNAUTHORIZED
 
+  """NO_REGISTERED_AREA_CATEGORY"""
+  NO_REGISTERED_AREA_CATEGORY
+
+  """NO_REGISTERED_CATEGORY_TAG"""
+  NO_REGISTERED_CATEGORY_TAG
+
+  """HAD_NEVER_ADDED_CATEGORY"""
+  HAD_NEVER_ADDED_CATEGORY
+
   """USER_NOT_FOUND"""
   USER_NOT_FOUND
 
@@ -308,6 +317,43 @@ type RegisteredCategoryAndTagsOutput {
   data: [RegisteredCategoryAndTag!]
 }
 
+""""""
+type StardustRecords {
+  """"""
+  fileId: String
+
+  """"""
+  fileName: String
+
+  """중요도"""
+  importance: Float
+
+  """"""
+  location: String
+
+  """"""
+  date: String
+
+  """"""
+  area: String
+
+  """"""
+  category: String
+
+  """"""
+  tag: String
+}
+
+""""""
+type StardustRecordsOutput {
+  """LOEYB ERROR CODE"""
+  result: LOEYBErrorCode!
+
+  """errorMessage"""
+  errorMessage: String
+  data: [StardustRecords!]
+}
+
 type Query {
   sayHello: String!
 
@@ -340,6 +386,12 @@ type Query {
     """upload file with tag and date and location information"""
     input: SearchTagInput!
   ): RegisteredCategoryAndTagOutput!
+
+  """fetchRegisteredRecords"""
+  fetchRegisteredRecords(
+    """upload file with tag and date and location information"""
+    input: FetchRegisteredRecordsInput!
+  ): StardustRecordsOutput!
 }
 
 """이메일 인증"""
@@ -382,6 +434,21 @@ input SearchTagInput {
 
   """"""
   offset: Float = 0
+}
+
+"""저장된 사진 가져오기"""
+input FetchRegisteredRecordsInput {
+  """이메일"""
+  email: String
+
+  """area"""
+  area: LoeybAreaType
+
+  """category"""
+  category: LoeybCategoryType
+
+  """tag"""
+  tag: String
 }
 
 type Mutation {
@@ -494,6 +561,7 @@ input RegisterRecordInput {
   areaCategoryTag: [AreaCategoryTagInput!]!
   date: String!
   location: String!
+  importance: Float
 }
 
 """"""

@@ -30,6 +30,6 @@ async function bootstrap() {
 
   Logger.log(`${NOTIFICATION} is running on [${configService.nodeEnv}]`);
 
-  await app.startAllMicroservicesAsync();
+  await app.startAllMicroservices();
 }
 void bootstrap();
