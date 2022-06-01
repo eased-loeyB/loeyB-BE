@@ -1,5 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 import { AbstractInput, AreaCategoryInput } from '.';
 import { StringTransform } from './transformer';
 /**
@@ -12,6 +18,7 @@ export class RegisterCategoriesInput extends AbstractInput {
   @Length(6, 320)
   @IsEmail()
   @IsString()
+  @IsOptional()
   @StringTransform()
   email?: string;
 

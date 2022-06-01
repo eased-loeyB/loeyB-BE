@@ -7,3 +7,4 @@ export * from './registered-name-area-category.model';
 export * from './request-email-verification.model';
 export * from './registered-area-category-tag.model';
 export * from './registered-category-tag.model';
+export * from './stardust-records.model';

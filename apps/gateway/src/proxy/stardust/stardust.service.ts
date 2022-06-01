@@ -4,6 +4,7 @@ import {
   addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
   fetchRegisteredCategoryAndTagInput,
+  FetchRegisteredRecordsInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
   SearchTagInput,
@@ -14,6 +15,7 @@ import {
   RegisteredAreaAndCategoryAndTagOutput,
   RegisteredCategoryAndTagOutput,
   RegisteredCategoryAndTagsOutput,
+  StardustRecordsOutput,
 } from '@libs/common/model';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
@@ -132,6 +134,23 @@ export class StardustService {
       return await this.client
         .send<RegisteredCategoryAndTagOutput, SearchTagInput>(
           { cmd: 'searchTag' },
+          input,
+        )
+        .toPromise();
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
+    }
+  }
+
+  async fetchRegisteredRecords(
+    input: FetchRegisteredRecordsInput,
+  ): Promise<StardustRecordsOutput> {
+    try {
+      console.log('-------------------');
+      return await this.client
+        .send<StardustRecordsOutput, FetchRegisteredRecordsInput>(
+          { cmd: 'fetchRegisteredRecords' },
           input,
         )
         .toPromise();

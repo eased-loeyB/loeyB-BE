@@ -1,9 +1,14 @@
-import { LoeybAreaType, LOEYBErrorCode } from '@libs/common/constant';
+import {
+  LoeybAreaType,
+  LoeybCategoryType,
+  LOEYBErrorCode,
+} from '@libs/common/constant';
 import {
   addCategoryAndAreaInput,
   addTagInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
   fetchRegisteredCategoryAndTagInput,
+  FetchRegisteredRecordsInput,
   RegisterCategoriesInput,
   RegisterRecordInput,
   SearchTagInput,
@@ -18,6 +23,8 @@ import {
   RegisteredCategoryAndTagsOutput,
   RegisteredNameAreaAndCategory,
   RegisteredNameAreaAndCategoryOutput,
+  StardustRecords,
+  StardustRecordsOutput,
 } from '@libs/common/model';
 import {
   LOEYBUserAreaCategoryEntity,
@@ -95,7 +102,7 @@ export class StardustService {
     }
 
     const alreadyImgFile = await loeybUserRecordsRepository.findOne({
-      fildId: input.imgFiles.fileId,
+      fileId: input.imgFiles.fileId,
     });
     if (alreadyImgFile != null) {
       throw new LOEYBException(LOEYBErrorCode.ALREADY_REGISTERED_IMAGE);
@@ -107,8 +114,9 @@ export class StardustService {
       await loeybUserRecordsRepository.save(
         loeybUserRecordsRepository.create({
           userId: user.id,
-          fildId: input.imgFiles.fileId,
-          fildName: input.imgFiles.fileName,
+          fileId: input.imgFiles.fileId,
+          fileName: input.imgFiles.fileName,
+          importance: input.importance,
           area: a.area,
           category: a.category,
           tag: a.tag,
@@ -208,6 +216,23 @@ export class StardustService {
         LOEYBUserCategoryTagRepository,
       );
 
+    const loeybUserAreaCategoryRepository: LOEYBUserAreaCategoryRepository =
+      entityManager.getCustomRepository<LOEYBUserAreaCategoryRepository>(
+        LOEYBUserAreaCategoryRepository,
+      );
+
+    const categoryList: LoeybCategoryType[] = [];
+    const userCategory: LOEYBUserAreaCategoryEntity[] =
+      await loeybUserAreaCategoryRepository.findRegisteredAreasAndCategories(
+        user.id,
+      );
+
+    for (const uc of userCategory) {
+      categoryList.push(uc.category);
+    }
+    if (!categoryList.includes(input.category)) {
+      throw new LOEYBException(LOEYBErrorCode.HAD_NEVER_ADDED_CATEGORY);
+    }
     const userTag: LOEYBUserCategoryTagEntity =
       await loeybUserCategoryTagRepository.findOne({
         userId: user.id,
@@ -340,7 +365,6 @@ export class StardustService {
       });
     }
 
-    console.log(registeredAreaAndCategoryAndTag);
     return {
       result: LOEYBErrorCode.SUCCESS,
       data: registeredAreaAndCategoryAndTag,
@@ -371,7 +395,6 @@ export class StardustService {
       [user.id, input.limit, input.offset],
     );
 
-    console.log(tags);
     return {
       result: LOEYBErrorCode.SUCCESS,
       data: tags,
@@ -410,6 +433,79 @@ export class StardustService {
     return {
       result: LOEYBErrorCode.SUCCESS,
       data: tags,
+    };
+  }
+
+  async fetchRegisteredRecords(
+    input: FetchRegisteredRecordsInput,
+    entityManager: EntityManager,
+  ): Promise<StardustRecordsOutput> {
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+
+    console.log(')  ) )) ) ) )  ) ) ) ) ');
+    const user: LOEYBUserEntity =
+      await loeybUserRepository.findRegisteredUserByEmail(input.email);
+    if (user == null) {
+      throw new LOEYBException(LOEYBErrorCode.NO_USER);
+    }
+
+    const loeybUserAreaCategoryRepository: LOEYBUserAreaCategoryRepository =
+      entityManager.getCustomRepository<LOEYBUserAreaCategoryRepository>(
+        LOEYBUserAreaCategoryRepository,
+      );
+
+    const registeredAreaCategory: LOEYBUserAreaCategoryEntity[] =
+      await loeybUserAreaCategoryRepository.findRegisteredAreasAndCategories(
+        user.id,
+      );
+    if (registeredAreaCategory == null || registeredAreaCategory.length <= 0) {
+      throw new LOEYBException(LOEYBErrorCode.NO_REGISTERED_AREA_CATEGORY);
+    }
+
+    const loeybUserCategoryTagRepository: LOEYBUserCategoryTagRepository =
+      entityManager.getCustomRepository<LOEYBUserCategoryTagRepository>(
+        LOEYBUserCategoryTagRepository,
+      );
+    const registeredCategoryTag: LOEYBUserCategoryTagEntity[] =
+      await loeybUserCategoryTagRepository.findRegisteredCategoriesAndTags(
+        user.id,
+      );
+
+    if (registeredCategoryTag == null || registeredCategoryTag.length <= 0) {
+      throw new LOEYBException(LOEYBErrorCode.NO_REGISTERED_CATEGORY_TAG);
+    }
+
+    const loeybUserRecordsRepository: LOEYBUserRecordsRepository =
+      entityManager.getCustomRepository<LOEYBUserRecordsRepository>(
+        LOEYBUserRecordsRepository,
+      );
+    const specificRecords: LOEYBUserRecordsEntity[] =
+      await loeybUserRecordsRepository.findSpecificRecords({
+        userId: user.id,
+        area: input.area,
+        category: input.category,
+        tag: input.tag,
+      });
+    const result: StardustRecords[] = [];
+    for (const sr of specificRecords) {
+      result.push({
+        fileId: sr.fileId,
+        fileName: sr.fileName,
+        importance: sr.importance,
+        location: sr.location,
+        date: sr.date,
+        area: sr.area,
+        category: sr.category,
+        tag: sr.tag,
+      });
+    }
+
+    return {
+      result: LOEYBErrorCode.SUCCESS,
+      data: result,
     };
   }
 }
