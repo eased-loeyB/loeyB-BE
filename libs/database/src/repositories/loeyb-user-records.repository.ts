@@ -26,7 +26,7 @@ export class LOEYBUserRecordsRepository extends Repository<LOEYBUserRecordsEntit
     return this.query(
       `
         select 
-          lur.user_id "userId", lur.file_id "fileId", lur.file_name "fileName", lur.area, lur.category, lur.tag, lur.date, lur.location, lur.importance 
+          lur.id, lur.user_id "userId", lur.file_id "fileId", lur.file_name "fileName", lur.area, lur.category, lur.tag, lur.date, lur.location, lur.importance, lur.description
         from 
           loeyb_user_records lur 
         where 

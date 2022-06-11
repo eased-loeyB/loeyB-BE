@@ -5,11 +5,11 @@ import { LoeybCategoryType } from '../constant/loeyb-category-type';
 
 @InputType({ description: '' })
 export class AreaCategoryTagInput extends AbstractInput {
-  @Field(() => LoeybAreaType, { nullable: false })
-  area!: LoeybAreaType;
+  @Field(() => LoeybAreaType, { nullable: true })
+  area?: LoeybAreaType;
 
-  @Field(() => LoeybCategoryType, { nullable: false })
-  category!: LoeybCategoryType;
+  @Field(() => LoeybCategoryType, { nullable: true })
+  category?: LoeybCategoryType;
 
   @Field(() => String, { nullable: true })
   tag?: string;

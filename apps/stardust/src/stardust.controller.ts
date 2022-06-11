@@ -7,6 +7,7 @@ import {
   RegisterCategoriesInput,
   RegisterRecordInput,
   SearchTagInput,
+  UpdateRecordInput,
 } from '@libs/common/dto';
 import {
   Output,
@@ -50,6 +51,19 @@ export class StardustController {
       async (input, entityManager): Promise<Output> => {
         return await this.stardustService.registerRecord(
           input as RegisterRecordInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'updateRecord' })
+  async updateRecord(@Payload() input: UpdateRecordInput): Promise<Output> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<Output> => {
+        return await this.stardustService.updateRecord(
+          input as UpdateRecordInput,
           entityManager,
         );
       },
@@ -155,7 +169,6 @@ export class StardustController {
   async fetchRegisteredRecords(
     @Payload() input: FetchRegisteredRecordsInput,
   ): Promise<StardustRecordsOutput> {
-    console.log('/ / / / / / / / / / / //');
     return await TransactionBlock(
       input,
       async (input, entityManager): Promise<StardustRecordsOutput> => {

@@ -12,6 +12,7 @@ import {
   RegisterCategoriesInput,
   RegisterRecordInput,
   SearchTagInput,
+  UpdateRecordInput,
 } from '@libs/common/dto';
 import {
   LOEYBException,
@@ -122,6 +123,7 @@ export class StardustService {
           tag: a.tag,
           date: input.date,
           location: input.location,
+          description: input.description,
         }),
       );
     }
@@ -130,13 +132,59 @@ export class StardustService {
     } as Output;
   }
 
-  /**
-   *
-   * @param input
-   * @param entityManager
-   * @returns
-   * @description 사진 저장할 때 원하는 카테고리가 없을 경우, 추가하는 api
-   */
+  async updateRecord(
+    input: UpdateRecordInput,
+    entityManager: EntityManager,
+  ): Promise<Output> {
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+    const loeybUserRecordsRepository: LOEYBUserRecordsRepository =
+      entityManager.getCustomRepository<LOEYBUserRecordsRepository>(
+        LOEYBUserRecordsRepository,
+      );
+    const user: LOEYBUserEntity =
+      await loeybUserRepository.findRegisteredUserByEmail(input.email);
+    if (user == null) {
+      throw new LOEYBException(LOEYBErrorCode.NO_USER);
+    }
+
+    const record = await loeybUserRecordsRepository.findOne(input.recordId);
+    if (record == null || record == undefined) {
+      throw new LOEYBException(LOEYBErrorCode.NO_REGISTERED_RECORD);
+    }
+
+    for (const a of input.areaCategoryTag) {
+      await loeybUserRecordsRepository.update(
+        {
+          id: input.recordId,
+        },
+        {
+          fileId:
+            input.imgFiles != null && input.imgFiles.fileId != null
+              ? input.imgFiles.fileId
+              : record.fileId,
+          fileName:
+            input.imgFiles != null && input.imgFiles.fileName != null
+              ? input.imgFiles.fileName
+              : record.fileName,
+          area: a?.area,
+          category: a?.category,
+          tag: a?.tag,
+          date: input.date != null ? input.date : record.date,
+          location: input.location != null ? input.location : record.location,
+          importance:
+            input.importance != null ? input.importance : record.importance,
+          description:
+            input.description != null ? input.description : record.description,
+        },
+      );
+    }
+    return {
+      result: LOEYBErrorCode.SUCCESS,
+    } as Output;
+  }
   async addCategoryAndArea(
     input: addCategoryAndAreaInput,
     entityManager: EntityManager,
@@ -445,7 +493,6 @@ export class StardustService {
         LOEYBUserRepository,
       );
 
-    console.log(')  ) )) ) ) )  ) ) ) ) ');
     const user: LOEYBUserEntity =
       await loeybUserRepository.findRegisteredUserByEmail(input.email);
     if (user == null) {
@@ -492,9 +539,11 @@ export class StardustService {
     const result: StardustRecords[] = [];
     for (const sr of specificRecords) {
       result.push({
+        recordId: sr.id,
         fileId: sr.fileId,
         fileName: sr.fileName,
         importance: sr.importance,
+        description: sr.description,
         location: sr.location,
         date: sr.date,
         area: sr.area,

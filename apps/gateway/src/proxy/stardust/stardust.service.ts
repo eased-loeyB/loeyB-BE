@@ -8,6 +8,7 @@ import {
   RegisterCategoriesInput,
   RegisterRecordInput,
   SearchTagInput,
+  UpdateRecordInput,
 } from '@libs/common/dto';
 import {
   LOEYBException,
@@ -46,6 +47,17 @@ export class StardustService {
     try {
       return await this.client
         .send<Output, RegisterRecordInput>({ cmd: 'registerRecord' }, input)
+        .toPromise();
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
+    }
+  }
+
+  async updateRecord(input: UpdateRecordInput): Promise<Output> {
+    try {
+      return await this.client
+        .send<Output, UpdateRecordInput>({ cmd: 'updateRecord' }, input)
         .toPromise();
     } catch (error) {
       this.logger.error(error.message);

@@ -8,6 +8,9 @@ import { Many, One } from '.';
  */
 @ObjectType({ description: '' })
 export class StardustRecords {
+  @Field(() => String, { nullable: true })
+  recordId?: string;
+
   @Field(() => String, { nullable: true, description: '' })
   fileId?: string;
 
@@ -20,9 +23,15 @@ export class StardustRecords {
   @Field(() => Number, {
     nullable: true,
     description: '중요도',
-    defaultValue: 0,
+    defaultValue: 1,
   })
   importance?: number;
+
+  @Field(() => String, {
+    nullable: true,
+    description: 'description',
+  })
+  description?: string;
 
   @Field(() => String, { nullable: true, description: '' })
   location?: string;
