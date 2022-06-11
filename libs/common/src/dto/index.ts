@@ -18,6 +18,7 @@ export * from './google-login.input';
 export * from './user-activity-log.input';
 export * from './request-file.input';
 export * from './fetch-registered-records.input';
+export * from './update-records.input';
 export * from './add-category-and-area.input';
 export * from './user-activity-log.input';
 export * from './add-tag.input';

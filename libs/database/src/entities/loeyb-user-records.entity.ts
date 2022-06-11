@@ -94,10 +94,19 @@ export class LOEYBUserRecordsEntity extends BaseEntity {
     name: 'importance',
     type: 'bigint',
     nullable: true,
-    default: 0,
+    default: 1,
     comment: '중요도',
   })
-  importance!: number;
+  importance?: number;
+
+  @Column({
+    name: 'description',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+    comment: '설명',
+  })
+  description?: string;
 
   @CreateDateColumn({
     name: 'created_at',

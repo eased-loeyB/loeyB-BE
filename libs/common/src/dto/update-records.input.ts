@@ -11,7 +11,7 @@ import { AbstractInput, AreaCategoryTagInput, ImgFileInput } from '.';
 import { StringTransform } from './transformer';
 
 @InputType({ description: '' })
-export class RegisterRecordInput extends AbstractInput {
+export class UpdateRecordInput extends AbstractInput {
   @Length(6, 320)
   @IsEmail()
   @IsString()
@@ -20,32 +20,34 @@ export class RegisterRecordInput extends AbstractInput {
   email?: string;
 
   @IsOptional()
+  @Field(() => String, { nullable: true })
+  recordId: string;
+
+  @IsOptional()
   @ValidateNested({ each: true })
   @Field(() => ImgFileInput, {
     nullable: true,
   })
-  imgFiles: ImgFileInput | null;
+  imgFiles?: ImgFileInput | null;
 
   @ValidateNested({ each: true })
-  @Field(() => [AreaCategoryTagInput], { nullable: false })
-  areaCategoryTag!: AreaCategoryTagInput[];
+  @Field(() => [AreaCategoryTagInput], { nullable: true })
+  areaCategoryTag?: AreaCategoryTagInput[];
+
+  @IsString()
+  @Field(() => String, { nullable: true })
+  date?: string;
 
   @IsString()
   @StringTransform()
-  @Field(() => String, { nullable: false })
-  date!: string;
-
-  @IsString()
-  @StringTransform()
-  @Field(() => String, { nullable: false })
-  location!: string;
+  @Field(() => String, { nullable: true })
+  location?: string;
 
   @IsOptional()
   @Field(() => Number, { nullable: true })
   importance?: number;
 
   @IsOptional()
-  @StringTransform()
   @Field(() => String, { nullable: true })
   description?: string;
 }

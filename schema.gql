@@ -34,6 +34,9 @@ enum LOEYBErrorCode {
   """HAD_NEVER_ADDED_CATEGORY"""
   HAD_NEVER_ADDED_CATEGORY
 
+  """NO_REGISTERED_RECORD"""
+  NO_REGISTERED_RECORD
+
   """USER_NOT_FOUND"""
   USER_NOT_FOUND
 
@@ -319,6 +322,8 @@ type RegisteredCategoryAndTagsOutput {
 
 """"""
 type StardustRecords {
+  recordId: String
+
   """"""
   fileId: String
 
@@ -327,6 +332,9 @@ type StardustRecords {
 
   """중요도"""
   importance: Float
+
+  """description"""
+  description: String
 
   """"""
   location: String
@@ -494,6 +502,12 @@ type Mutation {
     input: RegisterRecordInput!
   ): Output!
 
+  """updateRecord"""
+  updateRecord(
+    """update records"""
+    input: UpdateRecordInput!
+  ): Output!
+
   """add categories when upload img file"""
   addCategoryAndArea(
     """add categories when upload img file"""
@@ -562,6 +576,7 @@ input RegisterRecordInput {
   date: String!
   location: String!
   importance: Float
+  description: String
 }
 
 """"""
@@ -572,9 +587,20 @@ input ImgFileInput {
 
 """"""
 input AreaCategoryTagInput {
-  area: LoeybAreaType!
-  category: LoeybCategoryType!
+  area: LoeybAreaType
+  category: LoeybCategoryType
   tag: String
+}
+
+""""""
+input UpdateRecordInput {
+  recordId: String
+  imgFiles: ImgFileInput
+  areaCategoryTag: [AreaCategoryTagInput!]
+  date: String
+  location: String
+  importance: Float
+  description: String
 }
 
 """addCategoryAndArea"""

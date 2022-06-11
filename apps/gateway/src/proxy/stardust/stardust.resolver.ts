@@ -8,6 +8,7 @@ import {
   RegisterCategoriesInput,
   RegisterRecordInput,
   SearchTagInput,
+  UpdateRecordInput,
 } from '@libs/common/dto';
 import {
   LOEYBException,
@@ -76,6 +77,32 @@ export class StardustResolver {
     try {
       this.logger.debug(input);
       return await this.stardustService.registerRecord({
+        ...input,
+        email: user.email,
+      });
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @LoeybAuth()
+  @Mutation(() => Output, {
+    name: 'updateRecord',
+    description: 'updateRecord',
+  })
+  async updateRecord(
+    @CurrentUser() user: any,
+    @Args({
+      name: 'input',
+      description: 'update records',
+      type: () => UpdateRecordInput,
+    })
+    input: UpdateRecordInput,
+  ): Promise<Output> {
+    try {
+      this.logger.debug(input);
+      return await this.stardustService.updateRecord({
         ...input,
         email: user.email,
       });
