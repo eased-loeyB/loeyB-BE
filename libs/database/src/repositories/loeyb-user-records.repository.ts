@@ -37,4 +37,17 @@ export class LOEYBUserRecordsRepository extends Repository<LOEYBUserRecordsEntit
       [input.userId],
     );
   }
+
+  async findDistinctAreaTag(userId: string) {
+    return await this.query(
+      `
+        select 
+          lur.area "area", lur.tag "tag", lur.date 
+        from
+          loeyb_user_records lur 
+        where lur.user_id = $1
+      `,
+      [userId],
+    );
+  }
 }

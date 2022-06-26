@@ -2,6 +2,7 @@ import { LOEYBErrorCode } from '@libs/common/constant';
 import {
   addCategoryAndAreaInput,
   addTagInput,
+  fetchTagRatioInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
   fetchRegisteredCategoryAndTagInput,
   FetchRegisteredRecordsInput,
@@ -11,6 +12,7 @@ import {
   UpdateRecordInput,
 } from '@libs/common/dto';
 import {
+  areaTagRatiosOutput,
   LOEYBException,
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
@@ -284,6 +286,32 @@ export class StardustResolver {
     try {
       this.logger.debug(input);
       return await this.stardustService.fetchRegisteredRecords({
+        ...input,
+        email: user.email,
+      });
+    } catch (error) {
+      this.logger.error(error);
+      throw new LOEYBException(LOEYBErrorCode.ERROR);
+    }
+  }
+
+  @LoeybAuth()
+  @Query(() => areaTagRatiosOutput, {
+    name: 'fetchTagRatio',
+    description: 'fetchTagRatio',
+  })
+  async fetchTagRatio(
+    @CurrentUser() user: any,
+    @Args({
+      name: 'input',
+      description: 'fetch area category ratio',
+      type: () => fetchTagRatioInput,
+    })
+    input: fetchTagRatioInput,
+  ): Promise<areaTagRatiosOutput> {
+    try {
+      this.logger.debug(input);
+      return await this.stardustService.fetchTagRatio({
         ...input,
         email: user.email,
       });

@@ -362,6 +362,25 @@ type StardustRecordsOutput {
   data: [StardustRecords!]
 }
 
+type tagRatio {
+  tag: String
+  ratio: Float
+}
+
+type areaTagRatio {
+  area: LoeybAreaType
+  categoryRatio: [tagRatio!]
+}
+
+type areaTagRatiosOutput {
+  """LOEYB ERROR CODE"""
+  result: LOEYBErrorCode!
+
+  """errorMessage"""
+  errorMessage: String
+  data: [areaTagRatio!]
+}
+
 type Query {
   sayHello: String!
 
@@ -400,6 +419,12 @@ type Query {
     """upload file with tag and date and location information"""
     input: FetchRegisteredRecordsInput!
   ): StardustRecordsOutput!
+
+  """fetchTagRatio"""
+  fetchTagRatio(
+    """fetch area category ratio"""
+    input: fetchTagRatioInput!
+  ): areaTagRatiosOutput!
 }
 
 """이메일 인증"""
@@ -457,6 +482,14 @@ input FetchRegisteredRecordsInput {
 
   """tag"""
   tag: String
+  date: String
+}
+
+"""show tag ratio of given date condition"""
+input fetchTagRatioInput {
+  limit: String = "40"
+  offset: String = "0"
+  date: String
 }
 
 type Mutation {

@@ -1,6 +1,7 @@
 import {
   addCategoryAndAreaInput,
   addTagInput,
+  fetchTagRatioInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
   fetchRegisteredCategoryAndTagInput,
   FetchRegisteredRecordsInput,
@@ -10,6 +11,7 @@ import {
   UpdateRecordInput,
 } from '@libs/common/dto';
 import {
+  areaTagRatiosOutput,
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
   RegisteredCategoryAndTagOutput,
@@ -174,6 +176,21 @@ export class StardustController {
       async (input, entityManager): Promise<StardustRecordsOutput> => {
         return await this.stardustService.fetchRegisteredRecords(
           input as FetchRegisteredRecordsInput,
+          entityManager,
+        );
+      },
+    );
+  }
+
+  @MessagePattern({ cmd: 'fetchTagRatio' })
+  async fetchTagRatio(
+    @Payload() input: fetchTagRatioInput,
+  ): Promise<areaTagRatiosOutput> {
+    return await TransactionBlock(
+      input,
+      async (input, entityManager): Promise<areaTagRatiosOutput> => {
+        return await this.stardustService.fetchTagRatio(
+          input as fetchTagRatioInput,
           entityManager,
         );
       },
