@@ -6,6 +6,7 @@ import {
 import {
   addCategoryAndAreaInput,
   addTagInput,
+  fetchTagRatioInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
   fetchRegisteredCategoryAndTagInput,
   FetchRegisteredRecordsInput,
@@ -15,6 +16,8 @@ import {
   UpdateRecordInput,
 } from '@libs/common/dto';
 import {
+  areaTagRatio,
+  areaTagRatiosOutput,
   LOEYBException,
   Output,
   RegisteredAreaAndCategoryAndTag,
@@ -26,6 +29,7 @@ import {
   RegisteredNameAreaAndCategoryOutput,
   StardustRecords,
   StardustRecordsOutput,
+  tagRatio,
 } from '@libs/common/model';
 import {
   LOEYBUserAreaCategoryEntity,
@@ -412,6 +416,7 @@ export class StardustService {
         tag: tagList,
       });
     }
+    console.log(registeredAreaAndCategoryAndTag);
 
     return {
       result: LOEYBErrorCode.SUCCESS,
@@ -556,5 +561,76 @@ export class StardustService {
       result: LOEYBErrorCode.SUCCESS,
       data: result,
     };
+  }
+
+  async fetchTagRatio(
+    input: fetchTagRatioInput,
+    entityManager: EntityManager,
+  ): Promise<areaTagRatiosOutput> {
+    const loeybUserRepository: LOEYBUserRepository =
+      entityManager.getCustomRepository<LOEYBUserRepository>(
+        LOEYBUserRepository,
+      );
+
+    const user: LOEYBUserEntity =
+      await loeybUserRepository.findRegisteredUserByEmail(input.email);
+    if (user == null) {
+      throw new LOEYBException(LOEYBErrorCode.NO_USER);
+    }
+
+    /**
+     * 1. 일단 가 가져와 가져오고
+     * 2. 그 area, category 한쌍으로 몇개의 image가 저장이 되어있는지 count
+     */
+
+    const loeybUserAreaCategoryRepository: LOEYBUserAreaCategoryRepository =
+      entityManager.getCustomRepository<LOEYBUserAreaCategoryRepository>(
+        LOEYBUserAreaCategoryRepository,
+      );
+    const registeredAreaCategory: LOEYBUserAreaCategoryEntity[] =
+      await loeybUserAreaCategoryRepository.findRegisteredAreasAndCategories(
+        user.id,
+      );
+    if (registeredAreaCategory == null || registeredAreaCategory.length <= 0) {
+      throw new LOEYBException(LOEYBErrorCode.NO_REGISTERED_AREA_CATEGORY);
+    }
+
+    const loeybUserRecordsRepository: LOEYBUserRecordsRepository =
+      entityManager.getCustomRepository<LOEYBUserRecordsRepository>(
+        LOEYBUserRecordsRepository,
+      );
+
+    const records: LOEYBUserRecordsEntity[] =
+      await loeybUserRecordsRepository.find({ userId: user.id });
+
+    const areaTagRatio: areaTagRatio[] = [];
+    // for (const r of records) {
+    //   if (!areaTagRatio[r.area]) {
+    //     areaTagRatio[r.area] = {};
+    //   }
+    //   if (!areaTagRatio[r.area][r.tag]) {
+    //     areaTagRatio[r.area][r.tag] = { ratio: Number(r.importance) };
+    //   } else {
+    //     areaTagRatio[r.area][r.tag] = {
+    //       ratio:
+    //         Number(areaTagRatio[r.area][r.tag].ratio) + Number(r.importance),
+    //     };
+    //   }
+    // }
+    for (const r of records) {
+      areaTagRatio.push({
+        area: r.area,
+        categoryRatio: [
+          {
+            tag: r.tag,
+            ratio: Number(r.importance),
+          },
+        ],
+      });
+    }
+    return {
+      result: LOEYBErrorCode.SUCCESS,
+      data: areaTagRatio,
+    } as areaTagRatiosOutput;
   }
 }

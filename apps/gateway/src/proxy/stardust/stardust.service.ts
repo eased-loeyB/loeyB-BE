@@ -2,6 +2,7 @@ import { LOEYBErrorCode } from '@libs/common/constant';
 import {
   addCategoryAndAreaInput,
   addTagInput,
+  fetchTagRatioInput,
   fetchRegisteredAreaAndCategoryAndTagInput,
   fetchRegisteredCategoryAndTagInput,
   FetchRegisteredRecordsInput,
@@ -11,6 +12,7 @@ import {
   UpdateRecordInput,
 } from '@libs/common/dto';
 import {
+  areaTagRatiosOutput,
   LOEYBException,
   Output,
   RegisteredAreaAndCategoryAndTagOutput,
@@ -159,10 +161,23 @@ export class StardustService {
     input: FetchRegisteredRecordsInput,
   ): Promise<StardustRecordsOutput> {
     try {
-      console.log('-------------------');
       return await this.client
         .send<StardustRecordsOutput, FetchRegisteredRecordsInput>(
           { cmd: 'fetchRegisteredRecords' },
+          input,
+        )
+        .toPromise();
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new LOEYBException(LOEYBErrorCode.ERROR, error.message);
+    }
+  }
+
+  async fetchTagRatio(input: fetchTagRatioInput): Promise<areaTagRatiosOutput> {
+    try {
+      return await this.client
+        .send<areaTagRatiosOutput, fetchTagRatioInput>(
+          { cmd: 'fetchTagRatio' },
           input,
         )
         .toPromise();

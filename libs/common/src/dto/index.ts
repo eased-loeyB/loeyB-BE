@@ -14,6 +14,7 @@ export * from './area-category-tag.input';
 export * from './set-username.input';
 export * from './fetch-registered-area-category-tag.input';
 export * from './fetch-specific-records.input';
+export * from './fetch-category-ratio.input';
 export * from './google-login.input';
 export * from './user-activity-log.input';
 export * from './request-file.input';

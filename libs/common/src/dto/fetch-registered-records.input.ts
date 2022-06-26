@@ -40,4 +40,9 @@ export class FetchRegisteredRecordsInput extends AbstractInput {
   @IsOptional()
   @Field(() => String, { nullable: true, description: 'tag' })
   tag?: string;
+
+  @IsString()
+  @IsOptional()
+  @Field(() => String, { nullable: true })
+  date?: string;
 }
