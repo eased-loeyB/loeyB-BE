@@ -23,7 +23,10 @@ import {
   RequestEmailVerificationOutput,
 } from '../../../libs/common/src/model';
 import { EntityManager } from 'typeorm';
-import { LOEYBUserRepository } from '../../../libs/database/src/repositories';
+import {
+  LOEYBUserDeviceTokenRepository,
+  LOEYBUserRepository,
+} from '../../../libs/database/src/repositories';
 import { LOEYBUserEntity } from '../../../libs/database/src/entities';
 import { LOEYBConfigService } from '@libs/common/config/loeyb-config.service';
 
@@ -348,6 +351,26 @@ export class AuthenticationService {
       this.configService.accessTokenExprieTimeValue,
       this.configService.accessTokenExpireTimeUnit,
     );
+
+    if (input.deviceToken != null) {
+      const loeybUserDeviceTokenRepository: LOEYBUserDeviceTokenRepository =
+        entityManager.getCustomRepository<LOEYBUserDeviceTokenRepository>(
+          LOEYBUserDeviceTokenRepository,
+        );
+
+      let deviceToken = await loeybUserDeviceTokenRepository.findOne({
+        userId: user.id,
+        deviceToken: input.deviceToken,
+      });
+
+      if (deviceToken == null)
+        deviceToken = await loeybUserDeviceTokenRepository.create({
+          userId: user.id,
+          deviceToken: input.deviceToken,
+        });
+
+      await loeybUserDeviceTokenRepository.save(deviceToken);
+    }
 
     return {
       result: LOEYBErrorCode.SUCCESS,
