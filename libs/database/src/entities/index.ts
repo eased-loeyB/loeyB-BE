@@ -3,4 +3,5 @@ export * from './loeyb-user-area-category.entity';
 export * from './loeyb-user-category-tag.entity';
 export * from './loeyb-file.entity';
 export * from './loeyb-user-records.entity';
+export * from './loeyb-user-device-token.entity';
 export * from './loeyb-user-activity-log.entity';

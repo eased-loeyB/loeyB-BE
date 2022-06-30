@@ -1,5 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 import { AbstractInput } from '.';
 import { StringTransform } from './transformer';
 /**
@@ -23,4 +29,10 @@ export class AuthenticationInput extends AbstractInput {
   @Field(() => String, { nullable: false, description: '비밀번호' })
   @StringTransform()
   password!: string;
+
+  @IsOptional()
+  @IsString()
+  @Field(() => String, { nullable: false, description: 'device token' })
+  @StringTransform()
+  deviceToken?: string | null;
 }
