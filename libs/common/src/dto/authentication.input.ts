@@ -32,7 +32,7 @@ export class AuthenticationInput extends AbstractInput {
 
   @IsOptional()
   @IsString()
-  @Field(() => String, { nullable: false, description: 'device token' })
+  @Field(() => String, { nullable: true, description: 'device token' })
   @StringTransform()
   deviceToken?: string | null;
 }
