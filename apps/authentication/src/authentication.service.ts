@@ -40,6 +40,7 @@ import { enEmailVerificationCodeTemplate } from '@libs/common/email/en/user/html
 import { LOEYBEmailService } from '@libs/common/email/loeyb-email.service';
 import * as argon2 from 'argon2';
 import { Auth, google } from 'googleapis';
+import { AwsService } from '@libs/aws';
 @Injectable()
 export class AuthenticationService {
   private readonly oathClient: Auth.OAuth2Client;
@@ -294,22 +295,16 @@ export class AuthenticationService {
     switch (language) {
       case Language.ENGLISH:
         subject = KO_EMAIL_VERIFICATION_SUBJECT;
-        template = enEmailVerificationCodeTemplate(
-          code,
-          this.configService.loeybURL,
-        );
+        template = enEmailVerificationCodeTemplate(code);
         break;
       case Language.KOREAN:
       default:
         subject = KO_EMAIL_VERIFICATION_SUBJECT;
-        template = koEmailVerificationCodeTemplate(
-          code,
-          this.configService.loeybURL,
-          expire,
-        );
+        template = koEmailVerificationCodeTemplate(code);
         break;
     }
-    await this.loeybEmailService.sendEmail(template, subject, [email]);
+    // await this.loeybEmailService.sendEmail(template, subject, [email]);
+    await this.loeybEmailService.sendEmail(subject, template, email);
   }
 
   async verifyEmailVerificationCode(

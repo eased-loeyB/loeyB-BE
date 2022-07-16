@@ -1,184 +1,164 @@
-export const enEmailVerificationCodeTemplate = (
-  code: string,
-  url: string,
-): string => `
+export const enEmailVerificationCodeTemplate = (code: string): string => `
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8">
-    <title>Email Verification Code</title>
+    <!-- import font -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Damion&family=Montserrat:wght@400;500;600&display=swap');
+    </style>
+    <style>
+      :root {
+        --color-lightblue: #A7DAF6;
+        --color-lightblue2: #E5F9FF;
+        --color-navy-nightsky: #0D1648;
+      }
+​
+      body {
+        position: relative;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        overflow: hidden;
+      }
+​
+      .align-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+​
+      .banner {
+        font-family: 'Damion';
+        width: 100%;
+        line-height: 1.37;
+        background: radial-gradient(166.91% 75.37% at 49.87% 50%, #272F5C 0%, #13132D 55.21%, #08070F 100%);
+      }
+​
+      header {
+        height: 7rem;
+        font-size: 2.25rem;
+        color: var(--color-lightblue2);
+      }
+​
+      footer {
+        height: 7.5rem;
+        font-size: 1.5rem;
+        color: var(--color-lightblue);
+      }
+​
+      main {
+        flex-direction: column;
+        flex-grow: 1;
+        font-family: 'Montserrat';
+        padding-top: 3rem;
+        padding-bottom: 4.875rem;
+      }
+​
+      #message {
+        font-size: 0.875rem;
+        font-weight: 400;
+        text-align: center;
+        margin-bottom: 3.5rem;
+      }
+​
+      #verification-code {
+        width: 16rem;
+        height: 6.125rem;
+        font-size: 1.75rem;
+        font-weight: 500;
+        letter-spacing: 0.24em;
+        color: black;
+        background-color: var(--color-lightblue2);
+        border-radius: 1.25rem;
+        margin-bottom: 3.125rem;
+      }
+​
+      #btn-copy {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-lightblue);
+        border: 1.5px solid var(--color-lightblue);
+        border-radius: 0.5rem;
+        background-color: transparent;
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+      }
+​
+      #btn-copy:hover {
+        color: var(--color-navy-nightsky);
+        border-color: var(--color-lightblue);
+        background-color: var(--color-lightblue);
+      }
+​
+      #toast {
+        position: absolute;
+        width: 100%;
+        bottom: 8.5rem;
+        opacity: 0;
+        transition: opacity 500ms ease-in-out;
+      }
+​
+      #toast.show {
+        opacity: 1;
+      }
+​
+      #toast p {
+        font-family: 'Montserrat';
+        font-size: 0.875rem;
+        color: var(--color-lightblue2);
+        text-align: center;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 1rem;
+        padding: 1rem 2rem;
+        margin: 0;
+      }
+    </style>
   </head>
-  <body style="margin: 0; box-sizing: border-box">
-    <div
-      style="
-        padding: 54px;
-        width: 726px;
-        height: auto;
-        box-sizing: border-box;
-        margin: 0px auto;
-      "
-    >
-      <div id="header" style="cursor: pointer">
-        <a href="${url}">
-          <img
-            id="logo_primary"
-            src="https://mcusercontent.com/aa9c2a71564675cfe7d54e145/images/eba94286-a00e-fae3-eddb-78d8f6bb1b6c.png"
-            style="width: 76px; height: 20px"
-            alt="CAPA"
-          />
-        </a>
+  <body>
+    <header class="banner align-center">loeyB</header>
+    
+    <main class="align-center">
+      <div id="message">
+        Hi, welcome to loeyB!
+        <br />
+        <br />
+        ${code}
       </div>
-
-      <div>
-        <p
-          style="
-            font-weight: 700;
-            font-size: 32px;
-            line-height: 48px;
-            letter-spacing: -0.1px;
-          "
-        >
-          Email Verification
-        </p>
+​
+      <div id="verification-code" class="align-center">
+        34529
       </div>
-
-      <div id="subtitle" style="margin-bottom: 54px">
-        <p
-          style="
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 24px;
-            letter-spacing: -0.1px;
-            margin: 0px;
-          "
-        >
-          We are greateful for your visit.
-        </p>
-        <p
-          style="
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 24px;
-            letter-spacing: -0.1px;
-            margin: 0px;
-          "
-        >
-          Please input following verification code.
-        </p>
-      </div>
-      <div
-        id="certificated_number"
-        style="background-color: #f5f5f5; height: 108px; margin-bottom: 54px"
-      >
-        <span
-          style="
-            display: block;
-            font-size: 40px;
-            font-weight: 700;
-            line-height: 64px;
-            letter-spacing: -0.1px;
-            color: #3479ff;
-            text-align: center;
-            padding: 24px;
-          "
-        >
-          ${code}
-        </span>
-      </div>
-
-      <div
-        id="divider"
-        style="height: 1px; background: #dee2e6; width: 100%"
-      ></div>
-
-      <div id="footer" style="padding-top: 48px; position: relative">
-        <a
-          href="${url}"
-          style="display: flex; width: 76px; height: 20px; margin-bottom: 24px"
-        >
-          <img
-            id="logo_secondary"
-            src="https://mcusercontent.com/aa9c2a71564675cfe7d54e145/images/0433e375-f56c-5e71-9b0d-04b3474b8abd.png"
-            style="
-              width: 76px;
-              height: 20px;
-              cursor: pointer;
-              margin-bottom: 24px;
-            "
-            alt="CAPA"
-          />
-        </a>
-
-        <p
-          id="capa_email"
-          style="
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 20.02px;
-            letter-spacing: -0.1px;
-            color: #adb5bd;
-            margin: 0px;
-          "
-        >
-          As it is outgoing email,<br />
-          if you have further question, please inquire to support@capa.ai
-        </p>
-        <p
-          id="capa_phone_address"
-          style="
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 20.02px;
-            letter-spacing: -0.1px;
-            color: #adb5bd;
-            margin: 32px 0px 0px;
-          "
-        >
-          Contact Number : 02-545-6332<br />
-          Business Hours : 10AM - 6PM for a weekday (1PM - 2PM for lunch hour)<br />
-          Address : 3rd floor jungwon building, jamwondong,  Narutero 60, Sucho-gu, Seoul
-        </p>
-
-        <a
-          href="https://www.instagram.com/capakr"
-          style="
-            width: 45px;
-            height: 45px;
-            border: none;
-            border-radius: 50%;
-            position: absolute;
-            right: 66px;
-            bottom: 0px;
-            cursor: pointer;
-          "
-        >
-          <img
-            src="https://mcusercontent.com/aa9c2a71564675cfe7d54e145/images/49d0ba1a-7607-3ebb-21e1-12126c72fe3b.png"
-            alt="instagram"
-            style="width: 45px; height: 45px"
-          />
-        </a>
-
-        <a
-          href="https://www.facebook.com/capakr"
-          style="
-            width: 45px;
-            height: 45px;
-            border: none;
-            border-radius: 50%;
-            position: absolute;
-            right: 0px;
-            bottom: 0px;
-            cursor: pointer;
-          "
-        >
-          <img
-            src="https://mcusercontent.com/aa9c2a71564675cfe7d54e145/images/33979805-97e6-ad49-6cd2-1b82fd67503b.png"
-            alt="facebook"
-            style="width: 45px; height: 45px"
-          />
-        </a>
-      </div>
+​
+      <button id="btn-copy" onclick="onCopy()">
+        copy code
+      </button>
+    </main>
+​
+    <footer class="banner align-center">explore your universe</footer>
+​
+    <div id="toast" class="align-center">
+      <p></p>
     </div>
+​
+    <script type="text/javascript">
+      function showToast(message) {
+        const toastElement = document.getElementById('toast');
+        toastElement.getElementsByTagName('p')[0].innerText = message;
+        toastElement.classList.add('show');
+        
+        window.setTimeout(function() {
+          toastElement.classList.remove('show');
+        }, 2500);
+      }
+​
+      function onCopy() {
+        const vericationCode = document.getElementById('verification-code').innerText;
+        navigator.clipboard.writeText(vericationCode);
+        showToast('Copied Verification Code!');
+      }
+    </script>
   </body>
-</html>`;
+</html>
+`;

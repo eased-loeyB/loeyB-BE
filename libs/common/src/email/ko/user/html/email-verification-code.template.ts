@@ -1,154 +1,164 @@
-export const koEmailVerificationCodeTemplate = (
-  code: string,
-  capaUrl: string,
-  expireTime: string,
-): string => `
+export const koEmailVerificationCodeTemplate = (code: string): string => `
 <!DOCTYPE html>
-  <html lang="ko">
-    <head>
-      <meta charset="UTF-8" />
-      <title>파트너 메세지 도착</title>
-    </head>
-    <body>
-      
-      <table border="0" style="width: 726px; padding: 54px;">
-  <!--       header-->
-          <tr style="height: 24px" >
-              <td style="padding: 0;" colspan="2">
-                <div id="header">
-                  <a href="${capaUrl}">
-                    <img
-                      id="logo_primary"
-                      src="https://mcusercontent.com/aa9c2a71564675cfe7d54e145/images/eba94286-a00e-fae3-eddb-78d8f6bb1b6c.png"
-                      style="width: 91px; height: 24px"
-                      alt="CAPA"
-                    />
-                  </a>
-                </div>
-              </td>
-          </tr>
-          <tr style="height: 36px"></tr>
-  <!--content-->
-          <tr style="height: 48px">
-              <td colspan="2">
-                  <div style="font-size: 32px; margin: 0; font-weight: 700; line-height: 48px">이메일 인증</div>
-              </td>
-          </tr>
-          <tr style="height: 32px">
-          </tr>
-          <tr style="height: 48px">
-             <td colspan="2">
-              <p style="margin: 0; line-height: 24px; font-size: 16px">카파 서비스를 이용해주셔서 감사합니다 <br>
-가입 화면에서 아래 인증번호를 입력해주세요</p></td>
-          </tr>
-          <tr style="height: 54px"></tr>
-         <tr style="height: 108px; background-color: #F5F5F5">
-             <td colspan="2">
-                 <p style="font-size: 40px; margin: 0; line-height: 64px; text-align: center; color: #4B88FF; font-weight: 700; letter-spacing: 12px">${code}</p>
-             </td>
-         </tr>
-         <tr style="height: 54px"></tr>
-         <tr style="height: 48px;">
-             <td colspan="2">
-                 <p style="font-size: 16px; margin: 0">인증 시간이 만료된 경우, 인증을 다시 진행해주세요 <br>
-이메일 인증 만료일시 : ${expireTime}</p>
-             </td>
-         </tr>
-  <!--   footer    -->
-         <tr style="height: 6px"></tr>
-          <tr style="height: 96px">
-              <td colspan="2">
-                  <div style="border-top:1px solid #DEE2E6;"></div>
-              </td>
-          </tr>
-   <tr style="height: 24px">
-              <td colspan="2">
-                  <a href="${capaUrl}">
-                    <img
-                      id="logo_primary"
-                      src="https://mcusercontent.com/aa9c2a71564675cfe7d54e145/images/0433e375-f56c-5e71-9b0d-04b3474b8abd.png"
-                      style="width: 91px; height: 24px"
-                      alt="CAPA"
-                    />
-                  </a>
-                </td>
-          </tr>
-          <tr style="height: 20px"></tr>
-          <tr style="height: 40px">
-              <td colspan="2">
-                  <div>
-                      <p style="white-space: nowrap; font-size: 14px; color: #ADB5BD;margin:0;line-height: 20px">
-                      본 메일은 발신 전용 메일입니다. <br>
-                      문의 사항은 <a style="color: #868E96" href="mailto:support@capa.ai">support@capa.ai</a>로 메일을 보내주세요.
-                      </p>
-                  </div>
-              </td>
-          </tr>
-          <tr style="height: 20px;"></tr>
-          <tr>
-              <td>
-                     <div style="width: 100%; float: left;">
-                      <p style="white-space: nowrap;font-size: 14px; color: #ADB5BD; line-height: 20px; margin: 0;">
-                          전화: 02-545-6332 <br>
-                          영업시간: 평일 오전 10시 - 오후 6시(점심시간 1-2시) <br>
-                          주소: 서울특별시 서초구 나루터로 60, 3층 (잠원동 정원빌딩) 
-                      </p>
-                       </div>
-              </td>
-              <td>
-            <div
-              style="
-                height: 45px;
-                float: right;
-              "
-            >
-              <a
-                href="https://www.instagram.com/capakr"
-                style="
-                  width: 45px;
-                  height: 45px;
-                  text-decoration: none;
-                "
-              >
-                <img
-                  src="https://mcusercontent.com/aa9c2a71564675cfe7d54e145/images/011f131b-c008-63a0-9d07-01bcac66f6db.png"
-                  alt="instagram"
-                  style="width: 45px; height: 45px"
-                />
-              </a>
-              <a
-                href="https://www.facebook.com/capakr"
-                style="
-                  width: 45px;
-                  height: 45px;
-                  margin: 0 12px 0 12px;
-                  text-decoration: none;
-                "
-              >
-                <img
-                  src="https://mcusercontent.com/aa9c2a71564675cfe7d54e145/images/6c2c1a9e-37f9-9787-32fa-daba8ef5f413.png"
-                  alt="facebook"
-                  style="width: 45px; height: 45px"
-                />
-              </a>
-              <a
-                href="https://www.linkedin.com/company/ateamventures-capa/mycompany/"
-                style="
-                  width: 45px;
-                  height: 45px;
-                  text-decoration: none;
-                "
-              >
-                <img
-                  src="https://mcusercontent.com/aa9c2a71564675cfe7d54e145/images/466f9169-a7bf-2fd5-2a4d-02fcac9abf27.png"
-                  alt="linkedin"
-                  style="width: 45px; height: 45px;"
-                />
-              </a>
-            </div>
-              </td> 
-          </tr>
-      </table>
-    </body>
-  </html>
+<html>
+  <head>
+    <!-- import font -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Damion&family=Montserrat:wght@400;500;600&display=swap');
+    </style>
+    <style>
+      :root {
+        --color-lightblue: #A7DAF6;
+        --color-lightblue2: #E5F9FF;
+        --color-navy-nightsky: #0D1648;
+      }
+​
+      body {
+        position: relative;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        overflow: hidden;
+      }
+​
+      .align-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+​
+      .banner {
+        font-family: 'Damion';
+        width: 100%;
+        line-height: 1.37;
+        background: radial-gradient(166.91% 75.37% at 49.87% 50%, #272F5C 0%, #13132D 55.21%, #08070F 100%);
+      }
+​
+      header {
+        height: 7rem;
+        font-size: 2.25rem;
+        color: var(--color-lightblue2);
+      }
+​
+      footer {
+        height: 7.5rem;
+        font-size: 1.5rem;
+        color: var(--color-lightblue);
+      }
+​
+      main {
+        flex-direction: column;
+        flex-grow: 1;
+        font-family: 'Montserrat';
+        padding-top: 3rem;
+        padding-bottom: 4.875rem;
+      }
+​
+      #message {
+        font-size: 0.875rem;
+        font-weight: 400;
+        text-align: center;
+        margin-bottom: 3.5rem;
+      }
+​
+      #verification-code {
+        width: 16rem;
+        height: 6.125rem;
+        font-size: 1.75rem;
+        font-weight: 500;
+        letter-spacing: 0.24em;
+        color: black;
+        background-color: var(--color-lightblue2);
+        border-radius: 1.25rem;
+        margin-bottom: 3.125rem;
+      }
+​
+      #btn-copy {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-lightblue);
+        border: 1.5px solid var(--color-lightblue);
+        border-radius: 0.5rem;
+        background-color: transparent;
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+      }
+​
+      #btn-copy:hover {
+        color: var(--color-navy-nightsky);
+        border-color: var(--color-lightblue);
+        background-color: var(--color-lightblue);
+      }
+​
+      #toast {
+        position: absolute;
+        width: 100%;
+        bottom: 8.5rem;
+        opacity: 0;
+        transition: opacity 500ms ease-in-out;
+      }
+​
+      #toast.show {
+        opacity: 1;
+      }
+​
+      #toast p {
+        font-family: 'Montserrat';
+        font-size: 0.875rem;
+        color: var(--color-lightblue2);
+        text-align: center;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 1rem;
+        padding: 1rem 2rem;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="banner align-center">loeyB</header>
+    
+    <main class="align-center">
+      <div id="message">
+        Hi, welcome to loeyB!
+        <br />
+        <br />
+        ${code}
+      </div>
+      <button id="btn-copy" onclick="onCopy()">
+        copy code
+      </button>
+​<!--
+      <div id="verification-code" class="align-center">
+        34529
+      </div>
+​-->  
+    </main>
+​
+    <footer class="banner align-center">explore your universe</footer>
+​
+    <div id="toast" class="align-center">
+      <p></p>
+    </div>
+​
+    <script type="text/javascript">
+      function showToast(message) {
+        const toastElement = document.getElementById('toast');
+        toastElement.getElementsByTagName('p')[0].innerText = message;
+        toastElement.classList.add('show');
+        
+        window.setTimeout(function() {
+          toastElement.classList.remove('show');
+        }, 2500);
+      }
+​
+      function onCopy() {
+        const vericationCode = document.getElementById('verification-code').innerText;
+        navigator.clipboard.writeText(vericationCode);
+        showToast('Copied Verification Code!');
+      }
+    </script>
+  </body>
+</html>
 `;

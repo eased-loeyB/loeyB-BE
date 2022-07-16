@@ -443,6 +443,9 @@ input AuthenticationInput {
 
   """비밀번호"""
   password: String!
+
+  """device token"""
+  deviceToken: String!
 }
 
 """show registered area, category, tag"""

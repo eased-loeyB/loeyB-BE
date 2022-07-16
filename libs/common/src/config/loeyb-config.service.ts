@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IsEnum } from 'class-validator';
 import { LoggerOptions } from 'typeorm';
-import { OpUnitType } from 'dayjs';
+import { ManipulateType, OpUnitType } from 'dayjs';
 
 export enum Environment {
   DEFAULT = '',
@@ -105,8 +105,8 @@ export class LOEYBConfigService {
     );
   }
 
-  get accessTokenExpireTimeUnit(): OpUnitType {
-    return this.configService.get<OpUnitType>(
+  get accessTokenExpireTimeUnit(): ManipulateType {
+    return this.configService.get<ManipulateType>(
       'ACCESS_TOKEN_EXPIRE_TIME_UNIT',
       'minute',
     );
