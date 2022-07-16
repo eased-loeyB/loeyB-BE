@@ -116,10 +116,10 @@ export class LOEYBConfigService {
     return this.configService.get<number>('REFRESH_TOKEN_EXPIRE_TIME_VALUE', 1);
   }
 
-  get refreshTokenExpireTimeUnit(): OpUnitType {
-    return this.configService.get<OpUnitType>(
+  get refreshTokenExpireTimeUnit(): ManipulateType {
+    return this.configService.get<ManipulateType>(
       'REFRESH_TOKEN_EXPIRE_TIME_UNIT',
-      <OpUnitType>'month',
+      <ManipulateType>'month',
     );
   }
 
