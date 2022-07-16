@@ -108,7 +108,7 @@ export class LOEYBConfigService {
   get accessTokenExpireTimeUnit(): OpUnitType {
     return this.configService.get<OpUnitType>(
       'ACCESS_TOKEN_EXPIRE_TIME_UNIT',
-      'minute',
+      'day',
     );
   }
 
