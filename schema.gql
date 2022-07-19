@@ -445,7 +445,7 @@ input AuthenticationInput {
   password: String!
 
   """device token"""
-  deviceToken: String!
+  deviceToken: String
 }
 
 """show registered area, category, tag"""
