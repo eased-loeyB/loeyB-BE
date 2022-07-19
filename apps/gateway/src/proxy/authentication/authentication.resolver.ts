@@ -18,7 +18,7 @@ import {
   VerifyEmailVerificationCodeInput,
 } from '../../../../../libs/common/src/dto';
 import { RegisterUserOutput } from '../../../../../libs/common/src/model';
-import { LoeybAuth } from '../../decorator';
+import { CurrentUser, LoeybAuth } from '../../decorator';
 @Resolver('authentication')
 export class AuthenticationResolver {
   private readonly logger: Logger;
@@ -176,6 +176,7 @@ export class AuthenticationResolver {
     description: '이메일 인증 요청',
   })
   async setUsername(
+    @CurrentUser() user: any,
     @Args({
       name: 'input',
       description: '이메일 인증 코드',
@@ -187,6 +188,7 @@ export class AuthenticationResolver {
       this.logger.debug(input);
       return await this.authenticationService.setUsername({
         ...input,
+        email: user.email,
       });
     } catch (error) {
       this.logger.error(error);
