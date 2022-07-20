@@ -7,13 +7,14 @@ WORKDIR /loeyb
 ARG NODE_ENV
 ENV NODE_ENV=${NODE_ENV}
 
-COPY ./apps ./apps
+
 COPY ./libs ./libs
 COPY ./nest-cli.json .
 COPY ./package.json .
 COPY ./tsconfig.json .
 COPY ./tsconfig.build.json .
 COPY ./development.env .
+COPY ./apps ./apps
 
 ENV PATH=${PATH}:./node_modules/.bin
 

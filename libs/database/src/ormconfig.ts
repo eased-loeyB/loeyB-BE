@@ -26,7 +26,7 @@ async function ormConfig(): Promise<TypeOrmModuleOptions> {
     database: config.dbDatabase,
     schema: config.dbSchema,
     keepConnectionAlive: true,
-    entities: [],
+    entities: ['entites/*.{ts, js}'],
     migrations: [join(__dirname, 'migrations/v1/*.{ts, js}')],
     subscribers: [],
     synchronize: config.dbSync,
