@@ -44,7 +44,7 @@ export class LOEYBConfigService {
     return this.configService.get<string>('DB_PASSWORD', 'postgres');
   }
   get dbDatabase(): string {
-    return this.configService.get<string>('DB_DATABASE', 'mvp');
+    return this.configService.get<string>('DB_DATABASE', 'postgres');
   }
   get dbSchema(): string {
     return this.configService.get<string>('DB_SCHEMA', 'public');
