@@ -2,5 +2,5 @@
 
 
 echo '=========================================='
-ssh  -o "StrictHostKeyChecking no" -i loeyb-api.pem ubuntu@13.125.81.111 /home/ubuntu/docker.sh
+ssh  -o "StrictHostKeyChecking no" -i loeyb-api.pem ubuntu@43.200.170.189 /home/ubuntu/docker.sh
 echo '=========================================='
