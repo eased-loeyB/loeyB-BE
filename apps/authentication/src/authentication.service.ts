@@ -47,7 +47,6 @@ export class AuthenticationService {
   constructor(
     private readonly configService: LOEYBConfigService,
     private readonly loeybEmailService: LOEYBEmailService,
-    private readonly loeybUserRepository: LOEYBUserRepository,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {
     this.oathClient = new google.auth.OAuth2(
