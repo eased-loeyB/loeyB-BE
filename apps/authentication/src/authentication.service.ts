@@ -379,6 +379,7 @@ export class AuthenticationService {
         expiresIn: exp.unix(),
         refreshToken: await this.createRefreshToken(user, now),
         redirectUrl: null,
+        hasUserName: user.username != '' ? true : false,
       },
     };
   }

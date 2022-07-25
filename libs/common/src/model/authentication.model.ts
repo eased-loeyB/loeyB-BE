@@ -21,6 +21,9 @@ export class Authentication {
 
   @Field(() => String, { nullable: true, description: '' })
   redirectUrl?: string | null;
+
+  @Field(() => Boolean, { nullable: true, description: '유저이름 존재 유무' })
+  hasUserName?: boolean | null;
 }
 
 @ObjectType({ description: '' })

@@ -118,6 +118,9 @@ type Authentication {
 
   """"""
   redirectUrl: String
+
+  """유저이름 존재 유무"""
+  hasUserName: Boolean
 }
 
 """"""
@@ -592,9 +595,6 @@ input SetUsernameInput {
 
 """registerCategories"""
 input RegisterCategoriesInput {
-  """name"""
-  name: String!
-
   """category"""
   areaCategory: [AreaCategoryInput!]!
 }
