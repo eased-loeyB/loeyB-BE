@@ -380,7 +380,7 @@ export class AuthenticationService {
         refreshToken: await this.createRefreshToken(user, now),
         redirectUrl: null,
         hasUserName:
-          user.username != '' || user.username != null ? true : false,
+          user.username != '' && user.username != null ? true : false,
       },
     };
   }
