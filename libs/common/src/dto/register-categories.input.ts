@@ -22,11 +22,11 @@ export class RegisterCategoriesInput extends AbstractInput {
   @StringTransform()
   email?: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @Field(() => String, { nullable: false, description: 'name' })
-  @StringTransform()
-  name!: string;
+  // @IsNotEmpty()
+  // @IsString()
+  // @Field(() => String, { nullable: false, description: 'name' })
+  // @StringTransform()
+  // name!: string;
 
   @IsNotEmpty()
   @Field(() => [AreaCategoryInput], {
